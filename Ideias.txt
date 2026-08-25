@@ -1,5 +1,0 @@
-Ideia 1 - Inventário
-Ideia 2 - Atributos das entidades 
-Ideia 3 - Menu
-Ideia 4 - Mudança de resolução e de framerate
-Ideia 5 - Mapa para o player se locomover
