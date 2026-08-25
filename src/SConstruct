@@ -1,0 +1,17 @@
+import os
+import sys
+
+env = SConscript("godot-cpp/SConstruct", {"api_version": "4.7"})
+
+# Ensina o compilador a procurar os arquivos .h na pasta include
+env.Append(CPPPATH=["../include"])
+
+sources = Glob("*.cpp")
+
+if env["platform"] == "windows":
+    target_path = "../build/libgame.windows.{}.{}.dll".format(env["target"], env["arch"])
+elif env["platform"] == "linux":
+    target_path = "../build/libgame.linux.{}.{}.so".format(env["target"], env["arch"])
+
+library = env.SharedLibrary(target=target_path, source=sources)
+Default(library)

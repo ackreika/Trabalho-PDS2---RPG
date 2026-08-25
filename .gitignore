@@ -1,0 +1,11 @@
+# Ignorar arquivos do motor gráfico
+.godot/
+*.import
+
+# Ignorar binários e artefatos de compilação do C++
+build/
+bin/
+*.o
+*.so
+*.dll
+*.a
