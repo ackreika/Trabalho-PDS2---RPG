@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ignorar arquivos do motor gráfico
 .godot/
 *.import
@@ -9,3 +10,40 @@ bin/
 *.so
 *.dll
 *.a
+=======
+# Executáveis compilados
+*.exe
+*.out
+*.app
+*.bin
+
+# Arquivos de objetos e bibliotecas intermediárias
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+
+# Diretórios de build comuns (CMake, Make, IDEs)
+build/
+bin/
+obj/
+out/
+cmake-build-*/
+.cache/
+
+# Arquivos de configurações de IDEs e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Arquivos de teste e cobertura (se usar)
+*.gcno
+*.gcda
+*.gcov
+>>>>>>> c71f674e1d6de0e17ec8137f7051be9467e6a6c6
