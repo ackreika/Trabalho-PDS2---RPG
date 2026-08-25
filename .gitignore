@@ -1,16 +1,6 @@
-<<<<<<< HEAD
 # Ignorar arquivos do motor gráfico
 .godot/
 *.import
-
-# Ignorar binários e artefatos de compilação do C++
-build/
-bin/
-*.o
-*.so
-*.dll
-*.a
-=======
 # Executáveis compilados
 *.exe
 *.out
@@ -46,4 +36,3 @@ cmake-build-*/
 *.gcno
 *.gcda
 *.gcov
->>>>>>> c71f674e1d6de0e17ec8137f7051be9467e6a6c6
