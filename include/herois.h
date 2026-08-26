@@ -16,6 +16,7 @@ class Herois : public Node {
         bool is_dead;
 
     protected:
+        // Função que registra os métodos da classe para a Godot  
         static void _bind_methods();
     
     public:
