@@ -8,9 +8,13 @@
 
 using namespace godot;
 
-void Herois::_bind_methods() 
-{
-    // Registra os métodos da classe para a Godot
+void Herois::_bind_methods() {
+    // Registra as funções para o Godot 4 / GDScript enxergarem
+    ClassDB::bind_method(D_METHOD("tomar_dano", "dano"), &Herois::tomar_dano);
+    ClassDB::bind_method(D_METHOD("curar", "cura"), &Herois::curar);
+    ClassDB::bind_method(D_METHOD("set_ataque_fisico", "ataque"), &Herois::set_ataque_fisico);
+    ClassDB::bind_method(D_METHOD("set_ataque_magico", "ataque"), &Herois::set_ataque_magico);
+    ClassDB::bind_method(D_METHOD("set_defesa", "defesa"), &Herois::set_defesa);
 }
 
 Herois::Herois() 
@@ -26,4 +30,34 @@ Herois::Herois()
 Herois::~Herois() 
 {
     // Destrutor da classe
+}
+
+void Herois::tomar_dano(int dano) {
+    vida -= dano;
+
+    if (vida <= 0) {
+        vida = 0;
+        is_dead = true;
+    }
+}
+
+void Herois::curar(int cura) {
+    if (is_dead) return;
+
+    vida += cura;
+    if (vida > max_vida) {
+        vida = max_vida;
+    }
+}
+
+void Herois::set_ataque_fisico(int ataque) {
+    ataque_fisico = ataque;
+}
+
+void Herois::set_ataque_magico(int ataque) {
+    ataque_magico = ataque;
+}
+
+void Herois::set_defesa(int p_defesa) {
+    defesa = p_defesa;
 }
