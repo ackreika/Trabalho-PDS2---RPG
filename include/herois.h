@@ -7,6 +7,12 @@ namespace godot {
 class Herois : public Node {
     GDCLASS(Herois, Node);
 
+    public:
+        enum TipoDano {
+            FISICO,
+            MAGICO
+        };
+
     private:
         int vida;
         int max_vida;
@@ -16,19 +22,20 @@ class Herois : public Node {
         bool is_dead;
 
     protected:
-        // Função que registra os métodos da classe para a Godot  
         static void _bind_methods();
     
     public:
         Herois();
         ~Herois();
 
-        void tomar_dano(int dano);
+        void tomar_dano(int dano, TipoDano tipo);
         void curar(int cura);
         void set_ataque_fisico(int ataque);
         void set_ataque_magico(int ataque);
         void set_defesa(int defesa);
 };
 }
+
+VARIANT_ENUM_CAST(Herois::TipoDano); // Registra o Enum para ser visível no GDScript
 
 #endif // HEROIS_H
