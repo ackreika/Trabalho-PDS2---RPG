@@ -20,4 +20,4 @@ O projeto "Fuja do ICEx" aborda o desenvolvimento de um jogo do gênero *Rogueli
 ## Motivação para a Escolha e Contextualização
 A escolha por um *Roguelite* acadêmico surge da vontade de unir a aplicação prática de conceitos avançados de Programação Orientada a Objetos com uma temática familiar para os estudantes. A estrutura de uma *run* segmentada permite explorar várias batalhas e gestão de recursos.
 
-Além disso, a inclusão de eventos cômicos através de "Batalhas Falsas" e a relação entre armas e escudos criam uma experiência de jogo estratégica e motivadora.
+Além disso, a inclusão de eventos cômicos e referências específicas de disciplinas cursadas por estudantes de engenharia elétrica, criam uma experiência de jogo estratégica, motivadora e engraçada.
