@@ -1,63 +1,136 @@
-#include "herois.h"
+#include "herois.hpp"
+#include "Professor.hpp"
 
-// 2. Inclui o banco de dados de classes da Godot (obrigatório para o _bind_methods)
-#include <godot_cpp/core/class_db.hpp>
+Herois::Herois(std::string nome, int vidaMaxima, int defesa, int danoBase)
+    : nome(nome), nivel(1), vida(vidaMaxima), vidaMaxima(vidaMaxima), vidaMaximaBase(vidaMaxima),
+      defesa(defesa), danoBase(danoBase),
+      possuiItemEspecialAtivo(false), itemEspecialAtivo{"", 0.0f, 0, 0},
+      possuiItemChave(false) {}
 
-// 3. Inclui funções utilitárias (como printar no terminal da Godot para debugar)
-#include <godot_cpp/variant/utility_functions.hpp>
+std::string Herois::getNome() const { return nome; }
+int Herois::getVida() const { return vida; }
+int Herois::getVidaMaxima() const { return vidaMaxima; }
+int Herois::getDefesa() const { return defesa; }
+int Herois::getDanoBase() const { return danoBase; }
+bool Herois::estaVivo() const { return vida > 0; }
 
-using namespace godot;
-
-void Herois::_bind_methods() {
-    // Registra as funções para o Godot 4 / GDScript enxergarem
-    ClassDB::bind_method(D_METHOD("tomar_dano", "dano"), &Herois::tomar_dano);
-    ClassDB::bind_method(D_METHOD("curar", "cura"), &Herois::curar);
-    ClassDB::bind_method(D_METHOD("set_ataque_fisico", "ataque"), &Herois::set_ataque_fisico);
-    ClassDB::bind_method(D_METHOD("set_ataque_magico", "ataque"), &Herois::set_ataque_magico);
-    ClassDB::bind_method(D_METHOD("set_defesa", "defesa"), &Herois::set_defesa);
+void Herois::curar(int quantidade) {
+    vida += quantidade;
+    if (vida > vidaMaxima) vida = vidaMaxima;
 }
 
-Herois::Herois() 
-{
-    // Inicializa os atributos do herói
-    vida = 100;
-    max_vida = 100;
-    ataque_fisico = 10;
-    ataque_magico = 5;
-    defesa = 3;
-    is_dead = false;
-}
-Herois::~Herois() 
-{
-    // Destrutor da classe
+void Herois::receberDano(int danoBase) {
+    double fator = static_cast<double>(vida) / (vida + defesa);
+    int danoFinal = static_cast<int>(danoBase * fator);
+    vida -= danoFinal;
+    if (vida < 0) vida = 0;
 }
 
-void Herois::tomar_dano(int dano) {
-    vida -= dano;
-
-    if (vida <= 0) {
-        vida = 0;
-        is_dead = true;
+void Herois::aprenderMovimento(const Movimento& novo, int indiceParaSubstituir) {
+    if (movimentos.size() < 3) {
+        movimentos.push_back(novo);
+    } else if (indiceParaSubstituir >= 0 && indiceParaSubstituir < static_cast<int>(movimentos.size())) {
+        movimentos[indiceParaSubstituir] = novo;
     }
 }
 
-void Herois::curar(int cura) {
-    if (is_dead) return;
+const std::vector<Movimento>& Herois::getMovimentos() const {
+    return movimentos;
+}
 
-    vida += cura;
-    if (vida > max_vida) {
-        vida = max_vida;
+Movimento* Herois::getMovimentoParaEditar(int indice) {
+    if (indice < 0 || indice >= static_cast<int>(movimentos.size())) {
+        return nullptr;
+    }
+    return &movimentos[indice];
+}
+
+void Herois::adicionarItemPassivo(ItemPassivo item) {
+    itensPassivos.push_back(item);
+    recalcularVidaMaxima();
+}
+
+int Herois::getQuantidadeItensPassivos() const {
+    return static_cast<int>(itensPassivos.size());
+}
+
+std::string Herois::getNomeItemPassivo(int indice) const {
+    if (indice < 0 || indice >= static_cast<int>(itensPassivos.size())) {
+        return "";
+    }
+    return itensPassivos[indice].nome;
+}
+
+int Herois::calcularDanoFinal(int danoBase) const {
+    int dano = danoBase;
+    for (const auto& item : itensPassivos) {
+        if (item.tipo == TipoEfeito::BONUS_DANO_CAUSADO) {
+            dano = static_cast<int>(dano * item.multiplicador);
+        }
+    }
+    return dano;
+}
+
+int Herois::calcularVidaFinal(int vidaBase) const {
+    int vidaFinal = vidaBase;
+    for (const auto& item : itensPassivos) {
+        if (item.tipo == TipoEfeito::BONUS_VIDA_MAXIMA) {
+            vidaFinal = static_cast<int>(vidaFinal * item.multiplicador);
+        }
+    }
+    return vidaFinal;
+}
+
+void Herois::recalcularVidaMaxima() {
+    int novaVidaMaxima = calcularVidaFinal(vidaMaximaBase);
+    int delta = novaVidaMaxima - vidaMaxima;
+    vidaMaxima = novaVidaMaxima;
+
+    if (delta > 0) {
+        vida += delta; // ganhar vida máxima também cura a diferença, na hora
+    } else if (vida > vidaMaxima) {
+        vida = vidaMaxima;
     }
 }
 
-void Herois::set_ataque_fisico(int ataque) {
-    ataque_fisico = ataque;
+void Herois::definirItemEspecial(ItemEspecial item) {
+    itemEspecialAtivo = item;
+    possuiItemEspecialAtivo = true;
 }
 
-void Herois::set_ataque_magico(int ataque) {
-    ataque_magico = ataque;
+bool Herois::possuiItemEspecial() const { return possuiItemEspecialAtivo; }
+
+std::string Herois::getNomeItemEspecial() const {
+    return possuiItemEspecialAtivo ? itemEspecialAtivo.nome : "";
 }
 
-void Herois::set_defesa(int p_defesa) {
-    defesa = p_defesa;
+bool Herois::itemEspecialPodeUsar() const {
+    return possuiItemEspecialAtivo && itemEspecialAtivo.usosRestantes > 0;
+}
+
+int Herois::usarItemEspecial(Professor& alvo) {
+    if (!itemEspecialPodeUsar()) {
+        return 0;
+    }
+    itemEspecialAtivo.usosRestantes--;
+    int dano = static_cast<int>(danoBase * itemEspecialAtivo.multiplicadorDano);
+    alvo.receberDano(dano);
+    return dano;
+}
+
+void Herois::obterItemChave() { possuiItemChave = true; }
+bool Herois::possuiItemDeChave() const { return possuiItemChave; }
+void Herois::consumirItemChave() { possuiItemChave = false; }
+
+void Herois::definirSprite(EstadoVisual estado, std::string caminho) {
+    spritesPorEstado[estado] = caminho;
+}
+
+std::string Herois::getCaminhoSprite(EstadoVisual estado) const {
+    auto it = spritesPorEstado.find(estado);
+    if (it != spritesPorEstado.end()) {
+        return it->second;
+    }
+    auto fallback = spritesPorEstado.find(EstadoVisual::PARADO);
+    return fallback != spritesPorEstado.end() ? fallback->second : "";
 }
