@@ -1,0 +1,31 @@
+\doxysection{Modificador\+Status.\+hpp}
+\hypertarget{ModificadorStatus_8hpp_source}{}\label{ModificadorStatus_8hpp_source}\index{include/ModificadorStatus.hpp@{include/ModificadorStatus.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/node.hpp>}}
+\DoxyCodeLine{00004\ \textcolor{keyword}{enum\ class}\ TipoModificador\ \{}
+\DoxyCodeLine{00005\ \ \ \ \ INVULNERAVEL,}
+\DoxyCodeLine{00006\ \ \ \ \ FORTALECIDO,}
+\DoxyCodeLine{00007\ \};}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classModificadorStatus_adb5ff2be10f8e6e30c24d0970d18302c}{ModificadorStatus}}\ :\ \textcolor{keyword}{public}\ godot::Node\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ GDCLASS(\mbox{\hyperlink{classModificadorStatus_adb5ff2be10f8e6e30c24d0970d18302c}{ModificadorStatus}},\ godot::Node)}
+\DoxyCodeLine{00018\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00019\ \ \ \ \ TipoModificador\ tipo;}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{int}\ duracaoRestante;\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \_bind\_methods();}
+\DoxyCodeLine{00023\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{classModificadorStatus_adb5ff2be10f8e6e30c24d0970d18302c}{ModificadorStatus}}(TipoModificador\ tipo,\ \textcolor{keywordtype}{int}\ duracaoTurnos\ =\ -\/1);}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00032\ \ \ \ \ TipoModificador\ \mbox{\hyperlink{classModificadorStatus_a7b4cab8a55bd33fea827a5891f565b6d}{getTipo}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classModificadorStatus_a0a1a9b5eedaee9227986d76d71f9df92}{estaAtivo}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classModificadorStatus_a20e59edb86edcc50856c2403c6db057b}{passarTurno}}();}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classModificadorStatus_ae725e53d516064ed098af7323ea43754}{deveSerRemovido}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classModificadorStatus_a2f062d9449dba5b85278b463859ac88d}{interceptarDano}}(\textcolor{keywordtype}{int}\ danoBase)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00046\ \};}
+
+\end{DoxyCode}

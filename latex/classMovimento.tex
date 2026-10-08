@@ -1,0 +1,79 @@
+\doxysection{Movimento Class Reference}
+\hypertarget{classMovimento}{}\label{classMovimento}\index{Movimento@{Movimento}}
+
+
+Representa um ataque/habilidade do moveset de um personagem (Habilidade\+Academica, no CRC), com controle de usos limitados.  
+
+
+
+
+{\ttfamily \#include $<$Movimento.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMovimento_a21434a172b5fa3250c3bc0375425e92c}{Movimento}} (std\+::string nome, int dano, int usos\+Maximos=-\/1)
+\begin{DoxyCompactList}\small\item\em Cria um novo movimento. \end{DoxyCompactList}\item 
+\Hypertarget{classMovimento_aea1695d0893a27e2234451ce32624f1b}\label{classMovimento_aea1695d0893a27e2234451ce32624f1b} 
+std\+::string {\bfseries get\+Nome} () const
+\begin{DoxyCompactList}\small\item\em Retorna o nome do movimento. \end{DoxyCompactList}\item 
+\Hypertarget{classMovimento_ae680c1af828a9af9b141ce1e69e0b980}\label{classMovimento_ae680c1af828a9af9b141ce1e69e0b980} 
+int {\bfseries get\+Dano} () const
+\begin{DoxyCompactList}\small\item\em Retorna o dano atual do movimento. \end{DoxyCompactList}\item 
+\Hypertarget{classMovimento_a8f1c30e1209320a615824e9f6730b32f}\label{classMovimento_a8f1c30e1209320a615824e9f6730b32f} 
+int {\bfseries get\+Usos\+Restantes} () const
+\begin{DoxyCompactList}\small\item\em Retorna quantos usos ainda restam. \end{DoxyCompactList}\item 
+\Hypertarget{classMovimento_a9eacf08d94083d3b22f828aad8f97cfe}\label{classMovimento_a9eacf08d94083d3b22f828aad8f97cfe} 
+int {\bfseries get\+Usos\+Maximos} () const
+\begin{DoxyCompactList}\small\item\em Retorna o limite máximo de usos (-\/1 = ilimitado). \end{DoxyCompactList}\item 
+\Hypertarget{classMovimento_aeedfaf54cd2914270392326a7a873bfc}\label{classMovimento_aeedfaf54cd2914270392326a7a873bfc} 
+bool {\bfseries pode\+Usar} () const
+\begin{DoxyCompactList}\small\item\em Retorna true se o movimento ainda puder ser usado. \end{DoxyCompactList}\item 
+\Hypertarget{classMovimento_a3bd40a2f42a8df8268aff66cea19a3b2}\label{classMovimento_a3bd40a2f42a8df8268aff66cea19a3b2} 
+void {\bfseries usar} ()
+\begin{DoxyCompactList}\small\item\em Consome um uso do movimento, se ele tiver usos limitados. \end{DoxyCompactList}\item 
+\Hypertarget{classMovimento_a75d180c70f7d023de60b4b2dc7519e2b}\label{classMovimento_a75d180c70f7d023de60b4b2dc7519e2b} 
+void {\bfseries resetar\+Usos} ()
+\begin{DoxyCompactList}\small\item\em Restaura os usos ao valor máximo. \end{DoxyCompactList}\item 
+\Hypertarget{classMovimento_a134f228d5e463875f41a435d04462624}\label{classMovimento_a134f228d5e463875f41a435d04462624} 
+void {\bfseries aumentar\+Poder} (int incremento)
+\begin{DoxyCompactList}\small\item\em Aumenta o dano do movimento permanentemente (upgrade concedido ao acertar o quiz). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classMovimento_a9b35cc1a514780399c24c49299dd442c}\label{classMovimento_a9b35cc1a514780399c24c49299dd442c} 
+static void {\bfseries \+\_\+bind\+\_\+methods} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Representa um ataque/habilidade do moveset de um personagem (Habilidade\+Academica, no CRC), com controle de usos limitados. 
+
+\label{doc-constructors}
+\Hypertarget{classMovimento_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classMovimento_a21434a172b5fa3250c3bc0375425e92c}\index{Movimento@{Movimento}!Movimento@{Movimento}}
+\index{Movimento@{Movimento}!Movimento@{Movimento}}
+\doxysubsubsection{\texorpdfstring{Movimento()}{Movimento()}}
+{\footnotesize\ttfamily \label{classMovimento_a21434a172b5fa3250c3bc0375425e92c} 
+Movimento\+::\+Movimento (\begin{DoxyParamCaption}\item[{std\+::string}]{nome}{, }\item[{int}]{dano}{, }\item[{int}]{usos\+Maximos}{ = {\ttfamily -\/1}}\end{DoxyParamCaption})}
+
+
+
+Cria um novo movimento. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nome} & Nome exibido do movimento. \\
+\hline
+{\em dano} & Dano base causado ao usar. \\
+\hline
+{\em usos\+Maximos} & Quantidade de usos permitidos; -\/1 (padrão) = ilimitado. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Movimento.\+hpp\item 
+src/Movimento.\+cpp\end{DoxyCompactItemize}

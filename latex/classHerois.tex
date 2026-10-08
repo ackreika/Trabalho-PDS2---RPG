@@ -1,0 +1,215 @@
+\doxysection{Herois Class Reference}
+\hypertarget{classHerois}{}\label{classHerois}\index{Herois@{Herois}}
+
+
+Representa o Estudante (jogador) durante uma run.  
+
+
+
+
+{\ttfamily \#include $<$herois.\+hpp$>$}
+
+Inheritance diagram for Herois\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classHerois}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classHerois_a8979c43da6f507601e89be80fbdcc2fe}{Herois}} (std\+::string nome, int vida\+Maxima, int defesa, int dano\+Base)
+\begin{DoxyCompactList}\small\item\em Cria um novo \doxylink{classHerois}{Herois} com os status base da run. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a2faf68d50c65e921c8436e27330fba58}\label{classHerois_a2faf68d50c65e921c8436e27330fba58} 
+std\+::string {\bfseries get\+Nome} () const
+\begin{DoxyCompactList}\small\item\em Retorna o nome do herói. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_aceb039617a2448ffec6b3ae3deccd402}\label{classHerois_aceb039617a2448ffec6b3ae3deccd402} 
+int {\bfseries get\+Vida} () const
+\begin{DoxyCompactList}\small\item\em Retorna a vida atual. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a6581e3c23925c729b0b5b2cc496a0dfb}\label{classHerois_a6581e3c23925c729b0b5b2cc496a0dfb} 
+int {\bfseries get\+Vida\+Maxima} () const
+\begin{DoxyCompactList}\small\item\em Retorna a vida máxima atual (já com bônus de itens aplicados). \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_ace35582049fa39578d1cb88d3720dbbe}\label{classHerois_ace35582049fa39578d1cb88d3720dbbe} 
+int {\bfseries get\+Defesa} () const
+\begin{DoxyCompactList}\small\item\em Retorna a defesa base do herói. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a3a41e4191536d7dd8c6503b96e4b4272}\label{classHerois_a3a41e4191536d7dd8c6503b96e4b4272} 
+int {\bfseries get\+Dano\+Base} () const
+\begin{DoxyCompactList}\small\item\em Retorna o dano base do herói. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_ad955292f09ad24135a7e3904f07fdf21}\label{classHerois_ad955292f09ad24135a7e3904f07fdf21} 
+bool {\bfseries esta\+Vivo} () const
+\begin{DoxyCompactList}\small\item\em Retorna true se a vida atual for maior que zero. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a4a270cb1c27a1e2711ad2abfe350617e}\label{classHerois_a4a270cb1c27a1e2711ad2abfe350617e} 
+void {\bfseries curar} (int quantidade)
+\begin{DoxyCompactList}\small\item\em Restaura vida, sem ultrapassar a vida máxima. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHerois_a02aafbed7f0945859dc225d761f253f3}{receber\+Dano}} (int dano\+Base)
+\begin{DoxyCompactList}\small\item\em Aplica dano ao herói usando a fórmula vida/(vida+defesa). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classHerois_a69157e183d0450e792f7872037187500}{aprender\+Movimento}} (const \mbox{\hyperlink{classMovimento}{Movimento}} \&novo, int indice\+Para\+Substituir=-\/1)
+\begin{DoxyCompactList}\small\item\em Adiciona um movimento ao moveset (limite de 3 pois o 4º slot é o item especial). \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a10d0b0bd10a9161be2db391189294adf}\label{classHerois_a10d0b0bd10a9161be2db391189294adf} 
+const std\+::vector$<$ \mbox{\hyperlink{classMovimento}{Movimento}} $>$ \& {\bfseries get\+Movimentos} () const
+\begin{DoxyCompactList}\small\item\em Retorna a lista de movimentos aprendidos (somente leitura). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMovimento}{Movimento}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{classHerois_a6dfb39c5d1e0a1f4bc8e72495c9fee90}{get\+Movimento\+Para\+Editar}} (int indice)
+\begin{DoxyCompactList}\small\item\em Retorna um ponteiro editável pro movimento no índice informado. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_aed5a8715c57a2289f63ed074a5e1f9be}\label{classHerois_aed5a8715c57a2289f63ed074a5e1f9be} 
+void {\bfseries adicionar\+Item\+Passivo} (\mbox{\hyperlink{structItemPassivo}{Item\+Passivo}} item)
+\begin{DoxyCompactList}\small\item\em Adiciona um item passivo coletado e recalcula a vida máxima. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_af7a3f5050c8a8119a7e3572e47f410fc}\label{classHerois_af7a3f5050c8a8119a7e3572e47f410fc} 
+int {\bfseries get\+Quantidade\+Itens\+Passivos} () const
+\begin{DoxyCompactList}\small\item\em Retorna quantos itens passivos o herói possui. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a08f961ba60f34d562f1308dfae3bc85a}\label{classHerois_a08f961ba60f34d562f1308dfae3bc85a} 
+std\+::string {\bfseries get\+Nome\+Item\+Passivo} (int indice) const
+\begin{DoxyCompactList}\small\item\em Retorna o nome do item passivo no índice informado, ou "{}"{} se inválido. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a6475ae84a01fa8f47de74f59ca80b0b9}\label{classHerois_a6475ae84a01fa8f47de74f59ca80b0b9} 
+int {\bfseries calcular\+Dano\+Final} (int dano\+Base) const
+\begin{DoxyCompactList}\small\item\em Aplica os bônus de dano de todos os itens passivos sobre um valor base. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_ad0ac60e89a578e369a4ceaa4a1e2da2f}\label{classHerois_ad0ac60e89a578e369a4ceaa4a1e2da2f} 
+int {\bfseries calcular\+Vida\+Final} (int vida\+Base) const
+\begin{DoxyCompactList}\small\item\em Aplica os bônus de vida máxima de todos os itens passivos sobre um valor base. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a43634f7134b900dc6b5a5028ea1c3ccd}\label{classHerois_a43634f7134b900dc6b5a5028ea1c3ccd} 
+void {\bfseries recalcular\+Vida\+Maxima} ()
+\begin{DoxyCompactList}\small\item\em Reaplica todos os bônus de vida máxima a partir do valor base; chamado ao equipar um item novo. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_aac87bd2f2744ffd621b005f764dd5838}\label{classHerois_aac87bd2f2744ffd621b005f764dd5838} 
+void {\bfseries definir\+Item\+Especial} (\mbox{\hyperlink{structItemEspecial}{Item\+Especial}} item)
+\begin{DoxyCompactList}\small\item\em Equipa/troca o item especial ativo (4º slot de golpe). \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a43339a9e6075b31783b81bc4dfd5223e}\label{classHerois_a43339a9e6075b31783b81bc4dfd5223e} 
+bool {\bfseries possui\+Item\+Especial} () const
+\begin{DoxyCompactList}\small\item\em Retorna true se o herói tiver algum item especial equipado. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_aa394219263169c80c584f51d9c603141}\label{classHerois_aa394219263169c80c584f51d9c603141} 
+std\+::string {\bfseries get\+Nome\+Item\+Especial} () const
+\begin{DoxyCompactList}\small\item\em Retorna o nome do item especial equipado, ou "{}"{} se nenhum. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a37d45714133a776878fa4610b70f9b6e}\label{classHerois_a37d45714133a776878fa4610b70f9b6e} 
+bool {\bfseries item\+Especial\+Pode\+Usar} () const
+\begin{DoxyCompactList}\small\item\em Retorna true se houver item especial equipado E com usos restantes. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classHerois_ae614997801a4dfee279be41fb694927f}{usar\+Item\+Especial}} (\mbox{\hyperlink{classProfessor}{Professor}} \&alvo)
+\begin{DoxyCompactList}\small\item\em Consome um uso do item especial e aplica dano no alvo. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a1c1923afacd9bf4486704e258139664e}\label{classHerois_a1c1923afacd9bf4486704e258139664e} 
+void {\bfseries obter\+Item\+Chave} ()
+\begin{DoxyCompactList}\small\item\em Marca que o herói obteve o item de história (quebra invulnerabilidade de Boss). \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a6c27fd4127b9a7e43ccab6b2999327c2}\label{classHerois_a6c27fd4127b9a7e43ccab6b2999327c2} 
+bool {\bfseries possui\+Item\+De\+Chave} () const
+\begin{DoxyCompactList}\small\item\em Retorna true se o herói possuir o item de história no momento. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a72ac27519f8d5614f65a2698f09533c9}\label{classHerois_a72ac27519f8d5614f65a2698f09533c9} 
+void {\bfseries consumir\+Item\+Chave} ()
+\begin{DoxyCompactList}\small\item\em Marca o item de história como consumido/gasto. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a039a36f5f50d527dc92b3cd6b615260e}\label{classHerois_a039a36f5f50d527dc92b3cd6b615260e} 
+void {\bfseries definir\+Sprite} (Estado\+Visual estado, std\+::string caminho)
+\begin{DoxyCompactList}\small\item\em Define o caminho do sprite do herói pra uma pose específica. \end{DoxyCompactList}\item 
+\Hypertarget{classHerois_a172296a5feb7f8394e27f3bbcbf7d4bb}\label{classHerois_a172296a5feb7f8394e27f3bbcbf7d4bb} 
+std\+::string {\bfseries get\+Caminho\+Sprite} (Estado\+Visual estado) const
+\begin{DoxyCompactList}\small\item\em Retorna o caminho do sprite pra uma pose. Se a pose não tiver sido definida, retorna a pose PARADO. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classHerois_a26bd5b44eca3e7f430b2efb63180bb33}\label{classHerois_a26bd5b44eca3e7f430b2efb63180bb33} 
+static void {\bfseries \+\_\+bind\+\_\+methods} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Representa o Estudante (jogador) durante uma run. 
+
+Guarda status (vida, defesa, dano), os 3 movimentos escolhidos pelo jogador, os itens passivos coletados na run atual, o item especial equipado (4º slot de golpe na batalha) e o item de história usado contra bosses invulneráveis. 
+
+\label{doc-constructors}
+\Hypertarget{classHerois_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classHerois_a8979c43da6f507601e89be80fbdcc2fe}\index{Herois@{Herois}!Herois@{Herois}}
+\index{Herois@{Herois}!Herois@{Herois}}
+\doxysubsubsection{\texorpdfstring{Herois()}{Herois()}}
+{\footnotesize\ttfamily \label{classHerois_a8979c43da6f507601e89be80fbdcc2fe} 
+Herois\+::\+Herois (\begin{DoxyParamCaption}\item[{std\+::string}]{nome}{, }\item[{int}]{vida\+Maxima}{, }\item[{int}]{defesa}{, }\item[{int}]{dano\+Base}{}\end{DoxyParamCaption})}
+
+
+
+Cria um novo \doxylink{classHerois}{Herois} com os status base da run. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nome} & Nome exibido do herói. \\
+\hline
+{\em vida\+Maxima} & Vida máxima inicial (antes de bônus de itens). \\
+\hline
+{\em defesa} & Defesa base, usada na fórmula de dano recebido. \\
+\hline
+{\em dano\+Base} & Dano base, usado nos cálculos de ataque. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{classHerois_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classHerois_a69157e183d0450e792f7872037187500}\index{Herois@{Herois}!aprenderMovimento@{aprenderMovimento}}
+\index{aprenderMovimento@{aprenderMovimento}!Herois@{Herois}}
+\doxysubsubsection{\texorpdfstring{aprenderMovimento()}{aprenderMovimento()}}
+{\footnotesize\ttfamily \label{classHerois_a69157e183d0450e792f7872037187500} 
+void Herois\+::aprender\+Movimento (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classMovimento}{Movimento}} \&}]{novo}{, }\item[{int}]{indice\+Para\+Substituir}{ = {\ttfamily -\/1}}\end{DoxyParamCaption})}
+
+
+
+Adiciona um movimento ao moveset (limite de 3 pois o 4º slot é o item especial). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em novo} & \doxylink{classMovimento}{Movimento} a ser aprendido. \\
+\hline
+{\em indice\+Para\+Substituir} & Se o moveset já estiver cheio, índice do movimento a substituir; -\/1 para não substituir. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classHerois_a6dfb39c5d1e0a1f4bc8e72495c9fee90}\index{Herois@{Herois}!getMovimentoParaEditar@{getMovimentoParaEditar}}
+\index{getMovimentoParaEditar@{getMovimentoParaEditar}!Herois@{Herois}}
+\doxysubsubsection{\texorpdfstring{getMovimentoParaEditar()}{getMovimentoParaEditar()}}
+{\footnotesize\ttfamily \label{classHerois_a6dfb39c5d1e0a1f4bc8e72495c9fee90} 
+\mbox{\hyperlink{classMovimento}{Movimento}} \texorpdfstring{$\ast$}{*} Herois\+::get\+Movimento\+Para\+Editar (\begin{DoxyParamCaption}\item[{int}]{indice}{}\end{DoxyParamCaption})}
+
+
+
+Retorna um ponteiro editável pro movimento no índice informado. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em indice} & Posição no moveset (0 a 2). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Ponteiro pro movimento, ou nullptr se o índice for inválido. 
+\end{DoxyReturn}
+\Hypertarget{classHerois_a02aafbed7f0945859dc225d761f253f3}\index{Herois@{Herois}!receberDano@{receberDano}}
+\index{receberDano@{receberDano}!Herois@{Herois}}
+\doxysubsubsection{\texorpdfstring{receberDano()}{receberDano()}}
+{\footnotesize\ttfamily \label{classHerois_a02aafbed7f0945859dc225d761f253f3} 
+void Herois\+::receber\+Dano (\begin{DoxyParamCaption}\item[{int}]{dano\+Base}{}\end{DoxyParamCaption})}
+
+
+
+Aplica dano ao herói usando a fórmula vida/(vida+defesa). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dano\+Base} & Dano bruto antes de aplicar a fórmula de redução. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classHerois_ae614997801a4dfee279be41fb694927f}\index{Herois@{Herois}!usarItemEspecial@{usarItemEspecial}}
+\index{usarItemEspecial@{usarItemEspecial}!Herois@{Herois}}
+\doxysubsubsection{\texorpdfstring{usarItemEspecial()}{usarItemEspecial()}}
+{\footnotesize\ttfamily \label{classHerois_ae614997801a4dfee279be41fb694927f} 
+int Herois\+::usar\+Item\+Especial (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classProfessor}{Professor}} \&}]{alvo}{}\end{DoxyParamCaption})}
+
+
+
+Consome um uso do item especial e aplica dano no alvo. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em alvo} & \doxylink{classProfessor}{Professor} que vai receber o dano. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Dano causado, ou 0 se a ação for inválida. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/herois.\+hpp\item 
+src/herois.\+cpp\end{DoxyCompactItemize}

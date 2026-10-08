@@ -1,0 +1,32 @@
+\doxysection{Progresso\+Jogador.\+hpp}
+\hypertarget{ProgressoJogador_8hpp_source}{}\label{ProgressoJogador_8hpp_source}\index{include/ProgressoJogador.hpp@{include/ProgressoJogador.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}ItensIds.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/node.hpp>}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classProgressoJogador_a39ae0ac328faa3aca91b9b4b2dcdd1a8}{ProgressoJogador}}\ :\ \textcolor{keyword}{public}\ godot::Node\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ GDCLASS(\mbox{\hyperlink{classProgressoJogador_a39ae0ac328faa3aca91b9b4b2dcdd1a8}{ProgressoJogador}},\ godot::Node)}
+\DoxyCodeLine{00012\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{int}\ pontos;}
+\DoxyCodeLine{00014\ \ \ \ \ std::set<int>\ itensDesbloqueados;}
+\DoxyCodeLine{00015\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \_bind\_methods();}
+\DoxyCodeLine{00017\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{classProgressoJogador_a39ae0ac328faa3aca91b9b4b2dcdd1a8}{ProgressoJogador}}();}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classProgressoJogador_a2d70f05c7ade1687580229289ac63108}{getPontos}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classProgressoJogador_a764cf73bc7f96f76740112217dc438ca}{adicionarPontos}}(\textcolor{keywordtype}{int}\ quantidade);}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classProgressoJogador_ae89e6424aab90bf140f81c55aecfbbec}{gastarPontos}}(\textcolor{keywordtype}{int}\ quantidade);}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classProgressoJogador_a4a9867151505ac7a35af4e277e09ef2c}{jaObteve}}(ItemId\ \textcolor{keywordtype}{id})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classProgressoJogador_a5564473dd98f2f7514bc9335ff1e283a}{desbloquear}}(ItemId\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{const}\ std::set<int>\&\ \mbox{\hyperlink{classProgressoJogador_a9e15ee5578f10a48c02264bc0e4d429a}{getTodos}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classProgressoJogador_a92b63a134148c10a428821bcf6aeec34}{salvar}}(\textcolor{keyword}{const}\ std::string\&\ caminho)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classProgressoJogador_a39ae0ac328faa3aca91b9b4b2dcdd1a8}{ProgressoJogador}}\ \mbox{\hyperlink{classProgressoJogador_a184b216e331486223d157997db21bfc6}{carregar}}(\textcolor{keyword}{const}\ std::string\&\ caminho);}
+\DoxyCodeLine{00046\ \};}
+
+\end{DoxyCode}

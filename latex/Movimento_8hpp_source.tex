@@ -1,0 +1,30 @@
+\doxysection{Movimento.\+hpp}
+\hypertarget{Movimento_8hpp_source}{}\label{Movimento_8hpp_source}\index{include/Movimento.hpp@{include/Movimento.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/node.hpp>}}
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMovimento_a21434a172b5fa3250c3bc0375425e92c}{Movimento}}\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00010\ \ \ \ \ std::string\ nome;}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{int}\ dano;}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{int}\ usosMaximos;\ \ \ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{int}\ usosRestantes;}
+\DoxyCodeLine{00014\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \_bind\_methods();}
+\DoxyCodeLine{00016\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classMovimento_a21434a172b5fa3250c3bc0375425e92c}{Movimento}}(std::string\ nome,\ \textcolor{keywordtype}{int}\ dano,\ \textcolor{keywordtype}{int}\ usosMaximos\ =\ -\/1);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00026\ \ \ \ \ std::string\ \mbox{\hyperlink{classMovimento_aea1695d0893a27e2234451ce32624f1b}{getNome}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classMovimento_ae680c1af828a9af9b141ce1e69e0b980}{getDano}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classMovimento_a8f1c30e1209320a615824e9f6730b32f}{getUsosRestantes}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classMovimento_a9eacf08d94083d3b22f828aad8f97cfe}{getUsosMaximos}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classMovimento_aeedfaf54cd2914270392326a7a873bfc}{podeUsar}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMovimento_a3bd40a2f42a8df8268aff66cea19a3b2}{usar}}();}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMovimento_a75d180c70f7d023de60b4b2dc7519e2b}{resetarUsos}}();}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMovimento_a134f228d5e463875f41a435d04462624}{aumentarPoder}}(\textcolor{keywordtype}{int}\ incremento);}
+\DoxyCodeLine{00042\ \};}
+
+\end{DoxyCode}

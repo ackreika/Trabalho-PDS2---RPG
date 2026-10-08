@@ -1,0 +1,77 @@
+\doxysection{herois.\+hpp}
+\hypertarget{herois_8hpp_source}{}\label{herois_8hpp_source}\index{include/herois.hpp@{include/herois.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Movimento.hpp"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}ItemPassivo.hpp"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}ItemEspecial.hpp"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}EstadosVisuais.hpp"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/node.hpp>}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classProfessor}{Professor}};\ \textcolor{comment}{//\ precisa\ declarar\ o\ tipo\ Professor,\ usado\ em\ Herois::usarItemEspecial()}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }Herois\ :\ \textcolor{keyword}{public}\ godot::Node\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ GDCLASS(Herois,\ godot::Node)}
+\DoxyCodeLine{00021\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00022\ \ \ \ \ std::string\ nome;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{int}\ nivel;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{int}\ vida;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ vidaMaxima;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ vidaMaximaBase;\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{int}\ defesa;}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{int}\ danoBase;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ std::vector<Movimento>\ movimentos;}
+\DoxyCodeLine{00031\ \ \ \ \ std::vector<ItemPassivo>\ itensPassivos;}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{bool}\ possuiItemEspecialAtivo;}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{structItemEspecial}{ItemEspecial}}\ itemEspecialAtivo;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{bool}\ possuiItemChave;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ std::map<EstadoVisual,\ std::string>\ spritesPorEstado;}
+\DoxyCodeLine{00039\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \_bind\_methods();}
+\DoxyCodeLine{00041\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00042\ \ \ \ \ Herois();\ }
+\DoxyCodeLine{00050\ \ \ \ \ Herois(std::string\ nome,\ \textcolor{keywordtype}{int}\ vidaMaxima,\ \textcolor{keywordtype}{int}\ defesa,\ \textcolor{keywordtype}{int}\ danoBase);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00053\ \ \ \ \ std::string\ \mbox{\hyperlink{classHerois_a2faf68d50c65e921c8436e27330fba58}{getNome}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classHerois_aceb039617a2448ffec6b3ae3deccd402}{getVida}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classHerois_a6581e3c23925c729b0b5b2cc496a0dfb}{getVidaMaxima}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classHerois_ace35582049fa39578d1cb88d3720dbbe}{getDefesa}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classHerois_a3a41e4191536d7dd8c6503b96e4b4272}{getDanoBase}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classHerois_ad955292f09ad24135a7e3904f07fdf21}{estaVivo}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHerois_a4a270cb1c27a1e2711ad2abfe350617e}{curar}}(\textcolor{keywordtype}{int}\ quantidade);}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHerois_a02aafbed7f0945859dc225d761f253f3}{receberDano}}(\textcolor{keywordtype}{int}\ danoBase);}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHerois_a69157e183d0450e792f7872037187500}{aprenderMovimento}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classMovimento}{Movimento}}\&\ novo,\ \textcolor{keywordtype}{int}\ indiceParaSubstituir\ =\ -\/1);}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<Movimento>\&\ \mbox{\hyperlink{classHerois_a10d0b0bd10a9161be2db391189294adf}{getMovimentos}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{classMovimento}{Movimento}}*\ \mbox{\hyperlink{classHerois_a6dfb39c5d1e0a1f4bc8e72495c9fee90}{getMovimentoParaEditar}}(\textcolor{keywordtype}{int}\ indice);}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHerois_aed5a8715c57a2289f63ed074a5e1f9be}{adicionarItemPassivo}}(\mbox{\hyperlink{structItemPassivo}{ItemPassivo}}\ item);}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classHerois_af7a3f5050c8a8119a7e3572e47f410fc}{getQuantidadeItensPassivos}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00093\ \ \ \ \ std::string\ \mbox{\hyperlink{classHerois_a08f961ba60f34d562f1308dfae3bc85a}{getNomeItemPassivo}}(\textcolor{keywordtype}{int}\ indice)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classHerois_a6475ae84a01fa8f47de74f59ca80b0b9}{calcularDanoFinal}}(\textcolor{keywordtype}{int}\ danoBase)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classHerois_ad0ac60e89a578e369a4ceaa4a1e2da2f}{calcularVidaFinal}}(\textcolor{keywordtype}{int}\ vidaBase)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHerois_a43634f7134b900dc6b5a5028ea1c3ccd}{recalcularVidaMaxima}}();}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHerois_aac87bd2f2744ffd621b005f764dd5838}{definirItemEspecial}}(\mbox{\hyperlink{structItemEspecial}{ItemEspecial}}\ item);}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classHerois_a43339a9e6075b31783b81bc4dfd5223e}{possuiItemEspecial}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00106\ \ \ \ \ std::string\ \mbox{\hyperlink{classHerois_aa394219263169c80c584f51d9c603141}{getNomeItemEspecial}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classHerois_a37d45714133a776878fa4610b70f9b6e}{itemEspecialPodeUsar}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classHerois_ae614997801a4dfee279be41fb694927f}{usarItemEspecial}}(\mbox{\hyperlink{classProfessor}{Professor}}\&\ alvo);}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHerois_a1c1923afacd9bf4486704e258139664e}{obterItemChave}}();}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classHerois_a6c27fd4127b9a7e43ccab6b2999327c2}{possuiItemDeChave}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHerois_a72ac27519f8d5614f65a2698f09533c9}{consumirItemChave}}();}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classHerois_a039a36f5f50d527dc92b3cd6b615260e}{definirSprite}}(EstadoVisual\ estado,\ std::string\ caminho);}
+\DoxyCodeLine{00129\ \ \ \ \ std::string\ \mbox{\hyperlink{classHerois_a172296a5feb7f8394e27f3bbcbf7d4bb}{getCaminhoSprite}}(EstadoVisual\ estado)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00130\ \};}
+
+\end{DoxyCode}

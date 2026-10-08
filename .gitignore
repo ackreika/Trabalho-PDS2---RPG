@@ -15,6 +15,7 @@
 *.dll
 *.a
 *.lib
+*.os
 
 # Diretórios de build comuns (CMake, Make, IDEs)
 build/

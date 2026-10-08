@@ -1,0 +1,59 @@
+\doxysection{Professor.\+hpp}
+\hypertarget{Professor_8hpp_source}{}\label{Professor_8hpp_source}\index{include/Professor.hpp@{include/Professor.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Movimento.hpp"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}EstadosVisuais.hpp"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/node.hpp>}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{enum\ class}\ TipoProfessor\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ COMUM,}
+\DoxyCodeLine{00017\ \ \ \ \ MINIBOSS,}
+\DoxyCodeLine{00018\ \ \ \ \ BOSS,}
+\DoxyCodeLine{00019\ \};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classProfessor_a55ad6df5169de8ec1cffa60c9c196085}{Professor}}\ :\ \textcolor{keyword}{public}\ godot::Node\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ GDCLASS(\mbox{\hyperlink{classProfessor_a55ad6df5169de8ec1cffa60c9c196085}{Professor}},\ godot::Node)}
+\DoxyCodeLine{00029\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00030\ \ \ \ \ std::string\ nome;}
+\DoxyCodeLine{00031\ \ \ \ \ std::string\ materia;}
+\DoxyCodeLine{00032\ \ \ \ \ TipoProfessor\ tipo;}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{int}\ vida;}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{int}\ vidaMaxima;}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{int}\ defesa;}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{bool}\ invulneravel;}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{bool}\ ehBatalhaFalsa;}
+\DoxyCodeLine{00038\ \ \ \ \ std::vector<Movimento>\ movimentos;}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ std::map<EstadoVisual,\ std::string>\ spritesPorEstado;}
+\DoxyCodeLine{00041\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \_bind\_methods();}
+\DoxyCodeLine{00043\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{classProfessor_a55ad6df5169de8ec1cffa60c9c196085}{Professor}}(std::string\ nome,\ std::string\ materia,\ \textcolor{keywordtype}{int}\ vidaMaxima,\ \textcolor{keywordtype}{int}\ defesa,}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TipoProfessor\ tipo\ =\ TipoProfessor::COMUM,\ \textcolor{keywordtype}{bool}\ batalhaFalsa\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00057\ \ \ \ \ std::string\ \mbox{\hyperlink{classProfessor_af895322b7cb84817abfc5375e776371f}{getNome}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00059\ \ \ \ \ std::string\ \mbox{\hyperlink{classProfessor_a6c74146f796a4d6d69761638ba4ae62e}{getMateria}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00061\ \ \ \ \ TipoProfessor\ \mbox{\hyperlink{classProfessor_a8ce09ef67ce8598ccb2b5b3271a975c9}{getTipo}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classProfessor_a2aeb8c2e72f36aca8b11a348b6c0e95d}{getVida}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classProfessor_a2f871c1b10f260c2efa0556e94160229}{getVidaMaxima}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classProfessor_a147a2179ee5d399f4b837ca5ce07f98a}{estaVivo}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classProfessor_ae0899f8b27d30fdd6f92ff297515136e}{isInvulneravel}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classProfessor_ad3cbd14cd5bb2c3d2859eef14ff734aa}{removerInvulnerabilidade}}();}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classProfessor_ace18955f9535f1807a422a6cd56c8a09}{isBatalhaFalsa}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classProfessor_a51fa8fbf3b0b8450e73abab231614422}{adicionarMovimento}}(\mbox{\hyperlink{classMovimento}{Movimento}}\ movimento);}
+\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{classMovimento}{Movimento}}\&\ \mbox{\hyperlink{classProfessor_aee58647a54cddc975154e8701d06126a}{escolherAtaque}}();}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classProfessor_a2e06bad137560b03833e8e0295c0dbef}{receberDano}}(\textcolor{keywordtype}{int}\ danoBase);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classProfessor_a09eb469e0d97e82e7ed1b6082f83655b}{definirSprite}}(EstadoVisual\ estado,\ std::string\ caminho);}
+\DoxyCodeLine{00095\ \ \ \ \ std::string\ \mbox{\hyperlink{classProfessor_a4b8f6fa047ebaa372c615c830827174b}{getCaminhoSprite}}(EstadoVisual\ estado)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00096\ \};}
+
+\end{DoxyCode}
