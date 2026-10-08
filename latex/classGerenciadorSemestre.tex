@@ -1,0 +1,55 @@
+\doxysection{Gerenciador\+Semestre Class Reference}
+\hypertarget{classGerenciadorSemestre}{}\label{classGerenciadorSemestre}\index{GerenciadorSemestre@{GerenciadorSemestre}}
+
+
+Orquestra a progressão da run (\doxylink{classGerenciadorSemestre}{Gerenciador\+Semestre}, no CRC)\+: sabe em qual área o jogador está, em qual das 4 batalhas daquela área, e quando a run inteira foi vencida ("{}\+Fuga do ICEx"{}).  
+
+
+
+
+{\ttfamily \#include $<$Gerenciador\+Semestre.\+hpp$>$}
+
+Inheritance diagram for Gerenciador\+Semestre\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classGerenciadorSemestre}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGerenciadorSemestre_a19360b2588c3da56e660c6290dbbcba2}\label{classGerenciadorSemestre_a19360b2588c3da56e660c6290dbbcba2} 
+{\bfseries Gerenciador\+Semestre} ()
+\begin{DoxyCompactList}\small\item\em Inicia a progressão na área 0 (Cálculo), batalha 1. \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorSemestre_a0e6a9d9d9cdab0e87b656d2c104f555f}\label{classGerenciadorSemestre_a0e6a9d9d9cdab0e87b656d2c104f555f} 
+int {\bfseries get\+Id\+Area\+Atual} () const
+\begin{DoxyCompactList}\small\item\em Retorna o índice da área atual (0 a 3). \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorSemestre_a6b1740e474f243e06a249f9e5461f8d3}\label{classGerenciadorSemestre_a6b1740e474f243e06a249f9e5461f8d3} 
+int {\bfseries get\+Indice\+Batalha\+Atual} () const
+\begin{DoxyCompactList}\small\item\em Retorna o índice da batalha atual dentro da área (1 a 4). \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorSemestre_a8668419ea73621f5613860cf014c6f5d}\label{classGerenciadorSemestre_a8668419ea73621f5613860cf014c6f5d} 
+\mbox{\hyperlink{classProfessor}{Professor}} {\bfseries gerar\+Proximo\+Professor} () const
+\begin{DoxyCompactList}\small\item\em Cria (via \doxylink{classProfessoresFabrica}{Professores\+Fabrica}) o \doxylink{classProfessor}{Professor} correspondente à batalha atual. \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorSemestre_ab555557e273691bb9b8cd91646e02859}\label{classGerenciadorSemestre_ab555557e273691bb9b8cd91646e02859} 
+void {\bfseries avancar\+Batalha} ()
+\begin{DoxyCompactList}\small\item\em Avança a progressão após uma VITORIA na \doxylink{classBatalha}{Batalha}. Avança pra próxima luta, ou pra próxima área se o boss (índice 4) acabou de ser vencido. Não faz nada se o jogo já foi vencido. \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorSemestre_a443991b76d50122669a328ce6968d26b}\label{classGerenciadorSemestre_a443991b76d50122669a328ce6968d26b} 
+bool {\bfseries venceu\+OJogo} () const
+\begin{DoxyCompactList}\small\item\em Retorna true se o boss da última área já foi vencido ("{}\+Fuga do ICEx"{}). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGerenciadorSemestre_abb420b8ca75f30b6ff27ca3f498d858b}\label{classGerenciadorSemestre_abb420b8ca75f30b6ff27ca3f498d858b} 
+static void {\bfseries \+\_\+bind\+\_\+methods} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Orquestra a progressão da run (\doxylink{classGerenciadorSemestre}{Gerenciador\+Semestre}, no CRC)\+: sabe em qual área o jogador está, em qual das 4 batalhas daquela área, e quando a run inteira foi vencida ("{}\+Fuga do ICEx"{}). 
+
+id\+Area\+: 0=Cálculo, 1=Física, 2=GAAL, 3=PDS (nessa ordem fixa) 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Gerenciador\+Semestre.\+hpp\item 
+src/Gerenciador\+Semestre.\+cpp\end{DoxyCompactItemize}
