@@ -3,7 +3,6 @@
 #include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
-using namespace godot;
 
 Herois::Herois(std::string nome, int vidaMaxima, int defesa, int danoBase)
     : nome(nome), nivel(1), vida(vidaMaxima), vidaMaxima(vidaMaxima), vidaMaximaBase(vidaMaxima),
@@ -139,6 +138,4 @@ std::string Herois::getCaminhoSprite(EstadoVisual estado) const {
     return fallback != spritesPorEstado.end() ? fallback->second : "";
 }
 void Herois::_bind_methods() {
-    // Exemplo: Expõe a função curar para o GDScript e Editor da Godot
-    ClassDB::bind_method(D_METHOD("curar", "quantidade"), &Herois::curar);
 }
