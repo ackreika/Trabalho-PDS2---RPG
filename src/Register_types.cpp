@@ -1,9 +1,11 @@
-#include "register_types.h"
+#include "Register_types.hpp"
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
 
 // Inclua suas classes aqui (ex: #include "player.h")
+
+#include "Herois.hpp"
 
 using namespace godot;
 
@@ -12,7 +14,7 @@ void initialize_game_module(ModuleInitializationLevel p_level) {
         return;
     }
     // Registre suas classes aqui:
-    // ClassDB::register_class<Player>();
+
 }
 
 void uninitialize_game_module(ModuleInitializationLevel p_level) {
@@ -36,3 +38,4 @@ extern "C" {
         return init_obj.init();
         }
 }
+

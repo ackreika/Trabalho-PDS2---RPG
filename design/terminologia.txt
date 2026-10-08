@@ -1,0 +1,12 @@
+PROTECTED: a própria classe e qualquer subclasse dela podem acessar,
+ mas código de fora continua bloqueado.
+ Se usosRestantes fosse private na classe base ItemEspecial,
+ o Laser(que é uma subclasse) não conseguiria acessar esse campo diretamente — daria erro de compilação,
+ porque private não é herdado no sentido de acesso, só existe.
+
+EXPLICIT: Impede que o compilador faça conversão implícita num construtor de um argumento só.
+ Aparece no ItemEspecial.hpp
+
+ VIRTUAL: Permite que uma classe filha sobrescreva um método da classe pai,
+ e que o programa escolha qual versão rodar em tempo de execução.
+ 

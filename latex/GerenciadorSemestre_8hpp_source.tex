@@ -1,0 +1,32 @@
+\doxysection{Gerenciador\+Semestre.\+hpp}
+\hypertarget{GerenciadorSemestre_8hpp_source}{}\label{GerenciadorSemestre_8hpp_source}\index{include/GerenciadorSemestre.hpp@{include/GerenciadorSemestre.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}Professor.hpp"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}ProgressoJogador.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/node.hpp>}}
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGerenciadorSemestre_a19360b2588c3da56e660c6290dbbcba2}{GerenciadorSemestre}}\ :\ \textcolor{keyword}{public}\ godot::Node\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ GDCLASS(\mbox{\hyperlink{classGerenciadorSemestre_a19360b2588c3da56e660c6290dbbcba2}{GerenciadorSemestre}},\ godot::Node)}
+\DoxyCodeLine{00014\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{int}\ idAreaAtual;}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{int}\ indiceBatalhaAtual;\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ TOTAL\_AREAS\ =\ 4;}
+\DoxyCodeLine{00018\ \ \ \ \ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \_bind\_methods();}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{classGerenciadorSemestre_a19360b2588c3da56e660c6290dbbcba2}{GerenciadorSemestre}}();}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classGerenciadorSemestre_a0e6a9d9d9cdab0e87b656d2c104f555f}{getIdAreaAtual}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classGerenciadorSemestre_a6b1740e474f243e06a249f9e5461f8d3}{getIndiceBatalhaAtual}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{classProfessor}{Professor}}\ \mbox{\hyperlink{classGerenciadorSemestre_a8668419ea73621f5613860cf014c6f5d}{gerarProximoProfessor}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorSemestre_ab555557e273691bb9b8cd91646e02859}{avancarBatalha}}();}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classGerenciadorSemestre_a443991b76d50122669a328ce6968d26b}{venceuOJogo}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00043\ \};}
+
+\end{DoxyCode}

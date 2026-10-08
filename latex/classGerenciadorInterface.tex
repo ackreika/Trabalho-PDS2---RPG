@@ -1,0 +1,66 @@
+\doxysection{Gerenciador\+Interface Class Reference}
+\hypertarget{classGerenciadorInterface}{}\label{classGerenciadorInterface}\index{GerenciadorInterface@{GerenciadorInterface}}
+
+
+Conhece em qual tela de menu o jogador está e guarda as configurações de áudio/vídeo (\doxylink{classGerenciadorInterface}{Gerenciador\+Interface}, no CRC).  
+
+
+
+
+{\ttfamily \#include $<$Gerenciador\+Interface.\+hpp$>$}
+
+Inheritance diagram for Gerenciador\+Interface\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classGerenciadorInterface}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGerenciadorInterface_a66ad8eb634476f1a143cc1b1ad9d676c}\label{classGerenciadorInterface_a66ad8eb634476f1a143cc1b1ad9d676c} 
+{\bfseries Gerenciador\+Interface} ()
+\begin{DoxyCompactList}\small\item\em Cria o gerenciador já no MENU\+\_\+\+INICIAL, volume 1.\+0 e resolução padrão. \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorInterface_abd5f4e2aa43261ec92fc1b0039deb5f8}\label{classGerenciadorInterface_abd5f4e2aa43261ec92fc1b0039deb5f8} 
+int {\bfseries get\+Estado\+Atual} () const
+\begin{DoxyCompactList}\small\item\em Retorna o int correspondente ao Estado\+Menu atual. \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorInterface_a776d77888ed1e467f51bdb24c670497b}\label{classGerenciadorInterface_a776d77888ed1e467f51bdb24c670497b} 
+void {\bfseries ir\+Para} (int novo\+Estado)
+\begin{DoxyCompactList}\small\item\em Muda o estado do menu (recebe o int, converte pra Estado\+Menu internamente). \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorInterface_a17abf5eb75429e8c1e9dee664d78889c}\label{classGerenciadorInterface_a17abf5eb75429e8c1e9dee664d78889c} 
+void {\bfseries voltar} ()
+\begin{DoxyCompactList}\small\item\em Volta pro MENU\+\_\+\+INICIAL — usado pelos botões "{}\+Voltar"{} dos submenus. \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorInterface_a08757ee32b25c512a3a7b376d96403d7}\label{classGerenciadorInterface_a08757ee32b25c512a3a7b376d96403d7} 
+float {\bfseries get\+Volume} () const
+\begin{DoxyCompactList}\small\item\em Retorna o volume configurado (0.\+0 a 1.\+0). \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorInterface_a0c67bae2a91f3daf35d3e27c33d36b44}\label{classGerenciadorInterface_a0c67bae2a91f3daf35d3e27c33d36b44} 
+void {\bfseries definir\+Volume} (float novo\+Volume)
+\begin{DoxyCompactList}\small\item\em Define o volume, travado entre 0.\+0 e 1.\+0. \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorInterface_aaf7c1e0b59de1b524ad472bbe3e4568b}\label{classGerenciadorInterface_aaf7c1e0b59de1b524ad472bbe3e4568b} 
+int {\bfseries get\+Indice\+Resolucao} () const
+\begin{DoxyCompactList}\small\item\em Retorna o índice da resolução escolhida. \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorInterface_a9bede72f0e6909adc23f446cb82535e1}\label{classGerenciadorInterface_a9bede72f0e6909adc23f446cb82535e1} 
+void {\bfseries definir\+Indice\+Resolucao} (int indice)
+\begin{DoxyCompactList}\small\item\em Define o índice da resolução escolhida. \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorInterface_a7512924813212c7907ba8658435c6380}\label{classGerenciadorInterface_a7512924813212c7907ba8658435c6380} 
+void {\bfseries iniciar\+Ou\+Retomar\+Partida} ()
+\begin{DoxyCompactList}\small\item\em Sinaliza início/retomada de partida; muda o estado pra EM\+\_\+\+BATALHA. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGerenciadorInterface_ad1007919c0e8b3b96ecd3bf054c32d6b}\label{classGerenciadorInterface_ad1007919c0e8b3b96ecd3bf054c32d6b} 
+static void {\bfseries \+\_\+bind\+\_\+methods} ()
+\begin{DoxyCompactList}\small\item\em Registra os métodos públicos pro Godot/\+GDScript enxergar. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Conhece em qual tela de menu o jogador está e guarda as configurações de áudio/vídeo (\doxylink{classGerenciadorInterface}{Gerenciador\+Interface}, no CRC). 
+
+A aplicação real do volume/resolução no motor (Audio\+Server, Display\+Server) é feita pelo Godot; aqui só fica o DADO da configuração.
+
+Estado\+Menu, do lado do GDScript, é só um número (int) — a correspondência é\+: 0 = MENU\+\_\+\+INICIAL, 1 = MENU\+\_\+\+JOGAR, 2 = MENU\+\_\+\+CONFIGURACOES, 3 = MENU\+\_\+\+INVENTARIO, 4 = EM\+\_\+\+BATALHA 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Gerenciador\+Interface.\+hpp\item 
+src/Gerenciador\+Interface.\+cpp\end{DoxyCompactItemize}

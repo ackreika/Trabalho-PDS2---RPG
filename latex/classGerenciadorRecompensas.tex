@@ -1,0 +1,64 @@
+\doxysection{Gerenciador\+Recompensas Class Reference}
+\hypertarget{classGerenciadorRecompensas}{}\label{classGerenciadorRecompensas}\index{GerenciadorRecompensas@{GerenciadorRecompensas}}
+
+
+Sistema de recompensas (\doxylink{classGerenciadorRecompensas}{Gerenciador\+Recompensas}, no CRC)\+: conhece os drops fixos de cada chefe. Só Miniboss e Boss dropam item (US03).  
+
+
+
+
+{\ttfamily \#include $<$Gerenciador\+Recompensas.\+hpp$>$}
+
+Inheritance diagram for Gerenciador\+Recompensas\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classGerenciadorRecompensas}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \mbox{\hyperlink{classGerenciadorRecompensas_aa8aee3d7cbe0bae5845cd46ddf618e6d}{gerar\+Recompensa}} (int id\+Area, Tipo\+Professor tipo\+Derrotado, \mbox{\hyperlink{structItemPassivo}{Item\+Passivo}} \&resultado\+Saida)
+\begin{DoxyCompactList}\small\item\em Gera a recompensa por derrotar um professor, se houver. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGerenciadorRecompensas_a786d1e4ac12d3b0163bab263b86d75e4}\label{classGerenciadorRecompensas_a786d1e4ac12d3b0163bab263b86d75e4} 
+static void {\bfseries \+\_\+bind\+\_\+methods} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Sistema de recompensas (\doxylink{classGerenciadorRecompensas}{Gerenciador\+Recompensas}, no CRC)\+: conhece os drops fixos de cada chefe. Só Miniboss e Boss dropam item (US03). 
+
+\label{doc-func-members}
+\Hypertarget{classGerenciadorRecompensas_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classGerenciadorRecompensas_aa8aee3d7cbe0bae5845cd46ddf618e6d}\index{GerenciadorRecompensas@{GerenciadorRecompensas}!gerarRecompensa@{gerarRecompensa}}
+\index{gerarRecompensa@{gerarRecompensa}!GerenciadorRecompensas@{GerenciadorRecompensas}}
+\doxysubsubsection{\texorpdfstring{gerarRecompensa()}{gerarRecompensa()}}
+{\footnotesize\ttfamily \label{classGerenciadorRecompensas_aa8aee3d7cbe0bae5845cd46ddf618e6d} 
+bool Gerenciador\+Recompensas\+::gerar\+Recompensa (\begin{DoxyParamCaption}\item[{int}]{id\+Area}{, }\item[{Tipo\+Professor}]{tipo\+Derrotado}{, }\item[{\mbox{\hyperlink{structItemPassivo}{Item\+Passivo}} \&}]{resultado\+Saida}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Gera a recompensa por derrotar um professor, se houver. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id\+Area} & Área/disciplina do professor derrotado. \\
+\hline
+{\em tipo\+Derrotado} & Tipo do professor (Comum nunca dropa nada). \\
+\hline
+{\em resultado\+Saida} & Referência onde o item é escrito, se houver drop. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true se um item foi gerado; false se não há drop pra esse caso. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Gerenciador\+Recompensas.\+hpp\item 
+src/Gerenciador\+Recompensas.\+cpp\end{DoxyCompactItemize}

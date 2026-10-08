@@ -18,7 +18,7 @@ class GerenciadorInterface : public RefCounted {
     GDCLASS(GerenciadorInterface, RefCounted)
 
 private:
-    EstadoMenu estadoAtual;
+    GerenciadorMenu::EstadoMenu estadoAtual;
     float volume;
     int indiceResolucao;
 
@@ -31,9 +31,9 @@ public:
     GerenciadorInterface();
 
     /** @brief Retorna o int correspondente ao EstadoMenu atual. */
-    int getEstadoAtual() const;
+    GerenciadorMenu::EstadoMenu getEstadoAtual() const;
     /** @brief Muda o estado do menu (recebe o int, converte pra EstadoMenu internamente). */
-    void irPara(int novoEstado);
+    void irPara(GerenciadorMenu::EstadoMenu novoEstado);
     /** @brief Volta pro MENU_INICIAL — usado pelos botões "Voltar" dos submenus. */
     void voltar();
 

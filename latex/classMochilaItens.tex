@@ -1,0 +1,55 @@
+\doxysection{Mochila\+Itens Class Reference}
+\hypertarget{classMochilaItens}{}\label{classMochilaItens}\index{MochilaItens@{MochilaItens}}
+
+
+Inventário do jogador (\doxylink{classMochilaItens}{Mochila\+Itens}, no CRC).  
+
+
+
+
+{\ttfamily \#include $<$Mochila\+Itens.\+hpp$>$}
+
+Inheritance diagram for Mochila\+Itens\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classMochilaItens}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classMochilaItens_a2afbd8d88a98193d0244070d1f72b920}\label{classMochilaItens_a2afbd8d88a98193d0244070d1f72b920} 
+{\bfseries Mochila\+Itens} (\mbox{\hyperlink{classHerois}{Herois}} \&heroi)
+\begin{DoxyCompactList}\small\item\em Cria a mochila associada a um herói específico. \end{DoxyCompactList}\item 
+\Hypertarget{classMochilaItens_adec8c8f31bc4883519ff5b94b2a352dc}\label{classMochilaItens_adec8c8f31bc4883519ff5b94b2a352dc} 
+int {\bfseries get\+Quantidade\+Itens\+Passivos} () const
+\begin{DoxyCompactList}\small\item\em Retorna quantos itens passivos o herói possui. \end{DoxyCompactList}\item 
+\Hypertarget{classMochilaItens_aeae54dff46bf20fab1f8b64962d1cdd2}\label{classMochilaItens_aeae54dff46bf20fab1f8b64962d1cdd2} 
+std\+::string {\bfseries get\+Nome\+Item\+Passivo} (int indice) const
+\begin{DoxyCompactList}\small\item\em Retorna o nome do item passivo no índice informado. \end{DoxyCompactList}\item 
+\Hypertarget{classMochilaItens_a1fa914ff3bbec9bc358a0c9afbae5b14}\label{classMochilaItens_a1fa914ff3bbec9bc358a0c9afbae5b14} 
+void {\bfseries equipar\+Item\+Especial} (\mbox{\hyperlink{structItemEspecial}{Item\+Especial}} item)
+\begin{DoxyCompactList}\small\item\em Equipa/troca o item especial ativo do herói (4º slot de golpe). \end{DoxyCompactList}\item 
+\Hypertarget{classMochilaItens_a11608260b2b12f7bdd0e4a92a9e64ec9}\label{classMochilaItens_a11608260b2b12f7bdd0e4a92a9e64ec9} 
+bool {\bfseries possui\+Item\+Especial\+Equipado} () const
+\begin{DoxyCompactList}\small\item\em Retorna true se o herói tiver algum item especial equipado. \end{DoxyCompactList}\item 
+\Hypertarget{classMochilaItens_a0239eaaee3e2a3aee8ce58f951d0b803}\label{classMochilaItens_a0239eaaee3e2a3aee8ce58f951d0b803} 
+std\+::string {\bfseries get\+Nome\+Item\+Especial\+Equipado} () const
+\begin{DoxyCompactList}\small\item\em Retorna o nome do item especial equipado, ou "{}"{} se nenhum. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classMochilaItens_a90682b0a56a2e2af1995872a2d8dcd4d}\label{classMochilaItens_a90682b0a56a2e2af1995872a2d8dcd4d} 
+static void {\bfseries \+\_\+bind\+\_\+methods} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Inventário do jogador (\doxylink{classMochilaItens}{Mochila\+Itens}, no CRC). 
+
+Não guarda os itens passivos diretamente — eles já ficam em Herois\+::itens\+Passivos assim que coletados (aplicados automaticamente). Esta classe é a "{}fachada"{} que o Godot consulta pra exibir isso na tela de Inventário Completo, e é por onde o jogador escolhe/troca o item especial ativo. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Mochila\+Itens.\+hpp\item 
+src/Mochila\+Itens.\+cpp\end{DoxyCompactItemize}
