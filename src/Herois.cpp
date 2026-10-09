@@ -3,13 +3,7 @@
 #include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
-
-Herois::Herois(std::string nome, int vidaMaxima, int defesa, int danoBase)
-    : nome(nome), nivel(1), vida(vidaMaxima), vidaMaxima(vidaMaxima), vidaMaximaBase(vidaMaxima),
-      defesa(defesa), danoBase(danoBase),
-      possuiItemEspecialAtivo(false), itemEspecialAtivo{"", 0.0f, 0, 0},
-      possuiItemChave(false) {}
-
+Herois::Herois() : nome("Estudante"), nivel(1), vida(100), vidaMaxima(100), vidaMaximaBase(100), defesa(10), danoBase(15), possuiItemEspecialAtivo(false), possuiItemChave(false) {}
 std::string Herois::getNome() const { return nome; }
 int Herois::getVida() const { return vida; }
 int Herois::getVidaMaxima() const { return vidaMaxima; }

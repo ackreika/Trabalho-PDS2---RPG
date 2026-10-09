@@ -1,5 +1,5 @@
 #pragma once
-#include <godot_cpp/classes/node.hpp>
+#include <godot_cpp/classes/node2d.hpp>
 #include <string>
 #include <vector>
 #include <map>
@@ -20,8 +20,8 @@ class Professor; // precisa declarar o tipo Professor, usado em Herois::usarItem
  * os itens passivos coletados na run atual, o item especial equipado (4º slot
  * de golpe na batalha) e o item de história usado contra bosses invulneráveis.
  */
-class Herois : public Node {
-    GDCLASS(Herois, Node)
+class Herois : public Node2D {
+    GDCLASS(Herois, Node2D)
 
 protected:
     static void _bind_methods();
@@ -52,8 +52,8 @@ public:
      * @param defesa Defesa base, usada na fórmula de dano recebido.
      * @param danoBase Dano base, usado nos cálculos de ataque.
      */
-    
-     Herois(std::string nome, int vidaMaxima, int defesa, int danoBase);
+    Herois();
+    Herois(std::string nome, int vidaMaxima, int defesa, int danoBase);
 
     /** @brief Retorna o nome do herói. */
     std::string getNome() const;

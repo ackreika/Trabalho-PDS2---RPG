@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://swevwraqpc6c"]
+
+[ext_resource type="Texture2D" uid="uid://b8eu56lswhe7g" path="res://imagens/Israel.png" id="1_11bju"]
+[ext_resource type="Texture2D" uid="uid://badw18tugwpew" path="res://imagens/BG_menu.jpeg" id="1_oacou"]
+
+[node name="Control" type="GerenciadorInterface" unique_id=1178082262]
+
+[node name="FundoConfig" type="TextureRect" parent="." unique_id=588007493]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_11bju")
+expand_mode = 1
+
+[node name="FundoPrincipal" type="TextureRect" parent="." unique_id=1859792666]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_oacou")
+expand_mode = 1
+
+[node name="Titulo" type="Label" parent="." unique_id=269766682]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 179.0
+grow_horizontal = 2
+size_flags_vertical = 0
+offset_transform_position = Vector2(300, 0)
+offset_transform_visual_only = false
+theme_override_font_sizes/font_size = 64
+text = "Resenha games
+"
+horizontal_alignment = 1
+
+[node name="Node2D" type="Node2D" parent="." unique_id=500788709]
+
+[node name="ContainerConfig" type="VBoxContainer" parent="." unique_id=1361817270]
+visible = false
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.1
+anchor_right = 0.5
+anchor_bottom = 0.3
+offset_left = -208.40001
+offset_top = 71.2
+offset_bottom = 284.0
+grow_horizontal = 2
+theme_override_constants/separation = 30
+
+[node name="LabelVolume" type="Label" parent="ContainerConfig" unique_id=748870247]
+layout_mode = 2
+text = "Volume
+"
+
+[node name="SliderVolume" type="HSlider" parent="ContainerConfig" unique_id=1275801486]
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="LabelResolucao" type="Label" parent="ContainerConfig" unique_id=16611971]
+layout_mode = 2
+text = "Resolução"
+
+[node name="CaixaResolucao" type="OptionButton" parent="ContainerConfig" unique_id=1049007515]
+layout_mode = 2
+selected = 0
+item_count = 6
+popup/item_0/text = "640x480"
+popup/item_0/id = 0
+popup/item_1/text = "1280x720"
+popup/item_1/id = 1
+popup/item_2/text = "1280x960"
+popup/item_2/id = 2
+popup/item_3/text = "1920x1080"
+popup/item_3/id = 3
+popup/item_4/text = "1920x1440"
+popup/item_4/id = 4
+popup/item_5/text = "2560x1440"
+popup/item_5/id = 5
+
+[node name="BotaoVoltar" type="Button" parent="ContainerConfig" unique_id=1400558470]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Voltar
+"
+
+[node name="ContainerBotoes" type="VBoxContainer" parent="." unique_id=1529815874]
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.5
+anchor_right = 0.35
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BotaoJogar" type="Button" parent="ContainerBotoes" unique_id=573225232]
+layout_mode = 2
+offset_transform_position = Vector2(50, 100)
+offset_transform_visual_only = false
+theme_override_font_sizes/font_size = 64
+text = "Jogar
+"
+
+[node name="BotaoConfig" type="Button" parent="ContainerBotoes" unique_id=1830915783]
+layout_mode = 2
+offset_transform_position = Vector2(50, 100)
+offset_transform_visual_only = false
+theme_override_font_sizes/font_size = 64
+text = "Configurações"
+
+[node name="BotaoSair" type="Button" parent="ContainerBotoes" unique_id=840576201]
+layout_mode = 2
+offset_transform_position = Vector2(50, 100)
+offset_transform_visual_only = false
+theme_override_font_sizes/font_size = 64
+text = "Sair
+
+"
