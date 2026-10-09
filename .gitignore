@@ -16,7 +16,6 @@
 *.a
 *.lib
 *.os
-
 # Diretórios de build comuns (CMake, Make, IDEs)
 build/
 bin/
@@ -37,3 +36,8 @@ cmake-build-*/
 *.gcno
 *.gcda
 *.gcov
+
+# Doxygen
+Doxyfile
+html/
+latex/
