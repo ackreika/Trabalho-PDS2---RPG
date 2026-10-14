@@ -1,0 +1,92 @@
+\doxysection{Gerenciador\+Quiz Class Reference}
+\hypertarget{classGerenciadorQuiz}{}\label{classGerenciadorQuiz}\index{GerenciadorQuiz@{GerenciadorQuiz}}
+
+
+Sistema de evolução por quiz (\doxylink{classGerenciadorQuiz}{Gerenciador\+Quiz}, no CRC)\+: sorteia perguntas por área/disciplina e aplica upgrade de poder no movimento escolhido quando o jogador acerta.  
+
+
+
+
+{\ttfamily \#include $<$Gerenciador\+Quiz.\+hpp$>$}
+
+Inheritance diagram for Gerenciador\+Quiz\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classGerenciadorQuiz}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGerenciadorQuiz_a0e357262730f48479a913f1737968d77}\label{classGerenciadorQuiz_a0e357262730f48479a913f1737968d77} 
+{\bfseries Gerenciador\+Quiz} ()
+\begin{DoxyCompactList}\small\item\em Cria o gerenciador já povoado com perguntas de exemplo (ver .cpp). \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorQuiz_a74d5c9c761e579673eb926948b500e7f}\label{classGerenciadorQuiz_a74d5c9c761e579673eb926948b500e7f} 
+void {\bfseries adicionar\+Pergunta} (int id\+Area, \mbox{\hyperlink{structPergunta}{Pergunta}} pergunta)
+\begin{DoxyCompactList}\small\item\em Adiciona uma pergunta ao banco de uma área. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classGerenciadorQuiz_a3a34729f5dfb71577086d0c531c6cffe}{sortear\+Pergunta}} (int id\+Area, \mbox{\hyperlink{structPergunta}{Pergunta}} \&saida) const
+\begin{DoxyCompactList}\small\item\em Sorteia uma pergunta da área informada. \end{DoxyCompactList}\item 
+\Hypertarget{classGerenciadorQuiz_aa484945e3f17612add07b04c70f0a9e8}\label{classGerenciadorQuiz_aa484945e3f17612add07b04c70f0a9e8} 
+bool {\bfseries validar\+Resposta} (const \mbox{\hyperlink{structPergunta}{Pergunta}} \&pergunta, int indice\+Escolhido) const
+\begin{DoxyCompactList}\small\item\em Retorna true se o índice escolhido for o correto pra essa pergunta. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGerenciadorQuiz_a02a832c0dcad1fb34f7768a39d72969d}{aplicar\+Resultado}} (\mbox{\hyperlink{classMovimento}{Movimento}} \texorpdfstring{$\ast$}{*}movimento, bool acertou, int incremento\+Dano=3) const
+\begin{DoxyCompactList}\small\item\em Aplica o upgrade de poder no movimento, somente se o jogador acertou. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classGerenciadorQuiz_ab644163276740a1275318d658343d43c}\label{classGerenciadorQuiz_ab644163276740a1275318d658343d43c} 
+static void {\bfseries \+\_\+bind\+\_\+methods} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Sistema de evolução por quiz (\doxylink{classGerenciadorQuiz}{Gerenciador\+Quiz}, no CRC)\+: sorteia perguntas por área/disciplina e aplica upgrade de poder no movimento escolhido quando o jogador acerta. 
+
+\label{doc-func-members}
+\Hypertarget{classGerenciadorQuiz_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classGerenciadorQuiz_a02a832c0dcad1fb34f7768a39d72969d}\index{GerenciadorQuiz@{GerenciadorQuiz}!aplicarResultado@{aplicarResultado}}
+\index{aplicarResultado@{aplicarResultado}!GerenciadorQuiz@{GerenciadorQuiz}}
+\doxysubsubsection{\texorpdfstring{aplicarResultado()}{aplicarResultado()}}
+{\footnotesize\ttfamily \label{classGerenciadorQuiz_a02a832c0dcad1fb34f7768a39d72969d} 
+void Gerenciador\+Quiz\+::aplicar\+Resultado (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classMovimento}{Movimento}} \texorpdfstring{$\ast$}{*}}]{movimento}{, }\item[{bool}]{acertou}{, }\item[{int}]{incremento\+Dano}{ = {\ttfamily 3}}\end{DoxyParamCaption}) const}
+
+
+
+Aplica o upgrade de poder no movimento, somente se o jogador acertou. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em movimento} & \doxylink{classMovimento}{Movimento} a receber o upgrade (ignorado se nullptr). \\
+\hline
+{\em acertou} & Resultado da validação da resposta. \\
+\hline
+{\em incremento\+Dano} & Quanto de dano adicionar ao movimento em caso de acerto. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classGerenciadorQuiz_a3a34729f5dfb71577086d0c531c6cffe}\index{GerenciadorQuiz@{GerenciadorQuiz}!sortearPergunta@{sortearPergunta}}
+\index{sortearPergunta@{sortearPergunta}!GerenciadorQuiz@{GerenciadorQuiz}}
+\doxysubsubsection{\texorpdfstring{sortearPergunta()}{sortearPergunta()}}
+{\footnotesize\ttfamily \label{classGerenciadorQuiz_a3a34729f5dfb71577086d0c531c6cffe} 
+bool Gerenciador\+Quiz\+::sortear\+Pergunta (\begin{DoxyParamCaption}\item[{int}]{id\+Area}{, }\item[{\mbox{\hyperlink{structPergunta}{Pergunta}} \&}]{saida}{}\end{DoxyParamCaption}) const}
+
+
+
+Sorteia uma pergunta da área informada. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id\+Area} & Área/disciplina atual do jogador. \\
+\hline
+{\em saida} & Referência onde a pergunta sorteada é escrita, se houver. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true se havia pergunta cadastrada pra essa área; false caso contrário. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Gerenciador\+Quiz.\+hpp\item 
+src/Gerenciador\+Quiz.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,35 @@
+\doxysection{Gerenciador\+Quiz.\+hpp}
+\hypertarget{GerenciadorQuiz_8hpp_source}{}\label{GerenciadorQuiz_8hpp_source}\index{include/GerenciadorQuiz.hpp@{include/GerenciadorQuiz.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Movimento.hpp"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/node.hpp>}}
+\DoxyCodeLine{00008\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structPergunta}{Pergunta}}\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ std::string\ enunciado;}
+\DoxyCodeLine{00010\ \ \ \ \ std::vector<std::string>\ alternativas;}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{int}\ indiceCorreto;}
+\DoxyCodeLine{00012\ \};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGerenciadorQuiz_a0e357262730f48479a913f1737968d77}{GerenciadorQuiz}}\ :\ \textcolor{keyword}{public}\ godot::Node\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ GDCLASS(\mbox{\hyperlink{classGerenciadorQuiz_a0e357262730f48479a913f1737968d77}{GerenciadorQuiz}},\ godot::Node)}
+\DoxyCodeLine{00021\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00022\ \ \ \ \ std::map<int,\ std::vector<Pergunta>>\ bancoPerguntas;\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \_bind\_methods();}
+\DoxyCodeLine{00025\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{classGerenciadorQuiz_a0e357262730f48479a913f1737968d77}{GerenciadorQuiz}}();}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorQuiz_a74d5c9c761e579673eb926948b500e7f}{adicionarPergunta}}(\textcolor{keywordtype}{int}\ idArea,\ \mbox{\hyperlink{structPergunta}{Pergunta}}\ pergunta);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classGerenciadorQuiz_a3a34729f5dfb71577086d0c531c6cffe}{sortearPergunta}}(\textcolor{keywordtype}{int}\ idArea,\ \mbox{\hyperlink{structPergunta}{Pergunta}}\&\ saida)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classGerenciadorQuiz_aa484945e3f17612add07b04c70f0a9e8}{validarResposta}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structPergunta}{Pergunta}}\&\ pergunta,\ \textcolor{keywordtype}{int}\ indiceEscolhido)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorQuiz_a02a832c0dcad1fb34f7768a39d72969d}{aplicarResultado}}(\mbox{\hyperlink{classMovimento}{Movimento}}*\ movimento,\ \textcolor{keywordtype}{bool}\ acertou,\ \textcolor{keywordtype}{int}\ incrementoDano\ =\ 3)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00050\ \};}
+
+\end{DoxyCode}
