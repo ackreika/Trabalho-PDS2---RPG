@@ -24,3 +24,22 @@ TEST_CASE("Herois nao fica com vida negativa") {
  
     CHECK(heroi.getVida() >= 0);
 }
+
+TEST_CASE("Herois aprende um movimento novo") {
+    Herois heroi("Teste", 100, 10, 20);
+    Movimento golpe("Teste de Calculo", 15);
+ 
+    heroi.aprenderMovimento(golpe);
+ 
+    CHECK(heroi.getMovimentos().size() == 1);
+    CHECK(heroi.getMovimentos()[0].getNome() == "Teste de Calculo");
+}
+ 
+TEST_CASE("Item passivo de vida aumenta a vida maxima do heroi") {
+    Herois heroi("Teste", 100, 10, 20);
+    ItemPassivo suco{"Suco", TipoEfeito::BONUS_VIDA_MAXIMA, 1.10f};
+ 
+    heroi.adicionarItemPassivo(suco);
+ 
+    CHECK(heroi.getVidaMaxima() > 100);
+}
