@@ -1,0 +1,122 @@
+\doxysection{Batalha Class Reference}
+\hypertarget{classBatalha}{}\label{classBatalha}\index{Batalha@{Batalha}}
+
+
+Orquestra uma luta entre o \doxylink{classHerois}{Herois} do jogador e um \doxylink{classProfessor}{Professor} (Sistema\+Batalha, no CRC).  
+
+
+
+
+{\ttfamily \#include $<$Batalha.\+hpp$>$}
+
+Inheritance diagram for Batalha\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classBatalha}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classBatalha_a57be806e5f4aa4893fa6a0ac9c93fe85}{Batalha}} (\mbox{\hyperlink{classHerois}{Herois}} \&heroi, \mbox{\hyperlink{classProfessor}{Professor}} professor)
+\begin{DoxyCompactList}\small\item\em Inicia uma batalha entre o herói do jogador e o professor informado. \end{DoxyCompactList}\item 
+\Hypertarget{classBatalha_ac8d0324bc1f39a5b6637c667560a0f72}\label{classBatalha_ac8d0324bc1f39a5b6637c667560a0f72} 
+Estado\+Batalha {\bfseries get\+Estado} () const
+\begin{DoxyCompactList}\small\item\em Retorna o estado atual da batalha. \end{DoxyCompactList}\item 
+\Hypertarget{classBatalha_acb32b22305abdb3dc1a5cad77b19eb89}\label{classBatalha_acb32b22305abdb3dc1a5cad77b19eb89} 
+const \mbox{\hyperlink{classProfessor}{Professor}} \& {\bfseries get\+Professor} () const
+\begin{DoxyCompactList}\small\item\em Retorna uma referência constante pro professor sendo enfrentado. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structResultadoTurno}{Resultado\+Turno}} \mbox{\hyperlink{classBatalha_a7bb31344699bd96fabfa3f1268dab070}{executar\+Acao}} (int indice\+Golpe)
+\begin{DoxyCompactList}\small\item\em Executa a ação escolhida pelo jogador no turno atual. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structResultadoTurno}{Resultado\+Turno}} \mbox{\hyperlink{classBatalha_a003d77029e6ed555588db705ae24fb26}{usar\+Item\+Chave}} ()
+\begin{DoxyCompactList}\small\item\em Usa o item de história pra quebrar a invulnerabilidade de um Boss (US04). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structResultadoTurno}{Resultado\+Turno}} \mbox{\hyperlink{classBatalha_af21d0f12d6f3292badd282b8ad7debb5}{fugir}} ()
+\begin{DoxyCompactList}\small\item\em O jogador desiste da luta; a run é perdida. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classBatalha_a4f636ed13c1b0739569be70f97db6084}\label{classBatalha_a4f636ed13c1b0739569be70f97db6084} 
+static void {\bfseries \+\_\+bind\+\_\+methods} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Orquestra uma luta entre o \doxylink{classHerois}{Herois} do jogador e um \doxylink{classProfessor}{Professor} (Sistema\+Batalha, no CRC). 
+
+Recebe a ação escolhida pelo jogador (um dos 4 golpes, usar item de história ou fugir), resolve o dano, aplica o turno do professor em seguida, e sinaliza o estado resultante (vitória, derrota ou fuga) pro Godot reagir. 
+
+\label{doc-constructors}
+\Hypertarget{classBatalha_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classBatalha_a57be806e5f4aa4893fa6a0ac9c93fe85}\index{Batalha@{Batalha}!Batalha@{Batalha}}
+\index{Batalha@{Batalha}!Batalha@{Batalha}}
+\doxysubsubsection{\texorpdfstring{Batalha()}{Batalha()}}
+{\footnotesize\ttfamily \label{classBatalha_a57be806e5f4aa4893fa6a0ac9c93fe85} 
+Batalha\+::\+Batalha (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classHerois}{Herois}} \&}]{heroi}{, }\item[{\mbox{\hyperlink{classProfessor}{Professor}}}]{professor}{}\end{DoxyParamCaption})}
+
+
+
+Inicia uma batalha entre o herói do jogador e o professor informado. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em heroi} & Referência pro herói do jogador (não é copiado). \\
+\hline
+{\em professor} & \doxylink{classProfessor}{Professor} a ser enfrentado (copiado por valor). \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{classBatalha_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classBatalha_a7bb31344699bd96fabfa3f1268dab070}\index{Batalha@{Batalha}!executarAcao@{executarAcao}}
+\index{executarAcao@{executarAcao}!Batalha@{Batalha}}
+\doxysubsubsection{\texorpdfstring{executarAcao()}{executarAcao()}}
+{\footnotesize\ttfamily \label{classBatalha_a7bb31344699bd96fabfa3f1268dab070} 
+\mbox{\hyperlink{structResultadoTurno}{Resultado\+Turno}} Batalha\+::executar\+Acao (\begin{DoxyParamCaption}\item[{int}]{indice\+Golpe}{}\end{DoxyParamCaption})}
+
+
+
+Executa a ação escolhida pelo jogador no turno atual. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em indice\+Golpe} & 0, 1 ou 2 = movimento do herói; 3 = item especial (4º slot). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O resultado do turno (dano causado/recebido e o novo estado da batalha). 
+\end{DoxyReturn}
+\Hypertarget{classBatalha_af21d0f12d6f3292badd282b8ad7debb5}\index{Batalha@{Batalha}!fugir@{fugir}}
+\index{fugir@{fugir}!Batalha@{Batalha}}
+\doxysubsubsection{\texorpdfstring{fugir()}{fugir()}}
+{\footnotesize\ttfamily \label{classBatalha_af21d0f12d6f3292badd282b8ad7debb5} 
+\mbox{\hyperlink{structResultadoTurno}{Resultado\+Turno}} Batalha\+::fugir (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+O jogador desiste da luta; a run é perdida. 
+
+\begin{DoxyReturn}{Returns}
+Resultado com o estado FUGIU. 
+\end{DoxyReturn}
+\Hypertarget{classBatalha_a003d77029e6ed555588db705ae24fb26}\index{Batalha@{Batalha}!usarItemChave@{usarItemChave}}
+\index{usarItemChave@{usarItemChave}!Batalha@{Batalha}}
+\doxysubsubsection{\texorpdfstring{usarItemChave()}{usarItemChave()}}
+{\footnotesize\ttfamily \label{classBatalha_a003d77029e6ed555588db705ae24fb26} 
+\mbox{\hyperlink{structResultadoTurno}{Resultado\+Turno}} Batalha\+::usar\+Item\+Chave (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Usa o item de história pra quebrar a invulnerabilidade de um Boss (US04). 
+
+\begin{DoxyReturn}{Returns}
+Resultado indicando se a ação foi válida. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Batalha.\+hpp\item 
+src/Batalha.\+cpp\end{DoxyCompactItemize}

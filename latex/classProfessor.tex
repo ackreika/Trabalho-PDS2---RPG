@@ -1,0 +1,142 @@
+\doxysection{Professor Class Reference}
+\hypertarget{classProfessor}{}\label{classProfessor}\index{Professor@{Professor}}
+
+
+Representa o inimigo (Professor\+Inimigo, no CRC) que o herói enfrenta numa luta.  
+
+
+
+
+{\ttfamily \#include $<$Professor.\+hpp$>$}
+
+Inheritance diagram for Professor\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classProfessor}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classProfessor_a55ad6df5169de8ec1cffa60c9c196085}{Professor}} (std\+::string nome, std\+::string materia, int vida\+Maxima, int defesa, Tipo\+Professor tipo=Tipo\+Professor\+::\+COMUM, bool batalha\+Falsa=false)
+\begin{DoxyCompactList}\small\item\em Cria um novo \doxylink{classProfessor}{Professor}. \end{DoxyCompactList}\item 
+\Hypertarget{classProfessor_af895322b7cb84817abfc5375e776371f}\label{classProfessor_af895322b7cb84817abfc5375e776371f} 
+std\+::string {\bfseries get\+Nome} () const
+\begin{DoxyCompactList}\small\item\em Retorna o nome do professor. \end{DoxyCompactList}\item 
+\Hypertarget{classProfessor_a6c74146f796a4d6d69761638ba4ae62e}\label{classProfessor_a6c74146f796a4d6d69761638ba4ae62e} 
+std\+::string {\bfseries get\+Materia} () const
+\begin{DoxyCompactList}\small\item\em Retorna a matéria/disciplina do professor. \end{DoxyCompactList}\item 
+\Hypertarget{classProfessor_a8ce09ef67ce8598ccb2b5b3271a975c9}\label{classProfessor_a8ce09ef67ce8598ccb2b5b3271a975c9} 
+Tipo\+Professor {\bfseries get\+Tipo} () const
+\begin{DoxyCompactList}\small\item\em Retorna se o professor é Comum, Miniboss ou Boss. \end{DoxyCompactList}\item 
+\Hypertarget{classProfessor_a2aeb8c2e72f36aca8b11a348b6c0e95d}\label{classProfessor_a2aeb8c2e72f36aca8b11a348b6c0e95d} 
+int {\bfseries get\+Vida} () const
+\begin{DoxyCompactList}\small\item\em Retorna a vida atual do professor. \end{DoxyCompactList}\item 
+\Hypertarget{classProfessor_a2f871c1b10f260c2efa0556e94160229}\label{classProfessor_a2f871c1b10f260c2efa0556e94160229} 
+int {\bfseries get\+Vida\+Maxima} () const
+\begin{DoxyCompactList}\small\item\em Retorna a vida máxima do professor. \end{DoxyCompactList}\item 
+\Hypertarget{classProfessor_a147a2179ee5d399f4b837ca5ce07f98a}\label{classProfessor_a147a2179ee5d399f4b837ca5ce07f98a} 
+bool {\bfseries esta\+Vivo} () const
+\begin{DoxyCompactList}\small\item\em Retorna true se a vida atual for maior que zero. \end{DoxyCompactList}\item 
+\Hypertarget{classProfessor_ae0899f8b27d30fdd6f92ff297515136e}\label{classProfessor_ae0899f8b27d30fdd6f92ff297515136e} 
+bool {\bfseries is\+Invulneravel} () const
+\begin{DoxyCompactList}\small\item\em Retorna true enquanto o Boss não tiver sido "{}destravado"{} pelo item de história. \end{DoxyCompactList}\item 
+\Hypertarget{classProfessor_ad3cbd14cd5bb2c3d2859eef14ff734aa}\label{classProfessor_ad3cbd14cd5bb2c3d2859eef14ff734aa} 
+void {\bfseries remover\+Invulnerabilidade} ()
+\begin{DoxyCompactList}\small\item\em Remove a invulnerabilidade do Boss (chamado ao usar o item de história na batalha). \end{DoxyCompactList}\item 
+\Hypertarget{classProfessor_ace18955f9535f1807a422a6cd56c8a09}\label{classProfessor_ace18955f9535f1807a422a6cd56c8a09} 
+bool {\bfseries is\+Batalha\+Falsa} () const
+\begin{DoxyCompactList}\small\item\em Retorna true se essa for uma batalha roteirizada (US05), sem dano real. \end{DoxyCompactList}\item 
+\Hypertarget{classProfessor_a51fa8fbf3b0b8450e73abab231614422}\label{classProfessor_a51fa8fbf3b0b8450e73abab231614422} 
+void {\bfseries adicionar\+Movimento} (\mbox{\hyperlink{classMovimento}{Movimento}} movimento)
+\begin{DoxyCompactList}\small\item\em Adiciona um movimento ao moveset do professor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMovimento}{Movimento}} \& \mbox{\hyperlink{classProfessor_aee58647a54cddc975154e8701d06126a}{escolher\+Ataque}} ()
+\begin{DoxyCompactList}\small\item\em Sorteia um ataque entre os movimentos que ainda podem ser usados (IA simples). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classProfessor_a2e06bad137560b03833e8e0295c0dbef}{receber\+Dano}} (int dano\+Base)
+\begin{DoxyCompactList}\small\item\em Aplica dano ao professor usando a fórmula vida/(vida+defesa). Se o professor estiver invulnerável, o dano é ignorado (0). \end{DoxyCompactList}\item 
+\Hypertarget{classProfessor_a09eb469e0d97e82e7ed1b6082f83655b}\label{classProfessor_a09eb469e0d97e82e7ed1b6082f83655b} 
+void {\bfseries definir\+Sprite} (Estado\+Visual estado, std\+::string caminho)
+\begin{DoxyCompactList}\small\item\em Define o caminho do sprite do professor pra uma pose/estado específico. \end{DoxyCompactList}\item 
+\Hypertarget{classProfessor_a4b8f6fa047ebaa372c615c830827174b}\label{classProfessor_a4b8f6fa047ebaa372c615c830827174b} 
+std\+::string {\bfseries get\+Caminho\+Sprite} (Estado\+Visual estado) const
+\begin{DoxyCompactList}\small\item\em Retorna o caminho do sprite pra uma pose, com fallback pra PARADO. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classProfessor_adae70e849eda3b38f1778cb193bdb741}\label{classProfessor_adae70e849eda3b38f1778cb193bdb741} 
+static void {\bfseries \+\_\+bind\+\_\+methods} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Representa o inimigo (Professor\+Inimigo, no CRC) que o herói enfrenta numa luta. 
+
+Conhece seu tipo (Comum/\+Miniboss/\+Boss), status de combate, moveset, e se é uma "{}batalha falsa"{} roteirizada (US05) que não causa dano real. 
+
+\label{doc-constructors}
+\Hypertarget{classProfessor_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classProfessor_a55ad6df5169de8ec1cffa60c9c196085}\index{Professor@{Professor}!Professor@{Professor}}
+\index{Professor@{Professor}!Professor@{Professor}}
+\doxysubsubsection{\texorpdfstring{Professor()}{Professor()}}
+{\footnotesize\ttfamily \label{classProfessor_a55ad6df5169de8ec1cffa60c9c196085} 
+Professor\+::\+Professor (\begin{DoxyParamCaption}\item[{std\+::string}]{nome}{, }\item[{std\+::string}]{materia}{, }\item[{int}]{vida\+Maxima}{, }\item[{int}]{defesa}{, }\item[{Tipo\+Professor}]{tipo}{ = {\ttfamily TipoProfessor\+:\+:COMUM}, }\item[{bool}]{batalha\+Falsa}{ = {\ttfamily false}}\end{DoxyParamCaption})}
+
+
+
+Cria um novo \doxylink{classProfessor}{Professor}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nome} & Nome exibido do professor. \\
+\hline
+{\em materia} & Disciplina/matéria associada. \\
+\hline
+{\em vida\+Maxima} & Vida máxima do professor. \\
+\hline
+{\em defesa} & Defesa, usada na fórmula de dano recebido. \\
+\hline
+{\em tipo} & Comum, Miniboss ou Boss (Boss começa invulnerável automaticamente). \\
+\hline
+{\em batalha\+Falsa} & Se true, a luta é roteirizada (US05) e não causa dano real. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{classProfessor_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classProfessor_aee58647a54cddc975154e8701d06126a}\index{Professor@{Professor}!escolherAtaque@{escolherAtaque}}
+\index{escolherAtaque@{escolherAtaque}!Professor@{Professor}}
+\doxysubsubsection{\texorpdfstring{escolherAtaque()}{escolherAtaque()}}
+{\footnotesize\ttfamily \label{classProfessor_aee58647a54cddc975154e8701d06126a} 
+\mbox{\hyperlink{classMovimento}{Movimento}} \& Professor\+::escolher\+Ataque (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Sorteia um ataque entre os movimentos que ainda podem ser usados (IA simples). 
+
+\begin{DoxyReturn}{Returns}
+Referência pro movimento escolhido. 
+\end{DoxyReturn}
+\Hypertarget{classProfessor_a2e06bad137560b03833e8e0295c0dbef}\index{Professor@{Professor}!receberDano@{receberDano}}
+\index{receberDano@{receberDano}!Professor@{Professor}}
+\doxysubsubsection{\texorpdfstring{receberDano()}{receberDano()}}
+{\footnotesize\ttfamily \label{classProfessor_a2e06bad137560b03833e8e0295c0dbef} 
+void Professor\+::receber\+Dano (\begin{DoxyParamCaption}\item[{int}]{dano\+Base}{}\end{DoxyParamCaption})}
+
+
+
+Aplica dano ao professor usando a fórmula vida/(vida+defesa). Se o professor estiver invulnerável, o dano é ignorado (0). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dano\+Base} & Dano bruto antes de aplicar a fórmula de mitigação. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Professor.\+hpp\item 
+src/Professor.\+cpp\end{DoxyCompactItemize}

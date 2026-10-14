@@ -1,0 +1,27 @@
+\doxysection{Mochila\+Itens.\+hpp}
+\hypertarget{MochilaItens_8hpp_source}{}\label{MochilaItens_8hpp_source}\index{include/MochilaItens.hpp@{include/MochilaItens.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}herois.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}ItemEspecial.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/node.hpp>}}
+\DoxyCodeLine{00014\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classMochilaItens_a2afbd8d88a98193d0244070d1f72b920}{MochilaItens}}\ :\ \textcolor{keyword}{public}\ godot::Node\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ GDCLASS(\mbox{\hyperlink{classMochilaItens_a2afbd8d88a98193d0244070d1f72b920}{MochilaItens}},\ godot::Node)}
+\DoxyCodeLine{00016\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classHerois}{Herois}}\&\ heroi;}
+\DoxyCodeLine{00018\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \_bind\_methods();}
+\DoxyCodeLine{00020\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{classMochilaItens_a2afbd8d88a98193d0244070d1f72b920}{MochilaItens}}(\mbox{\hyperlink{classHerois}{Herois}}\&\ heroi);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classMochilaItens_adec8c8f31bc4883519ff5b94b2a352dc}{getQuantidadeItensPassivos}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00027\ \ \ \ \ std::string\ \mbox{\hyperlink{classMochilaItens_aeae54dff46bf20fab1f8b64962d1cdd2}{getNomeItemPassivo}}(\textcolor{keywordtype}{int}\ indice)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classMochilaItens_a1fa914ff3bbec9bc358a0c9afbae5b14}{equiparItemEspecial}}(\mbox{\hyperlink{structItemEspecial}{ItemEspecial}}\ item);}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classMochilaItens_a11608260b2b12f7bdd0e4a92a9e64ec9}{possuiItemEspecialEquipado}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ \ \ \ \ std::string\ \mbox{\hyperlink{classMochilaItens_a0239eaaee3e2a3aee8ce58f951d0b803}{getNomeItemEspecialEquipado}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ \};}
+
+\end{DoxyCode}

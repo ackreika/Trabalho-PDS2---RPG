@@ -1,0 +1,62 @@
+\doxysection{Professores\+Fabrica Class Reference}
+\hypertarget{classProfessoresFabrica}{}\label{classProfessoresFabrica}\index{ProfessoresFabrica@{ProfessoresFabrica}}
+
+
+Ponto único onde todos os professores/matérias do jogo são definidos.  
+
+
+
+
+{\ttfamily \#include $<$Professores\+Fabrica.\+hpp$>$}
+
+Inheritance diagram for Professores\+Fabrica\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classProfessoresFabrica}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classProfessor}{Professor}} \mbox{\hyperlink{classProfessoresFabrica_a1404e66c5acf10deb1f5849a4fa74bd6}{criar\+Professor}} (int id\+Area, int indice\+Batalha)
+\begin{DoxyCompactList}\small\item\em Cria o \doxylink{classProfessor}{Professor} correspondente à área e batalha informadas. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classProfessoresFabrica_a077330ad46388106923f7107197ce6ed}\label{classProfessoresFabrica_a077330ad46388106923f7107197ce6ed} 
+static void {\bfseries \+\_\+bind\+\_\+methods} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Ponto único onde todos os professores/matérias do jogo são definidos. 
+
+\label{doc-func-members}
+\Hypertarget{classProfessoresFabrica_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classProfessoresFabrica_a1404e66c5acf10deb1f5849a4fa74bd6}\index{ProfessoresFabrica@{ProfessoresFabrica}!criarProfessor@{criarProfessor}}
+\index{criarProfessor@{criarProfessor}!ProfessoresFabrica@{ProfessoresFabrica}}
+\doxysubsubsection{\texorpdfstring{criarProfessor()}{criarProfessor()}}
+{\footnotesize\ttfamily \label{classProfessoresFabrica_a1404e66c5acf10deb1f5849a4fa74bd6} 
+\mbox{\hyperlink{classProfessor}{Professor}} Professores\+Fabrica\+::criar\+Professor (\begin{DoxyParamCaption}\item[{int}]{id\+Area}{, }\item[{int}]{indice\+Batalha}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Cria o \doxylink{classProfessor}{Professor} correspondente à área e batalha informadas. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id\+Area} & 0=Cálculo, 1=Física, 2=GAAL, 3=PDS \\
+\hline
+{\em indice\+Batalha} & 1 e 2 = comuns, 3 = miniboss, 4 = boss da área \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O \doxylink{classProfessor}{Professor} pronto (com moveset e sprites definidos). 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Professores\+Fabrica.\+hpp\item 
+src/Professores\+Fabrica.\+cpp\end{DoxyCompactItemize}

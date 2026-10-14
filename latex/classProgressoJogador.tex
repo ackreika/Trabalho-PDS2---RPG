@@ -1,0 +1,99 @@
+\doxysection{Progresso\+Jogador Class Reference}
+\hypertarget{classProgressoJogador}{}\label{classProgressoJogador}\index{ProgressoJogador@{ProgressoJogador}}
+
+
+Meta-\/progresso entre runs\+: pontos acumulados e itens já desbloqueados. Guarda em um arquivo .txt simples.  
+
+
+
+
+{\ttfamily \#include $<$Progresso\+Jogador.\+hpp$>$}
+
+Inheritance diagram for Progresso\+Jogador\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classProgressoJogador}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classProgressoJogador_a39ae0ac328faa3aca91b9b4b2dcdd1a8}\label{classProgressoJogador_a39ae0ac328faa3aca91b9b4b2dcdd1a8} 
+{\bfseries Progresso\+Jogador} ()
+\begin{DoxyCompactList}\small\item\em Cria um progresso vazio\+: 0 pontos, nenhum item desbloqueado. \end{DoxyCompactList}\item 
+\Hypertarget{classProgressoJogador_a2d70f05c7ade1687580229289ac63108}\label{classProgressoJogador_a2d70f05c7ade1687580229289ac63108} 
+int {\bfseries get\+Pontos} () const
+\begin{DoxyCompactList}\small\item\em Retorna a quantidade de pontos acumulados. \end{DoxyCompactList}\item 
+\Hypertarget{classProgressoJogador_a764cf73bc7f96f76740112217dc438ca}\label{classProgressoJogador_a764cf73bc7f96f76740112217dc438ca} 
+void {\bfseries adicionar\+Pontos} (int quantidade)
+\begin{DoxyCompactList}\small\item\em Adiciona pontos ao total acumulado. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classProgressoJogador_ae89e6424aab90bf140f81c55aecfbbec}{gastar\+Pontos}} (int quantidade)
+\begin{DoxyCompactList}\small\item\em Tenta gastar pontos num upgrade. \end{DoxyCompactList}\item 
+\Hypertarget{classProgressoJogador_a4a9867151505ac7a35af4e277e09ef2c}\label{classProgressoJogador_a4a9867151505ac7a35af4e277e09ef2c} 
+bool {\bfseries ja\+Obteve} (Item\+Id id) const
+\begin{DoxyCompactList}\small\item\em Retorna true se o item com esse ID já foi desbloqueado. \end{DoxyCompactList}\item 
+\Hypertarget{classProgressoJogador_a5564473dd98f2f7514bc9335ff1e283a}\label{classProgressoJogador_a5564473dd98f2f7514bc9335ff1e283a} 
+void {\bfseries desbloquear} (Item\+Id id)
+\begin{DoxyCompactList}\small\item\em Marca um item como desbloqueado. \end{DoxyCompactList}\item 
+\Hypertarget{classProgressoJogador_a9e15ee5578f10a48c02264bc0e4d429a}\label{classProgressoJogador_a9e15ee5578f10a48c02264bc0e4d429a} 
+const std\+::set$<$ int $>$ \& {\bfseries get\+Todos} () const
+\begin{DoxyCompactList}\small\item\em Retorna o conjunto de IDs de todos os itens desbloqueados. \end{DoxyCompactList}\item 
+\Hypertarget{classProgressoJogador_a92b63a134148c10a428821bcf6aeec34}\label{classProgressoJogador_a92b63a134148c10a428821bcf6aeec34} 
+void {\bfseries salvar} (const std\+::string \&caminho) const
+\begin{DoxyCompactList}\small\item\em Salva pontos e itens desbloqueados num arquivo de texto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classProgressoJogador}{Progresso\+Jogador}} \mbox{\hyperlink{classProgressoJogador_a184b216e331486223d157997db21bfc6}{carregar}} (const std\+::string \&caminho)
+\begin{DoxyCompactList}\small\item\em Carrega o progresso salvo de um arquivo de texto. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classProgressoJogador_a8eeae247ba333f461d01b402e5ddf466}\label{classProgressoJogador_a8eeae247ba333f461d01b402e5ddf466} 
+static void {\bfseries \+\_\+bind\+\_\+methods} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Meta-\/progresso entre runs\+: pontos acumulados e itens já desbloqueados. Guarda em um arquivo .txt simples. 
+
+\label{doc-func-members}
+\Hypertarget{classProgressoJogador_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classProgressoJogador_a184b216e331486223d157997db21bfc6}\index{ProgressoJogador@{ProgressoJogador}!carregar@{carregar}}
+\index{carregar@{carregar}!ProgressoJogador@{ProgressoJogador}}
+\doxysubsubsection{\texorpdfstring{carregar()}{carregar()}}
+{\footnotesize\ttfamily \label{classProgressoJogador_a184b216e331486223d157997db21bfc6} 
+\mbox{\hyperlink{classProgressoJogador}{Progresso\+Jogador}} Progresso\+Jogador\+::carregar (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{caminho}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Carrega o progresso salvo de um arquivo de texto. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em caminho} & Caminho do arquivo salvo previamente. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Um \doxylink{classProgressoJogador}{Progresso\+Jogador} vazio (0 pontos) se o arquivo não existir ainda. 
+\end{DoxyReturn}
+\Hypertarget{classProgressoJogador_ae89e6424aab90bf140f81c55aecfbbec}\index{ProgressoJogador@{ProgressoJogador}!gastarPontos@{gastarPontos}}
+\index{gastarPontos@{gastarPontos}!ProgressoJogador@{ProgressoJogador}}
+\doxysubsubsection{\texorpdfstring{gastarPontos()}{gastarPontos()}}
+{\footnotesize\ttfamily \label{classProgressoJogador_ae89e6424aab90bf140f81c55aecfbbec} 
+bool Progresso\+Jogador\+::gastar\+Pontos (\begin{DoxyParamCaption}\item[{int}]{quantidade}{}\end{DoxyParamCaption})}
+
+
+
+Tenta gastar pontos num upgrade. 
+
+\begin{DoxyReturn}{Returns}
+true se havia pontos suficientes (e eles foram descontados); false caso contrário. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Progresso\+Jogador.\+hpp\item 
+src/Progresso\+Jogador.\+cpp\end{DoxyCompactItemize}

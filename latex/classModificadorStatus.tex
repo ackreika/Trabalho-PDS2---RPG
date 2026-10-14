@@ -1,0 +1,76 @@
+\doxysection{Modificador\+Status Class Reference}
+\hypertarget{classModificadorStatus}{}\label{classModificadorStatus}\index{ModificadorStatus@{ModificadorStatus}}
+
+
+Buff/debuff genérico com duração em turnos (ou permanente, se -\/1).  
+
+
+
+
+{\ttfamily \#include $<$Modificador\+Status.\+hpp$>$}
+
+Inheritance diagram for Modificador\+Status\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classModificadorStatus}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classModificadorStatus_adb5ff2be10f8e6e30c24d0970d18302c}{Modificador\+Status}} (Tipo\+Modificador tipo, int duracao\+Turnos=-\/1)
+\begin{DoxyCompactList}\small\item\em Cria um novo modificador de status. \end{DoxyCompactList}\item 
+\Hypertarget{classModificadorStatus_a7b4cab8a55bd33fea827a5891f565b6d}\label{classModificadorStatus_a7b4cab8a55bd33fea827a5891f565b6d} 
+Tipo\+Modificador {\bfseries get\+Tipo} () const
+\begin{DoxyCompactList}\small\item\em Retorna o tipo do modificador. \end{DoxyCompactList}\item 
+\Hypertarget{classModificadorStatus_a0a1a9b5eedaee9227986d76d71f9df92}\label{classModificadorStatus_a0a1a9b5eedaee9227986d76d71f9df92} 
+bool {\bfseries esta\+Ativo} () const
+\begin{DoxyCompactList}\small\item\em Retorna true se o modificador ainda estiver em efeito. \end{DoxyCompactList}\item 
+\Hypertarget{classModificadorStatus_a20e59edb86edcc50856c2403c6db057b}\label{classModificadorStatus_a20e59edb86edcc50856c2403c6db057b} 
+void {\bfseries passar\+Turno} ()
+\begin{DoxyCompactList}\small\item\em Decrementa a duração; chamado no fim de cada turno. \end{DoxyCompactList}\item 
+\Hypertarget{classModificadorStatus_ae725e53d516064ed098af7323ea43754}\label{classModificadorStatus_ae725e53d516064ed098af7323ea43754} 
+bool {\bfseries deve\+Ser\+Removido} () const
+\begin{DoxyCompactList}\small\item\em Retorna true quando a duração chegou a 0 e o modificador deve ser removido. \end{DoxyCompactList}\item 
+\Hypertarget{classModificadorStatus_a2f062d9449dba5b85278b463859ac88d}\label{classModificadorStatus_a2f062d9449dba5b85278b463859ac88d} 
+int {\bfseries interceptar\+Dano} (int dano\+Base) const
+\begin{DoxyCompactList}\small\item\em Aplica o efeito desse modificador sobre um valor de dano. INVULNERAVEL sempre zera o dano; FORTALECIDO aumenta em 20\%. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classModificadorStatus_a4510e81510cc0dcdabe4a32f184c99a5}\label{classModificadorStatus_a4510e81510cc0dcdabe4a32f184c99a5} 
+static void {\bfseries \+\_\+bind\+\_\+methods} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Buff/debuff genérico com duração em turnos (ou permanente, se -\/1). 
+
+Independente da invulnerabilidade fixa do Boss (essa já é tratada direto em Professor\+::invulneravel) — este é reutilizável pra qualquer efeito futuro com duração, como "{}\+Fortalecido por 3 turnos"{}. 
+
+\label{doc-constructors}
+\Hypertarget{classModificadorStatus_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classModificadorStatus_adb5ff2be10f8e6e30c24d0970d18302c}\index{ModificadorStatus@{ModificadorStatus}!ModificadorStatus@{ModificadorStatus}}
+\index{ModificadorStatus@{ModificadorStatus}!ModificadorStatus@{ModificadorStatus}}
+\doxysubsubsection{\texorpdfstring{ModificadorStatus()}{ModificadorStatus()}}
+{\footnotesize\ttfamily \label{classModificadorStatus_adb5ff2be10f8e6e30c24d0970d18302c} 
+Modificador\+Status\+::\+Modificador\+Status (\begin{DoxyParamCaption}\item[{Tipo\+Modificador}]{tipo}{, }\item[{int}]{duracao\+Turnos}{ = {\ttfamily -\/1}}\end{DoxyParamCaption})}
+
+
+
+Cria um novo modificador de status. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tipo} & Invulnerável ou Fortalecido. \\
+\hline
+{\em duracao\+Turnos} & Duração em turnos; -\/1 (padrão) = permanente. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Modificador\+Status.\+hpp\item 
+src/Modificador\+Status.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,37 @@
+\doxysection{Gerenciador\+Interface.\+hpp}
+\hypertarget{GerenciadorInterface_8hpp_source}{}\label{GerenciadorInterface_8hpp_source}\index{include/GerenciadorInterface.hpp@{include/GerenciadorInterface.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/ref\_counted.hpp>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}EstadoMenu.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/node.hpp>}}
+\DoxyCodeLine{00005\ \textcolor{keyword}{using\ namespace\ }godot;}
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGerenciadorInterface_a66ad8eb634476f1a143cc1b1ad9d676c}{GerenciadorInterface}}\ :\ \textcolor{keyword}{public}\ godot::Node\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ GDCLASS(\mbox{\hyperlink{classGerenciadorInterface_a66ad8eb634476f1a143cc1b1ad9d676c}{GerenciadorInterface}},\ godot::Node)}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00020\ \ \ \ \ EstadoMenu\ estadoAtual;}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{float}\ volume;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{int}\ indiceResolucao;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorInterface_ad1007919c0e8b3b96ecd3bf054c32d6b}{\_bind\_methods}}();}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{classGerenciadorInterface_a66ad8eb634476f1a143cc1b1ad9d676c}{GerenciadorInterface}}();}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classGerenciadorInterface_abd5f4e2aa43261ec92fc1b0039deb5f8}{getEstadoAtual}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorInterface_a776d77888ed1e467f51bdb24c670497b}{irPara}}(\textcolor{keywordtype}{int}\ novoEstado);}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorInterface_a17abf5eb75429e8c1e9dee664d78889c}{voltar}}();}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classGerenciadorInterface_a08757ee32b25c512a3a7b376d96403d7}{getVolume}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorInterface_a0c67bae2a91f3daf35d3e27c33d36b44}{definirVolume}}(\textcolor{keywordtype}{float}\ novoVolume);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classGerenciadorInterface_aaf7c1e0b59de1b524ad472bbe3e4568b}{getIndiceResolucao}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorInterface_a9bede72f0e6909adc23f446cb82535e1}{definirIndiceResolucao}}(\textcolor{keywordtype}{int}\ indice);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorInterface_a7512924813212c7907ba8658435c6380}{iniciarOuRetomarPartida}}();}
+\DoxyCodeLine{00051\ \};}
+
+\end{DoxyCode}
