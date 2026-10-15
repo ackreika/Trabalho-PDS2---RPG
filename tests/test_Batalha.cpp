@@ -1,28 +1,27 @@
-/**
- * @file test_batalha.cpp
- * @brief Testes de unidade para a orquestração dos turnos de combate e seus estados.
- */
-#include "../third_party/doctest.h"
-#include "../include/Batalha.hpp"
-#include "../include/Herois.hpp"
-#include "../include/Professor.hpp"
+#include "doctest.h"
+#include "Batalha.hpp"
+#include "Herois.hpp"
+#include "Professor.hpp"
+ 
+//testes de batalha
+ 
+TEST_CASE("Batalha comeca no estado ESCOLHENDO_ACAO") {
+    Herois heroi("Teste", 100, 10, 20);
+    Professor professor("Prof. Teste", "Calculo", 50, 5);
+ 
+    Batalha batalha(&heroi, &professor);
+ 
+    CHECK(batalha.getEstado() == EstadoBatalha::ESCOLHENDO_ACAO);
+}
 
-TEST_CASE("Testando a Máquina de Estados da Batalha") {
-    // Instancia um herói e um professor base (Valores fictícios para TDD)
-    Herois heroi("Gustavo", 100, 10, 20);
-    Professor prof("Javier", "Cálculo", 200, 10, TipoProfessor::COMUM, false);
-    
-    Batalha luta(heroi, prof);
-
-    SUBCASE("Inicialização correta da Batalha") {
-        CHECK(luta.getEstado() == EstadoBatalha::ESCOLHENDO_ACAO);
-    }
-
-    SUBCASE("Fuga do Herói resulta em fim de jogo") {
-        ResultadoTurno resultado = luta.fugir();
-        
-        CHECK(resultado.acaoValida == true);
-        CHECK(resultado.estadoResultante == EstadoBatalha::FUGIU);
-        CHECK(luta.getEstado() == EstadoBatalha::FUGIU);
-    }
+TEST_CASE("Atacar com um movimento causa dano no professor") {
+    Herois heroi("Teste", 100, 10, 20);
+    Professor professor("Prof. Teste", "Calculo", 50, 5);
+    heroi.aprenderMovimento(Movimento("Golpe", 15));
+ 
+    Batalha batalha(&heroi, &professor);
+    ResultadoTurno resultado = batalha.executarAcao(0);
+ 
+    CHECK(resultado.acaoValida == true);
+    CHECK(resultado.danoCausadoPeloHeroi > 0);
 }

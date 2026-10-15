@@ -2,7 +2,7 @@
  * @file test_movimento.cpp
  * @brief Testes de unidade (TDD) para a mecânica das habilidades/movimentos do herói.
  */
-#include "../third_party/doctest.h"
+#include "../include/doctest.h"
 #include "../include/Movimento.hpp"
 
 TEST_CASE("Testando o Controle de Usos e Upgrade do Movimento") {

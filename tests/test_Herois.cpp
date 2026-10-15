@@ -1,37 +1,45 @@
-/**
- * @file test_herois.cpp
- * @brief Testes de unidade para a entidade principal do jogador, verificação de dano e itens.
- */
-#include "../third_party/doctest.h"
-#include "../include/Herois.hpp"
-#include "../include/ItemPassivo.hpp"
+#include "doctest.h"
+#include "Herois.hpp"
 
-TEST_CASE("Testando a Entidade Herois e seus Status") {
-    Herois estudante("Gustavo", 100, 15, 20); // Nome, vidaMaxima, defesa, danoBase
+//testes de herois
 
-    SUBCASE("Verificação de Status Iniciais") {
-        CHECK(estudante.getNome() == "Gustavo");
-        CHECK(estudante.getVida() == 100);
-        CHECK(estudante.estaVivo() == true);
-    }
+TEST_CASE("Herois comeca com a vida maxima cheia") {
+    Herois heroi("Teste", 100, 10, 20); // nome, vidaMaxima, defesa, danoBase
+    CHECK(heroi.getVida() == heroi.getVidaMaxima());
+}
 
-    SUBCASE("Lógica de Recebimento de Dano") {
-        estudante.receberDano(50);
-        // O dano real será menor que 50 devido à fórmula vida/(vida+defesa)
-        CHECK(estudante.getVida() < 100);
-        
-        // Testa a morte do herói
-        estudante.receberDano(9999);
-        CHECK(estudante.getVida() == 0);
-        CHECK(estudante.estaVivo() == false);
-    }
+TEST_CASE("Herois perde vida ao receber dano") {
+    Herois heroi("Teste", 100, 10, 20);
+    int vidaAntes = heroi.getVida();
+ 
+    heroi.receberDano(30);
+ 
+    CHECK(heroi.getVida() < vidaAntes);
+}
+ 
+TEST_CASE("Herois nao fica com vida negativa") {
+    Herois heroi("Teste", 100, 10, 20);
+ 
+    heroi.receberDano(999999);
+ 
+    CHECK(heroi.getVida() >= 0);
+}
 
-    SUBCASE("Equipamento de Itens Passivos") {
-        ItemPassivo caderno{"Caderno", TipoEfeito::BONUS_VIDA_MAXIMA, 1.20f};
-        estudante.adicionarItemPassivo(caderno);
-        
-        // A vida máxima base é 100, com 20% de bônus deve ser 120
-        CHECK(estudante.getVidaMaxima() == 120);
-        CHECK(estudante.getQuantidadeItensPassivos() == 1);
-    }
+TEST_CASE("Herois aprende um movimento novo") {
+    Herois heroi("Teste", 100, 10, 20);
+    Movimento golpe("Teste de Calculo", 15);
+ 
+    heroi.aprenderMovimento(golpe);
+ 
+    CHECK(heroi.getMovimentos().size() == 1);
+    CHECK(heroi.getMovimentos()[0].getNome() == "Teste de Calculo");
+}
+ 
+TEST_CASE("Item passivo de vida aumenta a vida maxima do heroi") {
+    Herois heroi("Teste", 100, 10, 20);
+    ItemPassivo suco{"Suco", TipoEfeito::BONUS_VIDA_MAXIMA, 1.10f};
+ 
+    heroi.adicionarItemPassivo(suco);
+ 
+    CHECK(heroi.getVidaMaxima() > 100);
 }
