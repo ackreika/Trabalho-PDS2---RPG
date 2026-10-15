@@ -1,5 +1,10 @@
 #include "Professor.hpp"
 #include <cstdlib>
+#include <godot_cpp/core/class_db.hpp>
+
+Professor::Professor()
+    : nome("Professor"), materia("Materia"), tipo(TipoProfessor::COMUM),
+      vida(50), vidaMaxima(50), defesa(5), invulneravel(false), ehBatalhaFalsa(false) {}
 
 Professor::Professor(std::string nome, std::string materia, int vidaMaxima, int defesa,
                       TipoProfessor tipo, bool batalhaFalsa)
@@ -57,4 +62,42 @@ std::string Professor::getCaminhoSprite(EstadoVisual estado) const {
     }
     auto fallback = spritesPorEstado.find(EstadoVisual::PARADO);
     return fallback != spritesPorEstado.end() ? fallback->second : "";
+}
+
+// ======================================================================
+// Wrappers Godot-friendly (ver Professor.hpp)
+// ======================================================================
+
+void Professor::inicializar(String nomeNovo, String materiaNova, int vidaMaximaNova, int defesaNova, int tipoInt, bool batalhaFalsaNova) {
+    nome = std::string(nomeNovo.utf8().get_data());
+    materia = std::string(materiaNova.utf8().get_data());
+    vidaMaxima = vidaMaximaNova;
+    vida = vidaMaximaNova;
+    defesa = defesaNova;
+    tipo = static_cast<TipoProfessor>(tipoInt);
+    ehBatalhaFalsa = batalhaFalsaNova;
+    invulneravel = (tipo == TipoProfessor::BOSS);
+}
+
+String Professor::get_nome() const { return String(nome.c_str()); }
+String Professor::get_materia() const { return String(materia.c_str()); }
+int Professor::get_vida() const { return vida; }
+int Professor::get_vida_maxima() const { return vidaMaxima; }
+bool Professor::esta_vivo() const { return estaVivo(); }
+bool Professor::is_invulneravel() const { return invulneravel; }
+
+void Professor::adicionar_movimento_simples(String nomeMovimento, int dano, int usosMaximos) {
+    std::string nomeConvertido = std::string(nomeMovimento.utf8().get_data());
+    adicionarMovimento(Movimento(nomeConvertido, dano, usosMaximos));
+}
+
+void Professor::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("inicializar", "nome", "materia", "vida_maxima", "defesa", "tipo", "batalha_falsa"), &Professor::inicializar);
+    ClassDB::bind_method(D_METHOD("get_nome"), &Professor::get_nome);
+    ClassDB::bind_method(D_METHOD("get_materia"), &Professor::get_materia);
+    ClassDB::bind_method(D_METHOD("get_vida"), &Professor::get_vida);
+    ClassDB::bind_method(D_METHOD("get_vida_maxima"), &Professor::get_vida_maxima);
+    ClassDB::bind_method(D_METHOD("esta_vivo"), &Professor::esta_vivo);
+    ClassDB::bind_method(D_METHOD("is_invulneravel"), &Professor::is_invulneravel);
+    ClassDB::bind_method(D_METHOD("adicionar_movimento_simples", "nome", "dano", "usos_maximos"), &Professor::adicionar_movimento_simples);
 }

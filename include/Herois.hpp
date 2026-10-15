@@ -133,4 +133,27 @@ public:
      * retorna a pose PARADO.
      */
     std::string getCaminhoSprite(EstadoVisual estado) const;
+
+    // ======================================================================
+    // API exposta ao GDScript (wrappers "Godot-friendly" dos métodos acima).
+    // Os métodos acima continuam existindo normalmente pro lado C++/testes;
+    // estes aqui só convertem tipos (std::string -> String) pra poder
+    // ser registrados no ClassDB e chamados do GDScript.
+    // ======================================================================
+
+    /** @brief Chamar logo após `Herois.new()` no GDScript pra definir os status iniciais. */
+    void inicializar(String nome, int vidaMaxima, int defesa, int danoBase);
+
+    String get_nome() const;
+    int get_vida() const;
+    int get_vida_maxima() const;
+    int get_defesa() const;
+    int get_dano_base() const;
+    bool esta_vivo() const;
+
+    /** @brief Cria e aprende um movimento novo direto do GDScript (sem precisar expor a classe Movimento). */
+    void aprender_movimento_simples(String nome, int dano, int usosMaximos);
+    int get_quantidade_movimentos() const;
+    String get_nome_movimento(int indice) const;
+    int get_dano_movimento(int indice) const;
 };
