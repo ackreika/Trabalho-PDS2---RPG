@@ -156,4 +156,17 @@ public:
     int get_quantidade_movimentos() const;
     String get_nome_movimento(int indice) const;
     int get_dano_movimento(int indice) const;
+
+    /** @brief Usos restantes do movimento no índice; -1 = ilimitado, 0 = esgotado (ou índice inválido). */
+    int get_usos_restantes_movimento(int indice) const;
+    /** @brief true se o movimento existe e ainda pode ser usado. */
+    bool movimento_pode_usar(int indice) const;
+
+    /**
+     * @brief Define o sprite de uma pose. estado: 0 = TOMANDO_DANO, 1 = VITORIA,
+     * 2 = DERROTA, 3 = PARADO (idle), 4 = ATACANDO (mesma ordem do enum EstadoVisual).
+     */
+    void definir_sprite(int estado, String caminho);
+    /** @brief Caminho do sprite da pose (fallback: PARADO). Mesmos valores de estado acima. */
+    String get_caminho_sprite(int estado) const;
 };
