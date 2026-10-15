@@ -1,6 +1,6 @@
 var classHerois =
 [
-    [ "Herois", "classHerois.html#a8979c43da6f507601e89be80fbdcc2fe", null ],
+    [ "Herois", "classHerois.html#a5a911352692407fead6a33293381d085", null ],
     [ "adicionarItemPassivo", "classHerois.html#aed5a8715c57a2289f63ed074a5e1f9be", null ],
     [ "aprenderMovimento", "classHerois.html#a69157e183d0450e792f7872037187500", null ],
     [ "calcularDanoFinal", "classHerois.html#a6475ae84a01fa8f47de74f59ca80b0b9", null ],

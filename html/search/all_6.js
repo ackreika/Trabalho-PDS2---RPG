@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['fugir_0',['fugir',['../classBatalha.html#af21d0f12d6f3292badd282b8ad7debb5',1,'Batalha']]]
+  ['icex_3a_20roguelite_0',['Fuja do ICEx: Roguelite',['../md_README.html',1,'']]],
+  ['inicial_20do_20problema_1',['Descrição Inicial do Problema',['../md_README.html#autotoc_md2',1,'']]]
 ];
