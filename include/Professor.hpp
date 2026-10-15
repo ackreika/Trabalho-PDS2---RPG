@@ -125,4 +125,17 @@ public:
 
     /** @brief Cria e adiciona um movimento ao professor direto do GDScript. */
     void adicionar_movimento_simples(String nome, int dano, int usosMaximos);
+
+    /** @brief 0 = COMUM, 1 = MINIBOSS, 2 = BOSS. */
+    int get_tipo() const;
+    /** @brief true se for batalha roteirizada (sem dano real). */
+    bool is_batalha_falsa() const;
+
+    /**
+     * @brief Define o sprite de uma pose. estado: 0 = TOMANDO_DANO, 1 = VITORIA,
+     * 2 = DERROTA, 3 = PARADO (idle), 4 = ATACANDO (mesma ordem do enum EstadoVisual).
+     */
+    void definir_sprite(int estado, String caminho);
+    /** @brief Caminho do sprite da pose (fallback: PARADO). Mesmos valores de estado acima. */
+    String get_caminho_sprite(int estado) const;
 };

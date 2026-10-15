@@ -91,7 +91,22 @@ void Professor::adicionar_movimento_simples(String nomeMovimento, int dano, int 
     adicionarMovimento(Movimento(nomeConvertido, dano, usosMaximos));
 }
 
+int Professor::get_tipo() const { return static_cast<int>(tipo); }
+bool Professor::is_batalha_falsa() const { return ehBatalhaFalsa; }
+
+void Professor::definir_sprite(int estado, String caminho) {
+    definirSprite(static_cast<EstadoVisual>(estado), std::string(caminho.utf8().get_data()));
+}
+
+String Professor::get_caminho_sprite(int estado) const {
+    return String(getCaminhoSprite(static_cast<EstadoVisual>(estado)).c_str());
+}
+
 void Professor::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("get_tipo"), &Professor::get_tipo);
+    ClassDB::bind_method(D_METHOD("is_batalha_falsa"), &Professor::is_batalha_falsa);
+    ClassDB::bind_method(D_METHOD("definir_sprite", "estado", "caminho"), &Professor::definir_sprite);
+    ClassDB::bind_method(D_METHOD("get_caminho_sprite", "estado"), &Professor::get_caminho_sprite);
     ClassDB::bind_method(D_METHOD("inicializar", "nome", "materia", "vida_maxima", "defesa", "tipo", "batalha_falsa"), &Professor::inicializar);
     ClassDB::bind_method(D_METHOD("get_nome"), &Professor::get_nome);
     ClassDB::bind_method(D_METHOD("get_materia"), &Professor::get_materia);
