@@ -175,7 +175,36 @@ int Herois::get_dano_movimento(int indice) const {
     return movimentos[indice].getDano();
 }
 
+int Herois::get_usos_restantes_movimento(int indice) const {
+    if (indice < 0 || indice >= static_cast<int>(movimentos.size())) {
+        return 0;
+    }
+    if (movimentos[indice].getUsosMaximos() < 0) {
+        return -1; // ilimitado
+    }
+    return movimentos[indice].getUsosRestantes();
+}
+
+bool Herois::movimento_pode_usar(int indice) const {
+    if (indice < 0 || indice >= static_cast<int>(movimentos.size())) {
+        return false;
+    }
+    return movimentos[indice].podeUsar();
+}
+
+void Herois::definir_sprite(int estado, String caminho) {
+    definirSprite(static_cast<EstadoVisual>(estado), std::string(caminho.utf8().get_data()));
+}
+
+String Herois::get_caminho_sprite(int estado) const {
+    return String(getCaminhoSprite(static_cast<EstadoVisual>(estado)).c_str());
+}
+
 void Herois::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("get_usos_restantes_movimento", "indice"), &Herois::get_usos_restantes_movimento);
+    ClassDB::bind_method(D_METHOD("movimento_pode_usar", "indice"), &Herois::movimento_pode_usar);
+    ClassDB::bind_method(D_METHOD("definir_sprite", "estado", "caminho"), &Herois::definir_sprite);
+    ClassDB::bind_method(D_METHOD("get_caminho_sprite", "estado"), &Herois::get_caminho_sprite);
     ClassDB::bind_method(D_METHOD("inicializar", "nome", "vida_maxima", "defesa", "dano_base"), &Herois::inicializar);
     ClassDB::bind_method(D_METHOD("get_nome"), &Herois::get_nome);
     ClassDB::bind_method(D_METHOD("get_vida"), &Herois::get_vida);

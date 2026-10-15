@@ -61,15 +61,39 @@ func criar_professor(id_area: int, indice_batalha: int) -> Professor:
 					p.inicializar("Substituto", "Calculo I", 45, 4, 0, false)
 					p.adicionar_movimento_simples("Prova Marcada de Ultima Hora", 10, -1)
 					p.adicionar_movimento_simples("Limite Mal Explicado", 8, 3)
+					
+					# Enum EstadoVisual em C++: TOMANDO_DANO = 0, VITORIA = 1, DERROTA = 2, PARADO = 3, ATACANDO = 4
+					p.definir_sprite(3, "res://imagens/SubstitutoNormal-removebg-preview.png")      # PARADO
+					p.definir_sprite(4, "res://imagens/SubstitutoSorrindo-removebg-preview.png")  # ATACANDO
+					p.definir_sprite(0, "res://imagens/SubstitutoConfuso-removebg-preview.png")  # TOMANDO_DANO
+					p.definir_sprite(2, "res://imagens/SubstitutoNormal-removebg-preview.png")      # VITORIA do Heroi(fallback)
+					p.definir_sprite(1, "res://imagens/SubstitutoConfuso-removebg-preview.png")  # DERROTA do Prof (fallback)
+					
 				2: # Xavier (Calculo I) - comum
 					p.inicializar("Xavier", "Calculo I", 55, 5, 0, false)
 					p.adicionar_movimento_simples("Regra da Cadeia Relampago", 12, -1)
 					p.adicionar_movimento_simples("Derivada Implicita Confusa", 10, 3)
+					
+										# Enum EstadoVisual em C++: TOMANDO_DANO = 0, VITORIA = 1, DERROTA = 2, PARADO = 3, ATACANDO = 4
+					p.definir_sprite(3, "res://imagens/Javier_Normal-removebg-preview.png")      # PARADO
+					p.definir_sprite(4, "res://imagens/Javier_Irritado-removebg-preview.png")  # ATACANDO
+					p.definir_sprite(0, "res://imagens/Javier_Irritado-removebg-preview.png")  # TOMANDO_DANO
+					p.definir_sprite(2, "res://imagens/Javier_Sorrindo-removebg-preview.png")      # VITORIA do Heroi(fallback)
+					p.definir_sprite(1, "res://imagens/Javier_Normal-removebg-preview.png")  # DERROTA do Prof (fallback)
+					
 				3: # Colina Sombria (Calculo II) - boss da area
 					p.inicializar("Colina Sombria", "Calculo II", 110, 9, 2, false)
 					p.adicionar_movimento_simples("Serie de Taylor Infinita", 20, 3)
 					p.adicionar_movimento_simples("Integral Impropria Divergente", 25, 2)
 					p.adicionar_movimento_simples("Convergencia Sombria", 15, -1)
+					
+															# Enum EstadoVisual em C++: TOMANDO_DANO = 0, VITORIA = 1, DERROTA = 2, PARADO = 3, ATACANDO = 4
+					p.definir_sprite(3, "res://imagens/MarcosSerio-removebg-preview.png")      # PARADO
+					p.definir_sprite(4, "res://imagens/MarcosSorrindo-removebg-preview.png")  # ATACANDO
+					p.definir_sprite(0, "res://imagens/MarcosSorrindo-removebg-preview.png")  # TOMANDO_DANO
+					p.definir_sprite(2, "res://imagens/MarcosSorrindo-removebg-preview.png")      # VITORIA do Heroi(fallback)
+					p.definir_sprite(1, "res://imagens/MarcosDecepcionado-removebg-preview.png")  # DERROTA do Prof (fallback)
+					
 
 		1: # ---------------- GAAL ----------------
 			match indice_batalha:

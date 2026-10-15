@@ -1,13 +1,25 @@
 extends Control
 # Anexe este script ao nó raiz da cena de batalha (ex: Batalha.tscn).
-# Ajuste os caminhos $NomeDoNo abaixo pra bater com os nomes reais dos nós
-# que você criar na cena (ver instruções na conversa).
+
+# Referência para o nó de imagem do professor na cena (adicione um TextureRect chamado ProfessorSprite)
+@onready var professor_sprite_node: TextureRect = $ProfessorSprite
+
+# Constantes numéricas mapeadas do seu enum class EstadoVisual em C++:
+# TOMANDO_DANO = 0, VITORIA = 1, DERROTA = 2, PARADO = 3, ATACANDO = 4
+const ESTADO_TOMANDO_DANO = 0
+const ESTADO_VITORIA = 1
+const ESTADO_DERROTA = 2
+const ESTADO_PARADO = 3
+const ESTADO_ATACANDO = 4
 
 func _ready() -> void:
 	if Global.batalha_atual == null:
 		push_error("Entrou na tela de batalha sem Global.iniciar_primeira_batalha() ter sido chamado antes.")
 		return
 	atualizar_tela()
+	
+	# Define o sprite inicial do professor como PARADO (estado 3)
+	atualizar_sprite_professor(ESTADO_PARADO)
 
 func atualizar_tela() -> void:
 	var batalha: Batalha = Global.batalha_atual
@@ -32,9 +44,18 @@ func _on_golpe_1_pressed() -> void: _executar_turno(1)
 func _on_golpe_2_pressed() -> void: _executar_turno(2)
 
 func _executar_turno(indice: int) -> void:
+	# Quando o jogador ataca, podemos mudar temporariamente o sprite do professor para ATACANDO (estado 4)
+	atualizar_sprite_professor(ESTADO_ATACANDO)
+	
 	var resultado: Dictionary = Global.batalha_atual.executar_acao(indice)
 	$LabelMensagem.text = resultado["mensagem"]
 	atualizar_tela()
+	
+	# Aguarda um pequeno instante (ex: 0.6 segundos) para o sprite voltar ao normal
+	await get_tree().create_timer(0.6).timeout
+	if Global.batalha_atual.get_professor().esta_vivo():
+		atualizar_sprite_professor(ESTADO_PARADO)
+
 	_verificar_fim_de_batalha(resultado["estado_resultante"])
 
 func _on_botao_fugir_pressed() -> void:
@@ -46,14 +67,47 @@ func _on_botao_fugir_pressed() -> void:
 func _verificar_fim_de_batalha(estado: int) -> void:
 	match estado:
 		1:
-			$LabelMensagem.text += "\nVoce venceu a primeira batalha!"
+			$LabelMensagem.text += "\nVoce venceu! Preparando proxima batalha..."
 			_desabilitar_botoes()
+			
+			# Aguarda 2 segundos para o jogador ler a mensagem de vitória
+			await get_tree().create_timer(2.0).timeout
+			
+			# Tenta avançar para a próxima batalha usando o Global
+			var tem_proxima = Global.avancar_para_proxima_batalha()
+			
+			if tem_proxima:
+				# Se ainda houver batalhas (ex: case 2 de Cálculo), recarrega a tela com o novo professor
+				atualizar_tela()
+				# Reseta o sprite do novo professor para o estado PARADO (3)
+				atualizar_sprite_professor(ESTADO_PARADO)
+				# Reabilita os botões para a nova luta
+				_reabilitar_botoes()
+			else:
+				$LabelMensagem.text = "Parabéns! Você concluiu todas as matérias do semestre!"
 		2:
 			$LabelMensagem.text += "\nVoce foi derrotado..."
+			atualizar_sprite_professor(ESTADO_DERROTA)
 			_desabilitar_botoes()
 		3:
 			$LabelMensagem.text += "\nVoce fugiu. O semestre foi perdido."
 			_desabilitar_botoes()
+
+func _reabilitar_botoes() -> void:
+	for i in range(3):
+		get_node("BotoesGolpe/Golpe%d" % i).disabled = false
+	$BotaoFugir.disabled = false
+
+func atualizar_sprite_professor(estado: int) -> void:
+	if Global.batalha_atual == null:
+		return
+	var professor: Professor = Global.batalha_atual.get_professor()
+	if professor:
+		var caminho: String = professor.get_caminho_sprite(estado)
+		if caminho != "":
+			var textura = load(caminho)
+			if textura and professor_sprite_node:
+				professor_sprite_node.texture = textura
 
 func _desabilitar_botoes() -> void:
 	for i in range(3):
