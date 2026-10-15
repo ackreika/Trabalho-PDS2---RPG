@@ -1,160 +1,209 @@
 #include "Batalha.hpp"
+#include <godot_cpp/core/class_db.hpp>
 
-Batalha::Batalha(Herois& heroi, Professor professor)
-    : heroi(heroi), professor(professor), estado(EstadoBatalha::ESCOLHENDO_ACAO), turnosDecorridos(0) {}
-    // construtor que inicializa a batalha com o herói do jogador e o professor a ser enfrentado
+Batalha::Batalha()
+    : heroi(nullptr), professor(nullptr), estado(EstadoBatalha::ESCOLHENDO_ACAO), turnosDecorridos(0) {}
 
-EstadoBatalha Batalha::getEstado() const { return estado; }
-// retorna o estado atual da batalha, usado pelo Godot pra saber que tela/animação mostrar
-const Professor& Batalha::getProfessor() const { return professor; }
-// retorna uma referência constante para o professor que o jogador está enfrentando na batalha
+void Batalha::inicializar(Herois* heroiDoJogador, Professor* professorAlvo) {
+    heroi = heroiDoJogador;
+    professor = professorAlvo;
+    estado = EstadoBatalha::ESCOLHENDO_ACAO;
+    turnosDecorridos = 0;
+}
 
-ResultadoTurno Batalha::executarAcao(int indiceGolpe) {
-    ResultadoTurno resultado{}; // inicializa todos os campos com valores padrão
-    resultado.acaoValida = true;    // inicializa como true, será ajustado se a ação for inválida
-    resultado.heroiAtacou = false;  // inicializa como false, será ajustado se o herói atacar
-    resultado.danoCausadoPeloHeroi = 0; // inicializa como 0, será ajustado se o herói causar dano
-    resultado.professorAtacou = false;  // inicializa como false, será ajustado se o professor atacar
-    resultado.danoCausadoPeloProfessor = 0; // inicializa como 0, será ajustado se o professor causar dano
+int Batalha::get_estado() const { return static_cast<int>(estado); }
+Professor* Batalha::get_professor() const { return professor; }
+Herois* Batalha::get_heroi() const { return heroi; }
+
+Dictionary Batalha::converterParaDictionary(const ResultadoTurno& resultado) const {
+    Dictionary d;
+    d["acao_valida"] = resultado.acaoValida;
+    d["mensagem"] = String(resultado.mensagem.c_str());
+    d["heroi_atacou"] = resultado.heroiAtacou;
+    d["dano_causado_pelo_heroi"] = resultado.danoCausadoPeloHeroi;
+    d["professor_atacou"] = resultado.professorAtacou;
+    d["dano_causado_pelo_professor"] = resultado.danoCausadoPeloProfessor;
+    d["estado_resultante"] = static_cast<int>(resultado.estadoResultante);
+    return d;
+}
+
+Dictionary Batalha::executar_acao(int indiceGolpe) {
+    ResultadoTurno resultado{};
+    resultado.acaoValida = true;
+    resultado.heroiAtacou = false;
+    resultado.danoCausadoPeloHeroi = 0;
+    resultado.professorAtacou = false;
+    resultado.danoCausadoPeloProfessor = 0;
+
+    if (heroi == nullptr || professor == nullptr) {
+        resultado.acaoValida = false;
+        resultado.mensagem = "Batalha nao foi inicializada (chame inicializar() antes).";
+        resultado.estadoResultante = estado;
+        return converterParaDictionary(resultado);
+    }
 
     if (estado != EstadoBatalha::ESCOLHENDO_ACAO) {
-        resultado.acaoValida = false;   // a batalha já terminou, não é possível executar ações
-        resultado.mensagem = "A batalha terminou.";  // mensagem de erro para o Godot exibir
-        resultado.estadoResultante = estado;  // mantém o estado atual da batalha, que já é VITORIA, DERROTA ou FUGIU
-        return resultado;   // retorna o resultado do turno com a ação inválida
+        resultado.acaoValida = false;
+        resultado.mensagem = "A batalha terminou.";
+        resultado.estadoResultante = estado;
+        return converterParaDictionary(resultado);
     }
 
     int danoBase = 0;
 
     if (indiceGolpe >= 0 && indiceGolpe < 3) {
         // Movimento normal escolhido pelo jogador
-        Movimento* movimento = heroi.getMovimentoParaEditar(indiceGolpe); // acesso não-const, pra poder consumir o uso
+        Movimento* movimento = heroi->getMovimentoParaEditar(indiceGolpe); // acesso não-const, pra poder consumir o uso
         if (movimento == nullptr || !movimento->podeUsar()) {
-            resultado.acaoValida = false;   // a ação não é válida se o índice do golpe for inválido ou se o movimento não puder ser usado
-            resultado.mensagem = "Esse movimento nao pode ser usado agora.";    // mensagem de erro para o Godot exibir
-            resultado.estadoResultante = estado;    // mantém o estado atual da batalha, que ainda é ESCOLHENDO_ACAO
-            return resultado;   // retorna o resultado do turno com a ação inválida
+            resultado.acaoValida = false;
+            resultado.mensagem = "Esse movimento nao pode ser usado agora.";
+            resultado.estadoResultante = estado;
+            return converterParaDictionary(resultado);
         }
         danoBase = movimento->getDano();
-        movimento->usar(); // consome o uso — antes disso nunca era chamado, então movimentos com usosMaximos nunca gastavam
+        movimento->usar();
     } else if (indiceGolpe == 3) {
         // 4º slot: item especial
-        if (!heroi.itemEspecialPodeUsar()) {
-            resultado.acaoValida = false;   // a ação não é válida se não houver item especial ou se ele não puder ser usado
-            resultado.mensagem = "Nenhum item especial disponivel.";    // mensagem de erro para o Godot exibir
-            resultado.estadoResultante = estado; // mantém o estado atual da batalha, que ainda é ESCOLHENDO_ACAO
-            return resultado;   // retorna o resultado do turno com a ação inválida
+        if (!heroi->itemEspecialPodeUsar()) {
+            resultado.acaoValida = false;
+            resultado.mensagem = "Nenhum item especial disponivel.";
+            resultado.estadoResultante = estado;
+            return converterParaDictionary(resultado);
         }
-        std::string nomeItem = heroi.getNomeItemEspecial();
-        int danoItem = heroi.usarItemEspecial(professor);    // o item especial é usado, causando dano no professor
-        resultado.heroiAtacou = true;   // o herói atacou usando o item especial
-        resultado.danoCausadoPeloHeroi = danoItem;  // dano causado pelo herói no professor usando o item especial
-        resultado.mensagem = heroi.getNome() + " usou " + nomeItem + "!";    // mensagem de ação para o Godot exibir
+        std::string nomeItem = heroi->getNomeItemEspecial();
+        int danoItem = heroi->usarItemEspecial(*professor);
+        resultado.heroiAtacou = true;
+        resultado.danoCausadoPeloHeroi = danoItem;
+        resultado.mensagem = heroi->getNome() + " usou " + nomeItem + "!";
 
-        if (!professor.estaVivo()) {
-            estado = EstadoBatalha::VITORIA;    // o professor foi derrotado pelo item especial
-            resultado.estadoResultante = estado;    // atualiza o estado da batalha para VITORIA
-            return resultado;   // retorna o resultado do turno com a vitória do herói
+        if (!professor->estaVivo()) {
+            estado = EstadoBatalha::VITORIA;
+            resultado.estadoResultante = estado;
+            return converterParaDictionary(resultado);
         }
 
-        return processarTurnoProfessor();   // processa a ação do professor e retorna o resultado do turno, já que o herói usou o item especial
+        ResultadoTurno resultadoProfessor = processarTurnoProfessor();
+        resultadoProfessor.heroiAtacou = resultado.heroiAtacou;
+        resultadoProfessor.danoCausadoPeloHeroi = resultado.danoCausadoPeloHeroi;
+        return converterParaDictionary(resultadoProfessor);
+    } else {
+        resultado.acaoValida = false;
+        resultado.mensagem = "Indice de golpe invalido.";
+        resultado.estadoResultante = estado;
+        return converterParaDictionary(resultado);
     }
 
     // dano final do movimento normal, passando pelos itens passivos do herói
-    int danoFinal = heroi.calcularDanoFinal(danoBase);
-    professor.receberDano(danoFinal);   // aplica o dano final no professor, considerando a defesa dele
+    int danoFinal = heroi->calcularDanoFinal(danoBase);
+    professor->receberDano(danoFinal);
 
-    resultado.heroiAtacou = true;   // o herói atacou usando o movimento normal
-    resultado.danoCausadoPeloHeroi = danoFinal; // dano causado pelo herói no professor usando o movimento normal
-    resultado.mensagem = heroi.getNome() + " atacou causando " + std::to_string(danoFinal) + " de dano!";
+    resultado.heroiAtacou = true;
+    resultado.danoCausadoPeloHeroi = danoFinal;
+    resultado.mensagem = heroi->getNome() + " atacou causando " + std::to_string(danoFinal) + " de dano!";
 
-    if (!professor.estaVivo()) {
-        estado = EstadoBatalha::VITORIA;    // o professor foi derrotado pelo movimento normal
-        resultado.estadoResultante = estado;    // atualiza o estado da batalha para VITORIA
-        return resultado;   // retorna o resultado do turno com a vitória do herói
+    if (!professor->estaVivo()) {
+        estado = EstadoBatalha::VITORIA;
+        resultado.estadoResultante = estado;
+        return converterParaDictionary(resultado);
     }
 
     ResultadoTurno resultadoComProfessor = processarTurnoProfessor();
-    // mescla o que já aconteceu no turno do herói com o resultado do turno do professor
-    resultadoComProfessor.heroiAtacou = resultado.heroiAtacou;  // mantém o valor do turno do herói
-    resultadoComProfessor.danoCausadoPeloHeroi = resultado.danoCausadoPeloHeroi;    // mantém o valor do turno do herói
-    return resultadoComProfessor;   // retorna o resultado do turno completo, incluindo a ação do professor
+    resultadoComProfessor.heroiAtacou = resultado.heroiAtacou;
+    resultadoComProfessor.danoCausadoPeloHeroi = resultado.danoCausadoPeloHeroi;
+    return converterParaDictionary(resultadoComProfessor);
 }
 
 ResultadoTurno Batalha::processarTurnoProfessor() {
-    ResultadoTurno resultado{};     // inicializa todos os campos com valores padrão
-    resultado.acaoValida = true;    // inicializa como true, será ajustado se a ação for inválida
-    resultado.heroiAtacou = false;  // inicializa como false, será ajustado se o herói atacar
-    resultado.danoCausadoPeloHeroi = 0; // inicializa como 0, será ajustado se o herói causar dano
+    ResultadoTurno resultado{};
+    resultado.acaoValida = true;
+    resultado.heroiAtacou = false;
+    resultado.danoCausadoPeloHeroi = 0;
 
-    Movimento& golpeProfessor = professor.escolherAtaque(); // o professor escolhe um ataque aleatório para usar contra o herói
+    Movimento& golpeProfessor = professor->escolherAtaque();
 
-    if (professor.isBatalhaFalsa()) {
+    if (professor->isBatalhaFalsa()) {
         // US05: entidade roteirizada, não pode causar dano real
         resultado.professorAtacou = true;
         resultado.danoCausadoPeloProfessor = 0;
-        resultado.mensagem = professor.getNome() + " faz uma cena dramática de " + golpeProfessor.getNome() + ", mas erra feio (batalha falsa).";
+        resultado.mensagem = professor->getNome() + " faz uma cena dramatica de " + golpeProfessor.getNome() + ", mas erra feio (batalha falsa).";
     } else {
-        heroi.receberDano(golpeProfessor.getDano());    // aplica o dano do golpe do professor no herói, considerando a defesa dele
-        resultado.professorAtacou = true;   // o professor atacou usando o golpe escolhido
-        resultado.danoCausadoPeloProfessor = golpeProfessor.getDano();  // dano causado pelo professor no herói usando o golpe escolhido
-        resultado.mensagem = professor.getNome() + " usou " + golpeProfessor.getNome() + "!";   // mensagem de ação para o Godot exibir
+        heroi->receberDano(golpeProfessor.getDano());
+        resultado.professorAtacou = true;
+        resultado.danoCausadoPeloProfessor = golpeProfessor.getDano();
+        resultado.mensagem = professor->getNome() + " usou " + golpeProfessor.getNome() + "!";
     }
 
     turnosDecorridos++;
 
-    if (professor.isBatalhaFalsa() && turnosDecorridos >= TURNOS_PARA_VITORIA_BATALHA_FALSA) {
+    if (professor->isBatalhaFalsa() && turnosDecorridos >= TURNOS_PARA_VITORIA_BATALHA_FALSA) {
         // US05: vitória automática após o número fixo de turnos, independente do HP do professor
         estado = EstadoBatalha::VITORIA;
-    } else if (!heroi.estaVivo()) {
-        estado = EstadoBatalha::DERROTA;    // o herói foi derrotado pelo golpe do professor
+    } else if (!heroi->estaVivo()) {
+        estado = EstadoBatalha::DERROTA;
     }
 
-    resultado.estadoResultante = estado;    // atualiza o estado da batalha para DERROTA/VITORIA se aplicável, ou mantém o estado atual
-    return resultado;   // retorna o resultado do turno completo, incluindo a ação do professor
+    resultado.estadoResultante = estado;
+    return resultado;
 }
 
-ResultadoTurno Batalha::usarItemChave() {
+Dictionary Batalha::usar_item_chave() {
     ResultadoTurno resultado{};
     resultado.heroiAtacou = false;
     resultado.danoCausadoPeloHeroi = 0;
     resultado.professorAtacou = false;
     resultado.danoCausadoPeloProfessor = 0;
 
+    if (heroi == nullptr || professor == nullptr) {
+        resultado.acaoValida = false;
+        resultado.mensagem = "Batalha nao foi inicializada (chame inicializar() antes).";
+        resultado.estadoResultante = estado;
+        return converterParaDictionary(resultado);
+    }
+
     if (estado != EstadoBatalha::ESCOLHENDO_ACAO) {
         resultado.acaoValida = false;
         resultado.mensagem = "A batalha ja terminou.";
         resultado.estadoResultante = estado;
-        return resultado;
+        return converterParaDictionary(resultado);
     }
 
-    if (!heroi.possuiItemDeChave() || !professor.isInvulneravel()) {
+    if (!heroi->possuiItemDeChave() || !professor->isInvulneravel()) {
         resultado.acaoValida = false;
         resultado.mensagem = "Nao ha nada pra usar o item de historia aqui.";
         resultado.estadoResultante = estado;
-        return resultado;
+        return converterParaDictionary(resultado);
     }
 
-    professor.removerInvulnerabilidade();
-    heroi.consumirItemChave();
+    professor->removerInvulnerabilidade();
+    heroi->consumirItemChave();
 
     resultado.acaoValida = true;
-    resultado.mensagem = professor.getNome() + " nao esta mais invulneravel!";
+    resultado.mensagem = professor->getNome() + " nao esta mais invulneravel!";
     resultado.estadoResultante = estado; // continua ESCOLHENDO_ACAO — o professor ainda nao apanhou
 
-    return resultado;
+    return converterParaDictionary(resultado);
 }
 
-ResultadoTurno Batalha::fugir() {
-    estado = EstadoBatalha::FUGIU;  // o jogador escolheu fugir da batalha, a run é perdida
+Dictionary Batalha::fugir() {
+    estado = EstadoBatalha::FUGIU; // o jogador escolheu fugir da batalha, a run é perdida
 
     ResultadoTurno resultado{};
-    resultado.acaoValida = true;    // a ação de fugir é sempre válida, não há restrições
-    resultado.mensagem = heroi.getNome() + " fugiu da batalha, o semestre foi perdido.";  // mensagem de ação para o Godot exibir
-    resultado.heroiAtacou = false;  // o herói não atacou, ele fugiu da batalha
-    resultado.danoCausadoPeloHeroi = 0; // o herói não causou dano, ele fugiu da batalha
-    resultado.professorAtacou = false;  // o professor não atacou, o herói fugiu antes do turno dele
-    resultado.danoCausadoPeloProfessor = 0; // o professor não causou dano, o herói fugiu antes do turno dele
-    resultado.estadoResultante = estado;    // atualiza o estado da batalha para FUGIU, indicando que o jogador desistiu da luta
-    return resultado;   // retorna o resultado do turno completo, incluindo a ação de fugir do herói
+    resultado.acaoValida = true;
+    resultado.mensagem = (heroi != nullptr ? heroi->getNome() : std::string("O heroi")) + " fugiu da batalha, o semestre foi perdido.";
+    resultado.heroiAtacou = false;
+    resultado.danoCausadoPeloHeroi = 0;
+    resultado.professorAtacou = false;
+    resultado.danoCausadoPeloProfessor = 0;
+    resultado.estadoResultante = estado;
+    return converterParaDictionary(resultado);
+}
+
+void Batalha::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("inicializar", "heroi", "professor"), &Batalha::inicializar);
+    ClassDB::bind_method(D_METHOD("get_estado"), &Batalha::get_estado);
+    ClassDB::bind_method(D_METHOD("get_professor"), &Batalha::get_professor);
+    ClassDB::bind_method(D_METHOD("get_heroi"), &Batalha::get_heroi);
+    ClassDB::bind_method(D_METHOD("executar_acao", "indice_golpe"), &Batalha::executar_acao);
+    ClassDB::bind_method(D_METHOD("usar_item_chave"), &Batalha::usar_item_chave);
+    ClassDB::bind_method(D_METHOD("fugir"), &Batalha::fugir);
 }

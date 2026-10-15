@@ -133,4 +133,40 @@ public:
      * retorna a pose PARADO.
      */
     std::string getCaminhoSprite(EstadoVisual estado) const;
+
+    // ======================================================================
+    // API exposta ao GDScript (wrappers "Godot-friendly" dos métodos acima).
+    // Os métodos acima continuam existindo normalmente pro lado C++/testes;
+    // estes aqui só convertem tipos (std::string -> String) pra poder
+    // ser registrados no ClassDB e chamados do GDScript.
+    // ======================================================================
+
+    /** @brief Chamar logo após `Herois.new()` no GDScript pra definir os status iniciais. */
+    void inicializar(String nome, int vidaMaxima, int defesa, int danoBase);
+
+    String get_nome() const;
+    int get_vida() const;
+    int get_vida_maxima() const;
+    int get_defesa() const;
+    int get_dano_base() const;
+    bool esta_vivo() const;
+
+    /** @brief Cria e aprende um movimento novo direto do GDScript (sem precisar expor a classe Movimento). */
+    void aprender_movimento_simples(String nome, int dano, int usosMaximos);
+    int get_quantidade_movimentos() const;
+    String get_nome_movimento(int indice) const;
+    int get_dano_movimento(int indice) const;
+
+    /** @brief Usos restantes do movimento no índice; -1 = ilimitado, 0 = esgotado (ou índice inválido). */
+    int get_usos_restantes_movimento(int indice) const;
+    /** @brief true se o movimento existe e ainda pode ser usado. */
+    bool movimento_pode_usar(int indice) const;
+
+    /**
+     * @brief Define o sprite de uma pose. estado: 0 = TOMANDO_DANO, 1 = VITORIA,
+     * 2 = DERROTA, 3 = PARADO (idle), 4 = ATACANDO (mesma ordem do enum EstadoVisual).
+     */
+    void definir_sprite(int estado, String caminho);
+    /** @brief Caminho do sprite da pose (fallback: PARADO). Mesmos valores de estado acima. */
+    String get_caminho_sprite(int estado) const;
 };
