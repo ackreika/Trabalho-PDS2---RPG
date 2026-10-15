@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://de7eoto2cxd2c"]
+
+[ext_resource type="Script" uid="uid://bj2h8r0t0y7od" path="res://Scripts/Telabatalha.gd" id="1_7tfhx"]
+
+[node name="Control" type="Control" unique_id=2016982446]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_7tfhx")
+
+[node name="LabelProfessorNome" type="Label" parent="." unique_id=367079397]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="LabelProfessorVida" type="Label" parent="." unique_id=173290688]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="LabelHeroiVida" type="Label" parent="." unique_id=1982106232]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="LabelMensagem" type="Label" parent="." unique_id=935822678]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="BotoesGolpe" type="HBoxContainer" parent="." unique_id=951962601]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Golpe0" type="Button" parent="BotoesGolpe" unique_id=1519484692]
+layout_mode = 2
+
+[node name="Golpe1" type="Button" parent="BotoesGolpe" unique_id=902829780]
+layout_mode = 2
+
+[node name="Golpe2" type="Button" parent="BotoesGolpe" unique_id=1107944874]
+layout_mode = 2
+
+[node name="BotaoFugir" type="Button" parent="." unique_id=216530067]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[connection signal="pressed" from="BotoesGolpe/Golpe0" to="." method="_on_golpe_0_pressed"]
+[connection signal="pressed" from="BotoesGolpe/Golpe1" to="." method="_on_golpe_1_pressed"]
+[connection signal="pressed" from="BotoesGolpe/Golpe2" to="." method="_on_golpe_2_pressed"]
+[connection signal="pressed" from="BotaoFugir" to="." method="_on_botao_fugir_pressed"]
