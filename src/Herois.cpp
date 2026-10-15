@@ -131,5 +131,62 @@ std::string Herois::getCaminhoSprite(EstadoVisual estado) const {
     auto fallback = spritesPorEstado.find(EstadoVisual::PARADO);
     return fallback != spritesPorEstado.end() ? fallback->second : "";
 }
+
+// ======================================================================
+// Wrappers Godot-friendly (ver Herois.hpp)
+// ======================================================================
+
+void Herois::inicializar(String nomeNovo, int vidaMaximaNova, int defesaNova, int danoBaseNovo) {
+    nome = std::string(nomeNovo.utf8().get_data());
+    vidaMaximaBase = vidaMaximaNova;
+    vidaMaxima = vidaMaximaNova;
+    vida = vidaMaximaNova;
+    defesa = defesaNova;
+    danoBase = danoBaseNovo;
+}
+
+String Herois::get_nome() const { return String(nome.c_str()); }
+int Herois::get_vida() const { return vida; }
+int Herois::get_vida_maxima() const { return vidaMaxima; }
+int Herois::get_defesa() const { return defesa; }
+int Herois::get_dano_base() const { return danoBase; }
+bool Herois::esta_vivo() const { return estaVivo(); }
+
+void Herois::aprender_movimento_simples(String nomeMovimento, int dano, int usosMaximos) {
+    std::string nomeConvertido = std::string(nomeMovimento.utf8().get_data());
+    aprenderMovimento(Movimento(nomeConvertido, dano, usosMaximos));
+}
+
+int Herois::get_quantidade_movimentos() const {
+    return static_cast<int>(movimentos.size());
+}
+
+String Herois::get_nome_movimento(int indice) const {
+    if (indice < 0 || indice >= static_cast<int>(movimentos.size())) {
+        return String("");
+    }
+    return String(movimentos[indice].getNome().c_str());
+}
+
+int Herois::get_dano_movimento(int indice) const {
+    if (indice < 0 || indice >= static_cast<int>(movimentos.size())) {
+        return 0;
+    }
+    return movimentos[indice].getDano();
+}
+
 void Herois::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("inicializar", "nome", "vida_maxima", "defesa", "dano_base"), &Herois::inicializar);
+    ClassDB::bind_method(D_METHOD("get_nome"), &Herois::get_nome);
+    ClassDB::bind_method(D_METHOD("get_vida"), &Herois::get_vida);
+    ClassDB::bind_method(D_METHOD("get_vida_maxima"), &Herois::get_vida_maxima);
+    ClassDB::bind_method(D_METHOD("get_defesa"), &Herois::get_defesa);
+    ClassDB::bind_method(D_METHOD("get_dano_base"), &Herois::get_dano_base);
+    ClassDB::bind_method(D_METHOD("esta_vivo"), &Herois::esta_vivo);
+    ClassDB::bind_method(D_METHOD("curar", "quantidade"), &Herois::curar);
+    ClassDB::bind_method(D_METHOD("receber_dano", "dano_base"), &Herois::receberDano);
+    ClassDB::bind_method(D_METHOD("aprender_movimento_simples", "nome", "dano", "usos_maximos"), &Herois::aprender_movimento_simples);
+    ClassDB::bind_method(D_METHOD("get_quantidade_movimentos"), &Herois::get_quantidade_movimentos);
+    ClassDB::bind_method(D_METHOD("get_nome_movimento", "indice"), &Herois::get_nome_movimento);
+    ClassDB::bind_method(D_METHOD("get_dano_movimento", "indice"), &Herois::get_dano_movimento);
 }
