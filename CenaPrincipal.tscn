@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://swevwraqpc6c"]
 
-[ext_resource type="Texture2D" uid="uid://b8eu56lswhe7g" path="res://imagens/Israel.png" id="1_11bju"]
-[ext_resource type="Texture2D" uid="uid://badw18tugwpew" path="res://imagens/BG_menu.jpeg" id="1_oacou"]
+[ext_resource type="Texture2D" uid="uid://ditt1pmy7dgeb" path="res://imagens/Israel.png" id="1_11bju"]
+[ext_resource type="Script" uid="uid://ckr4fn0yhda83" path="res://cena_principal.gd" id="1_a34lh"]
+[ext_resource type="Texture2D" uid="uid://br66244khyqg4" path="res://imagens/BG_menu.jpeg" id="1_oacou"]
 
 [node name="Control" type="GerenciadorInterface" unique_id=1178082262]
+script = ExtResource("1_a34lh")
 
 [node name="FundoConfig" type="TextureRect" parent="." unique_id=588007493]
 visible = false
@@ -120,3 +122,5 @@ theme_override_font_sizes/font_size = 64
 text = "Sair
 
 "
+
+[connection signal="pressed" from="ContainerBotoes/BotaoJogar" to="." method="_on_botao_jogar_pressed"]
