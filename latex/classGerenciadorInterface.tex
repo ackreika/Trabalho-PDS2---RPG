@@ -21,11 +21,32 @@ Inheritance diagram for Gerenciador\+Interface\+:\begin{figure}[H]
 \Hypertarget{classGerenciadorInterface_a66ad8eb634476f1a143cc1b1ad9d676c}\label{classGerenciadorInterface_a66ad8eb634476f1a143cc1b1ad9d676c} 
 {\bfseries Gerenciador\+Interface} ()
 \begin{DoxyCompactList}\small\item\em Cria o gerenciador já no MENU\+\_\+\+INICIAL, volume 1.\+0 e resolução padrão. \end{DoxyCompactList}\item 
-\Hypertarget{classGerenciadorInterface_abd5f4e2aa43261ec92fc1b0039deb5f8}\label{classGerenciadorInterface_abd5f4e2aa43261ec92fc1b0039deb5f8} 
-int {\bfseries get\+Estado\+Atual} () const
+\Hypertarget{classGerenciadorInterface_a1212eb4be8958c042d94016e3ef55647}\label{classGerenciadorInterface_a1212eb4be8958c042d94016e3ef55647} 
+void {\bfseries \+\_\+ready} () override
+\item 
+\Hypertarget{classGerenciadorInterface_af2762729e396731423680fbcfd7ea5f3}\label{classGerenciadorInterface_af2762729e396731423680fbcfd7ea5f3} 
+void {\bfseries clicar\+\_\+jogar} ()
+\item 
+\Hypertarget{classGerenciadorInterface_aeb299742e20e767326106ac75834cbda}\label{classGerenciadorInterface_aeb299742e20e767326106ac75834cbda} 
+void {\bfseries clicar\+\_\+configuracoes} ()
+\item 
+\Hypertarget{classGerenciadorInterface_ace6ef54f9178795854adfe9be46879af}\label{classGerenciadorInterface_ace6ef54f9178795854adfe9be46879af} 
+void {\bfseries clicar\+\_\+sair} ()
+\item 
+\Hypertarget{classGerenciadorInterface_ae9c7aa90b842d02cbab3e3bff4510bfd}\label{classGerenciadorInterface_ae9c7aa90b842d02cbab3e3bff4510bfd} 
+void {\bfseries clicar\+\_\+voltar} ()
+\item 
+\Hypertarget{classGerenciadorInterface_a1546221a3051eb7b3bf45bfeacfec52b}\label{classGerenciadorInterface_a1546221a3051eb7b3bf45bfeacfec52b} 
+void {\bfseries mudar\+\_\+volume} (float valor)
+\item 
+\Hypertarget{classGerenciadorInterface_a78a6885a4923ab1ba4e077eeeebafd2a}\label{classGerenciadorInterface_a78a6885a4923ab1ba4e077eeeebafd2a} 
+void {\bfseries mudar\+\_\+resolucao} (int indice)
+\item 
+\Hypertarget{classGerenciadorInterface_ab689170bdf0f224f627c6ddeaf8bc9ac}\label{classGerenciadorInterface_ab689170bdf0f224f627c6ddeaf8bc9ac} 
+\mbox{\hyperlink{classgodot_1_1GerenciadorMenu_ade845ff0682017e5a266dc91acb111f4}{Gerenciador\+Menu\+::\+Estado\+Menu}} {\bfseries get\+Estado\+Atual} () const
 \begin{DoxyCompactList}\small\item\em Retorna o int correspondente ao Estado\+Menu atual. \end{DoxyCompactList}\item 
-\Hypertarget{classGerenciadorInterface_a776d77888ed1e467f51bdb24c670497b}\label{classGerenciadorInterface_a776d77888ed1e467f51bdb24c670497b} 
-void {\bfseries ir\+Para} (int novo\+Estado)
+\Hypertarget{classGerenciadorInterface_af5d3b458f0180ed6728e433a834fc372}\label{classGerenciadorInterface_af5d3b458f0180ed6728e433a834fc372} 
+void {\bfseries ir\+Para} (\mbox{\hyperlink{classgodot_1_1GerenciadorMenu_ade845ff0682017e5a266dc91acb111f4}{Gerenciador\+Menu\+::\+Estado\+Menu}} novo\+Estado)
 \begin{DoxyCompactList}\small\item\em Muda o estado do menu (recebe o int, converte pra Estado\+Menu internamente). \end{DoxyCompactList}\item 
 \Hypertarget{classGerenciadorInterface_a17abf5eb75429e8c1e9dee664d78889c}\label{classGerenciadorInterface_a17abf5eb75429e8c1e9dee664d78889c} 
 void {\bfseries voltar} ()
