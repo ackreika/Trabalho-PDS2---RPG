@@ -34,13 +34,16 @@ public:
 
     void _ready() override;
     // Logica dos botões
-    void clicar_jogar(); 
+    void clicar_jogar();
+    void iniciar_batalha(); 
     void clicar_configuracoes();
     void clicar_sair();
     void clicar_voltar(); 
     void mudar_volume(float valor);
     void mudar_resolucao(int indice);
-    
+    void clicar_mundo_principal();
+    void clicar_quests();
+    void clicar_equipamento();
     /** @brief Retorna o int correspondente ao EstadoMenu atual. */
     GerenciadorMenu::EstadoMenu getEstadoAtual() const;
     /** @brief Muda o estado do menu (recebe o int, converte pra EstadoMenu internamente). */
