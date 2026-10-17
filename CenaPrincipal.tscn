@@ -1,14 +1,21 @@
 [gd_scene format=3 uid="uid://swevwraqpc6c"]
 
-[ext_resource type="Texture2D" uid="uid://ditt1pmy7dgeb" path="res://imagens/Israel.png" id="1_11bju"]
-[ext_resource type="Script" uid="uid://ckr4fn0yhda83" path="res://cena_principal.gd" id="1_a34lh"]
-[ext_resource type="Texture2D" uid="uid://br66244khyqg4" path="res://imagens/BG_menu.jpeg" id="1_oacou"]
+[ext_resource type="Texture2D" uid="uid://b8eu56lswhe7g" path="res://imagens/Israel.png" id="1_11bju"]
+[ext_resource type="Texture2D" uid="uid://cjleu1otjmoaw" path="res://imagens/maxpayne.jpg" id="1_a34lh"]
+[ext_resource type="Texture2D" uid="uid://badw18tugwpew" path="res://imagens/BG_menu.jpeg" id="1_oacou"]
 
 [node name="Control" type="GerenciadorInterface" unique_id=1178082262]
-script = ExtResource("1_a34lh")
+
+[node name="FundoJogo" type="TextureRect" parent="." unique_id=1823759067]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_a34lh")
+expand_mode = 1
 
 [node name="FundoConfig" type="TextureRect" parent="." unique_id=588007493]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -123,4 +130,36 @@ text = "Sair
 
 "
 
-[connection signal="pressed" from="ContainerBotoes/BotaoJogar" to="." method="_on_botao_jogar_pressed"]
+[node name="ContainerJogar" type="VBoxContainer" parent="." unique_id=1564406455]
+visible = false
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.35
+anchor_right = 0.5
+anchor_bottom = 0.35
+offset_left = -208.40001
+offset_top = 71.2
+offset_bottom = 284.0
+grow_horizontal = 2
+theme_override_constants/separation = 10
+
+[node name="BotaoMundo" type="Button" parent="ContainerJogar" unique_id=1582818964]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Batalhar"
+
+[node name="BotaoQuests" type="Button" parent="ContainerJogar" unique_id=1340643676]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Quests
+"
+
+[node name="BotaoEquipamento" type="Button" parent="ContainerJogar" unique_id=1892473954]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Equipamento e Atributos"
+
+[node name="BotaoVoltar" type="Button" parent="ContainerJogar" unique_id=668896184]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Voltar para o Menu"

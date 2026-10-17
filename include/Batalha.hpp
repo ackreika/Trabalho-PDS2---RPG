@@ -76,7 +76,8 @@ private:
 public:
     /** @brief Construtor padrão (exigido pelo Godot); chame inicializar() em seguida. */
     Batalha();
-
+    
+    Batalha(Herois* h, Professor* p);
     /**
      * @brief Prepara a batalha. Precisa ser chamado logo após `Batalha.new()` no GDScript,
      * antes de qualquer outra chamada.
@@ -92,6 +93,8 @@ public:
     /** @brief Retorna o Herois que está lutando (pra ler nome/vida na UI). */
     Herois* get_heroi() const;
 
+    EstadoBatalha getEstado();
+    ResultadoTurno executarAcao(int indice_movimento);
     /**
      * @brief Executa a ação escolhida pelo jogador no turno atual.
      * @param indiceGolpe 0, 1 ou 2 = movimento do herói; 3 = item especial (4º slot).
