@@ -36,3 +36,8 @@ cmake-build-*/
 *.gcno
 *.gcda
 *.gcov
+
+# Doxygen
+Doxyfile
+html/
+latex/

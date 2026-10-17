@@ -1,0 +1,49 @@
+\doxysection{Gerenciador\+Interface.\+hpp}
+\hypertarget{GerenciadorInterface_8hpp_source}{}\label{GerenciadorInterface_8hpp_source}\index{include/GerenciadorInterface.hpp@{include/GerenciadorInterface.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/canvas\_layer.hpp>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/button.hpp>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}EstadoMenu.hpp"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{using\ namespace\ }godot;}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGerenciadorInterface_a66ad8eb634476f1a143cc1b1ad9d676c}{GerenciadorInterface}}\ :\ \textcolor{keyword}{public}\ CanvasLayer\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ GDCLASS(\mbox{\hyperlink{classGerenciadorInterface_a66ad8eb634476f1a143cc1b1ad9d676c}{GerenciadorInterface}},\ CanvasLayer)}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{classgodot_1_1GerenciadorMenu_ade845ff0682017e5a266dc91acb111f4}{GerenciadorMenu::EstadoMenu}}\ estadoAtual;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{float}\ volume;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ indiceResolucao;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ atualizar\_telas();}
+\DoxyCodeLine{00027\ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorInterface_ad1007919c0e8b3b96ecd3bf054c32d6b}{\_bind\_methods}}();}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{classGerenciadorInterface_a66ad8eb634476f1a143cc1b1ad9d676c}{GerenciadorInterface}}();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ \_ready()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{comment}{//\ Logica\ dos\ botões}}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ clicar\_jogar();\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ clicar\_configuracoes();}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ clicar\_sair();}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ clicar\_voltar();\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ mudar\_volume(\textcolor{keywordtype}{float}\ valor);}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ mudar\_resolucao(\textcolor{keywordtype}{int}\ indice);}
+\DoxyCodeLine{00043\ \ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{classgodot_1_1GerenciadorMenu_ade845ff0682017e5a266dc91acb111f4}{GerenciadorMenu::EstadoMenu}}\ \mbox{\hyperlink{classGerenciadorInterface_ab689170bdf0f224f627c6ddeaf8bc9ac}{getEstadoAtual}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorInterface_af5d3b458f0180ed6728e433a834fc372}{irPara}}(\mbox{\hyperlink{classgodot_1_1GerenciadorMenu_ade845ff0682017e5a266dc91acb111f4}{GerenciadorMenu::EstadoMenu}}\ novoEstado);}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorInterface_a17abf5eb75429e8c1e9dee664d78889c}{voltar}}();}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classGerenciadorInterface_a08757ee32b25c512a3a7b376d96403d7}{getVolume}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorInterface_a0c67bae2a91f3daf35d3e27c33d36b44}{definirVolume}}(\textcolor{keywordtype}{float}\ novoVolume);}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classGerenciadorInterface_aaf7c1e0b59de1b524ad472bbe3e4568b}{getIndiceResolucao}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorInterface_a9bede72f0e6909adc23f446cb82535e1}{definirIndiceResolucao}}(\textcolor{keywordtype}{int}\ indice);}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classGerenciadorInterface_a7512924813212c7907ba8658435c6380}{iniciarOuRetomarPartida}}();}
+\DoxyCodeLine{00063\ \};}
+
+\end{DoxyCode}
