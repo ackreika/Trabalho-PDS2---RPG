@@ -169,4 +169,28 @@ public:
     void definir_sprite(int estado, String caminho);
     /** @brief Caminho do sprite da pose (fallback: PARADO). Mesmos valores de estado acima. */
     String get_caminho_sprite(int estado) const;
+    
+    /** @brief Cria o item passivo pelo nome do ID (ex: "HALTER", "SUCO") e adiciona ao herói. Retorna o nome do item, ou "" se o ID não existir. */
+    String dar_item_passivo(String id);
+    /** @brief Cria o item especial pelo nome do ID (ex: "LASER") e equipa no 4º slot. Retorna o nome, ou "" se o ID não existir. */
+    String dar_item_especial(String id);
+
+    /** @brief Retorna a quantidade de itens passivos coletados. */
+    int get_quantidade_itens_passivos() const;
+    /** @brief Retorna o nome do item passivo no índice informado, ou "" se inválido. */
+    String get_nome_item_passivo(int indice) const;
+    /** @brief Retorna true se o herói possuir um item especial equipado. */
+    bool possui_item_especial() const;
+    /** @brief Retorna o nome do item especial equipado, ou "" se nenhum estiver equipado. */
+    String get_nome_item_especial() const;
+    /** @brief Retorna a quantidade de usos restantes do item especial equipado, ou 0 se nenhum estiver equipado. */
+    int get_usos_item_especial() const;
+
+    /** @brief Obtém o item de chave. */
+    void obter_item_chave();
+    /** @brief Retorna true se o herói possuir o item de chave. */
+    bool possui_item_chave() const;
+    /** @brief Soma bônus permanentes (upgrades do menu) à vida máxima base e ao dano base, e enche a vida. Chamar logo após inicializar(). */
+    void aplicar_bonus_permanente(int bonusVida, int bonusDano);
+
 };
