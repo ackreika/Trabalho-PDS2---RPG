@@ -3,13 +3,41 @@
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/node.hpp>}}
-\DoxyCodeLine{00004\ \textcolor{keyword}{enum\ class}\ EstadoMenu\ \{}
-\DoxyCodeLine{00005\ \ \ \ \ MENU\_INICIAL,}
-\DoxyCodeLine{00006\ \ \ \ \ MENU\_JOGAR,\ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00007\ \ \ \ \ MENU\_CONFIGURACOES,\ \ }
-\DoxyCodeLine{00008\ \ \ \ \ MENU\_INVENTARIO,}
-\DoxyCodeLine{00009\ \ \ \ \ EM\_BATALHA,}
-\DoxyCodeLine{00010\ \};}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <godot\_cpp/core/class\_db.hpp>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <godot\_cpp/classes/node.hpp>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{namespace\ }godot\ \{}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }GerenciadorMenu\ :\ \textcolor{keyword}{public}\ Node}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ GDCLASS(GerenciadorMenu,\ Node)}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \_bind\_methods();}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{classgodot_1_1GerenciadorMenu_ade845ff0682017e5a266dc91acb111f4}{EstadoMenu}}\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ MENU\_INICIAL,}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classgodot_1_1GerenciadorMenu_ade845ff0682017e5a266dc91acb111f4ad934f1102b73cd7151906ebd611a2128}{MENU\_JOGAR}},\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{classgodot_1_1GerenciadorMenu_ade845ff0682017e5a266dc91acb111f4af4c7e665903c91dcec4e347d622100ff}{MENU\_CONFIGURACOES}},\ \ }
+\DoxyCodeLine{00020\ \ \ \ \ MENU\_INVENTARIO,}
+\DoxyCodeLine{00021\ \ \ \ \ EM\_BATALHA,}
+\DoxyCodeLine{00022\ \};}
+\DoxyCodeLine{00023\ \ \ \ \ }
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{classgodot_1_1GerenciadorMenu}{GerenciadorMenu}}();}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{classgodot_1_1GerenciadorMenu}{\string~GerenciadorMenu}}();}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_estado(\mbox{\hyperlink{classgodot_1_1GerenciadorMenu_ade845ff0682017e5a266dc91acb111f4}{EstadoMenu}}\ estado);}
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{classgodot_1_1GerenciadorMenu_ade845ff0682017e5a266dc91acb111f4}{GerenciadorMenu::EstadoMenu}}\ get\_estado()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{private}:\ }
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{classgodot_1_1GerenciadorMenu_ade845ff0682017e5a266dc91acb111f4}{EstadoMenu}}\ estado\_atual\ =\ EstadoMenu::MENU\_INICIAL;}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \}}
+\DoxyCodeLine{00037\ VARIANT\_ENUM\_CAST(\mbox{\hyperlink{classgodot_1_1GerenciadorMenu_ade845ff0682017e5a266dc91acb111f4}{godot::GerenciadorMenu::EstadoMenu}});}
+\DoxyCodeLine{00038\ }
 
 \end{DoxyCode}

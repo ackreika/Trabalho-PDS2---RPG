@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['batalha_0',['Batalha',['../classBatalha.html',1,'Batalha'],['../classBatalha.html#a57be806e5f4aa4893fa6a0ac9c93fe85',1,'Batalha::Batalha()']]]
+  ['descrição_20inicial_20do_20problema_0',['Descrição Inicial do Problema',['../md_README.html#autotoc_md2',1,'']]],
+  ['do_20grupo_1',['Membros do Grupo',['../md_README.html#autotoc_md1',1,'']]],
+  ['do_20icex_3a_20roguelite_2',['Fuja do ICEx: Roguelite',['../md_README.html',1,'']]],
+  ['do_20problema_3',['Descrição Inicial do Problema',['../md_README.html#autotoc_md2',1,'']]]
 ];
