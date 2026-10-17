@@ -1,5 +1,6 @@
 #include "Herois.hpp"
 #include "Professor.hpp"
+#include "ItensConcretos.hpp"
 #include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
@@ -196,6 +197,47 @@ void Herois::definir_sprite(int estado, String caminho) {
     definirSprite(static_cast<EstadoVisual>(estado), std::string(caminho.utf8().get_data()));
 }
 
+
+int Herois::get_quantidade_itens_passivos() const { return getQuantidadeItensPassivos(); }
+String Herois::get_nome_item_passivo(int indice) const { return String(getNomeItemPassivo(indice).c_str()); }
+
+void Herois::aplicar_bonus_permanente(int bonusVida, int bonusDano) {
+    vidaMaximaBase += bonusVida;
+    danoBase += bonusDano;
+    recalcularVidaMaxima();
+    vida = vidaMaxima; // começa a run com a vida cheia
+}
+
+String Herois::dar_item_passivo(String id) {
+    std::string chave = std::string(id.utf8().get_data());
+    ItemId itemId;
+    if (chave == "HALTER")      itemId = ItemId::HALTER;
+    else if (chave == "SUCO")   itemId = ItemId::SUCO;
+    else return String("");
+
+    ItemPassivo item = criarItemPassivo(itemId);
+    adicionarItemPassivo(item);
+    return String(item.nome.c_str());
+}
+
+String Herois::dar_item_especial(String id) {
+    std::string chave = std::string(id.utf8().get_data());
+    ItemId itemId;
+    if (chave == "LASER") itemId = ItemId::LASER;
+    else return String("");
+
+    ItemEspecial item = criarItemEspecial(itemId);
+    definirItemEspecial(item);
+    return String(item.nome.c_str());
+}
+
+bool Herois::possui_item_especial() const { return possuiItemEspecial(); }
+String Herois::get_nome_item_especial() const { return String(getNomeItemEspecial().c_str()); }
+int Herois::get_usos_item_especial() const { return possuiItemEspecialAtivo ? itemEspecialAtivo.usosRestantes : 0; }
+
+void Herois::obter_item_chave() { obterItemChave(); }
+bool Herois::possui_item_chave() const { return possuiItemDeChave(); }
+
 String Herois::get_caminho_sprite(int estado) const {
     return String(getCaminhoSprite(static_cast<EstadoVisual>(estado)).c_str());
 }
@@ -218,4 +260,14 @@ void Herois::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_quantidade_movimentos"), &Herois::get_quantidade_movimentos);
     ClassDB::bind_method(D_METHOD("get_nome_movimento", "indice"), &Herois::get_nome_movimento);
     ClassDB::bind_method(D_METHOD("get_dano_movimento", "indice"), &Herois::get_dano_movimento);
+    ClassDB::bind_method(D_METHOD("get_quantidade_itens_passivos"), &Herois::get_quantidade_itens_passivos);
+    ClassDB::bind_method(D_METHOD("get_nome_item_passivo", "indice"), &Herois::get_nome_item_passivo);
+    ClassDB::bind_method(D_METHOD("possui_item_especial"), &Herois::possui_item_especial);
+    ClassDB::bind_method(D_METHOD("get_nome_item_especial"), &Herois::get_nome_item_especial);
+    ClassDB::bind_method(D_METHOD("get_usos_item_especial"), &Herois::get_usos_item_especial);
+    ClassDB::bind_method(D_METHOD("obter_item_chave"), &Herois::obter_item_chave);
+    ClassDB::bind_method(D_METHOD("possui_item_chave"), &Herois::possui_item_chave);
+    ClassDB::bind_method(D_METHOD("aplicar_bonus_permanente", "bonus_vida", "bonus_dano"), &Herois::aplicar_bonus_permanente);
+    ClassDB::bind_method(D_METHOD("dar_item_passivo", "id"), &Herois::dar_item_passivo);
+    ClassDB::bind_method(D_METHOD("dar_item_especial", "id"), &Herois::dar_item_especial);
 }

@@ -93,7 +93,8 @@ void GerenciadorInterface::atualizar_telas()
         menu_principal->set_visible(is_menu);
         menu_config->set_visible(is_config);
         
-        if (menu_jogar) {
+        if (menu_jogar) 
+        {
             menu_jogar->set_visible(is_jogar);
         }
 

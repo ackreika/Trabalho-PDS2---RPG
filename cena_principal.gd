@@ -11,6 +11,10 @@ func _process(delta: float) -> void:
 	pass
 
 
+
+func _on_botao_upgrades_pressed() -> void:
+	get_tree().change_scene_to_file("res://TelaUpgrades.tscn")
+
 func _on_botao_jogar_pressed() -> void:
 	Global.iniciar_primeira_batalha()
 	get_tree().change_scene_to_file("res://Batalha.tscn")

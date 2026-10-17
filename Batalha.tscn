@@ -25,23 +25,28 @@ texture = ExtResource("3_ubxm8")
 
 [node name="LabelProfessorNome" type="Label" parent="." unique_id=367079397]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 231.0
+offset_right = 435.0
+offset_bottom = 93.0
 
 [node name="LabelProfessorVida" type="Label" parent="." unique_id=173290688]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 710.0
+offset_top = 1.0
+offset_right = 910.0
+offset_bottom = 154.0
 
 [node name="LabelHeroiVida" type="Label" parent="." unique_id=1982106232]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_right = 245.0
+offset_bottom = 100.0
 
 [node name="LabelMensagem" type="Label" parent="." unique_id=935822678]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 438.0
+offset_top = 1.0
+offset_right = 735.0
+offset_bottom = 115.0
 
 [node name="BotoesGolpe" type="HBoxContainer" parent="." unique_id=951962601]
 layout_mode = 0
@@ -61,10 +66,33 @@ layout_mode = 2
 
 [node name="BotaoFugir" type="Button" parent="." unique_id=216530067]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = 1055.0
+offset_top = 7.0
+offset_right = 1122.0
+offset_bottom = 655.0
+text = "Desistir"
+
+[node name="BotaoItemEspecial" type="Button" parent="." unique_id=1889012989]
+layout_mode = 0
+offset_left = 979.0
+offset_top = 5.0
+offset_right = 1050.0
+offset_bottom = 653.0
+text = "Item
+Especial"
+
+[node name="BotaoItemChave" type="Button" parent="." unique_id=1733468487]
+layout_mode = 0
+offset_left = 922.0
+offset_top = 4.0
+offset_right = 978.0
+offset_bottom = 652.0
+text = "Item
+Chave"
 
 [connection signal="pressed" from="BotoesGolpe/Golpe0" to="." method="_on_golpe_0_pressed"]
 [connection signal="pressed" from="BotoesGolpe/Golpe1" to="." method="_on_golpe_1_pressed"]
 [connection signal="pressed" from="BotoesGolpe/Golpe2" to="." method="_on_golpe_2_pressed"]
 [connection signal="pressed" from="BotaoFugir" to="." method="_on_botao_fugir_pressed"]
+[connection signal="pressed" from="BotaoItemEspecial" to="." method="_on_botao_item_especial_pressed"]
+[connection signal="pressed" from="BotaoItemChave" to="." method="_on_botao_item_chave_pressed"]

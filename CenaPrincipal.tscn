@@ -114,6 +114,11 @@ theme_override_font_sizes/font_size = 64
 text = "Jogar
 "
 
+[node name="BotaoUpgrades" type="Button" parent="ContainerBotoes" unique_id=516737630]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Upgrades"
+
 [node name="BotaoConfig" type="Button" parent="ContainerBotoes" unique_id=1830915783]
 layout_mode = 2
 offset_transform_position = Vector2(50, 100)
@@ -129,6 +134,9 @@ theme_override_font_sizes/font_size = 64
 text = "Sair
 
 "
+
+[connection signal="pressed" from="ContainerBotoes/BotaoJogar" to="." method="_on_botao_jogar_pressed"]
+[connection signal="pressed" from="ContainerBotoes/BotaoUpgrades" to="." method="_on_botao_upgrades_pressed"]
 
 [node name="ContainerJogar" type="VBoxContainer" parent="." unique_id=1564406455]
 visible = false
