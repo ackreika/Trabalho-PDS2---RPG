@@ -21,16 +21,33 @@ const BATALHAS_POR_AREA := {0: 3, 1: 2, 2: 4, 3: 2}
 ## Monta o herói (se ainda não existir) e a primeira batalha da área/índice atuais.
 ## Chame isso quando o jogador clicar em "Jogar".
 func iniciar_primeira_batalha() -> void:
-	if heroi == null:
-		heroi = Herois.new()
-		heroi.inicializar("Estudante", 100, 10, 20) # nome, vida_maxima, defesa, dano_base
-		heroi.aprender_movimento_simples("Derivada Rapida", 15, -1)      # -1 = usos ilimitados
-		heroi.aprender_movimento_simples("Integral por Partes", 25, 3)   # só 3 usos
-		heroi.aprender_movimento_simples("Limite Fundamental", 10, -1)
+	encerrar_run()  # NOVO: limpa o herói e o professor da run anterior
+
+	# é sempre criado do zero, então o bloco fica sem indentação extra)
+	heroi = Herois.new()
+	heroi.inicializar("Estudante", 100, 10, 20) # nome, vida_maxima, defesa, dano_base
+	Progresso.aplicar_ao_heroi(heroi)           # NOVO: aplica os upgrades comprados
+	heroi.aprender_movimento_simples("Derivada Rapida", 15, -1)      # -1 = usos ilimitados
+	heroi.aprender_movimento_simples("Integral por Partes", 25, 3)   # só 3 usos
+	heroi.aprender_movimento_simples("Limite Fundamental", 10, -1)
+
+	# NOVO, só para testar (apague depois):
+	heroi.dar_item_passivo("HALTER")
+	heroi.dar_item_especial("LASER")
+	heroi.obter_item_chave()
 
 	id_area_atual = 0
 	indice_batalha_atual = 1
 	_iniciar_batalha_atual()
+	
+func encerrar_run() -> void:
+	batalha_atual = null
+	if is_instance_valid(professor_atual):
+		professor_atual.free()
+	if is_instance_valid(heroi):
+		heroi.free()
+	professor_atual = null
+	heroi = null
 
 ## Avança pra próxima batalha (chamar depois de uma VITORIA). Troca de área
 ## automaticamente quando a área atual acaba. Retorna false se o jogo já acabou.

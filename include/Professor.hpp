@@ -83,6 +83,9 @@ public:
     /** @brief Remove a invulnerabilidade do Boss (chamado ao usar o item de história na batalha). */
     void removerInvulnerabilidade();
 
+    int get_tipo() const;
+    bool is_batalha_falsa() const;
+
     /** @brief Retorna true se essa for uma batalha roteirizada (US05), sem dano real. */
     bool isBatalhaFalsa() const;
 
@@ -126,10 +129,6 @@ public:
     /** @brief Cria e adiciona um movimento ao professor direto do GDScript. */
     void adicionar_movimento_simples(String nome, int dano, int usosMaximos);
 
-    /** @brief 0 = COMUM, 1 = MINIBOSS, 2 = BOSS. */
-    int get_tipo() const;
-    /** @brief true se for batalha roteirizada (sem dano real). */
-    bool is_batalha_falsa() const;
 
     /**
      * @brief Define o sprite de uma pose. estado: 0 = TOMANDO_DANO, 1 = VITORIA,

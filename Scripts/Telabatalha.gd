@@ -20,6 +20,8 @@ func _ready() -> void:
 	
 	# Define o sprite inicial do professor como PARADO (estado 3)
 	atualizar_sprite_professor(ESTADO_PARADO)
+	$BotaoItemEspecial.pressed.connect(_on_botao_item_especial_pressed)
+	$BotaoItemChave.pressed.connect(_on_botao_item_chave_pressed)
 
 func atualizar_tela() -> void:
 	var batalha: Batalha = Global.batalha_atual
@@ -39,9 +41,26 @@ func atualizar_tela() -> void:
 			botao.text = "-"
 			botao.disabled = true
 
+	atualizar_botoes_item()
+
 func _on_golpe_0_pressed() -> void: _executar_turno(0)
 func _on_golpe_1_pressed() -> void: _executar_turno(1)
 func _on_golpe_2_pressed() -> void: _executar_turno(2)
+func _on_item_especial_pressed() -> void: _executar_turno(3)
+
+func _on_item_chave_pressed() -> void:
+	var resultado: Dictionary = Global.batalha_atual.usar_item_chave()
+	$LabelMensagem.text = resultado["mensagem"]
+	atualizar_tela()
+	_verificar_fim_de_batalha(resultado["estado_resultante"])
+
+func atualizar_botoes_item() -> void:
+	var heroi: Herois = Global.batalha_atual.get_heroi()
+	$BotaoItemEspecial.visible = heroi.possui_item_especial()
+	$BotaoItemEspecial.text = "%s (%d)" % [heroi.get_nome_item_especial(), heroi.get_usos_item_especial()]
+	$BotaoItemEspecial.disabled = heroi.get_usos_item_especial() <= 0
+	$BotaoItemChave.visible = heroi.possui_item_chave()
+	$BotaoItemChave.disabled = false
 
 func _executar_turno(indice: int) -> void:
 	# Quando o jogador ataca, podemos mudar temporariamente o sprite do professor para ATACANDO (estado 4)
@@ -113,3 +132,11 @@ func _desabilitar_botoes() -> void:
 	for i in range(3):
 		get_node("BotoesGolpe/Golpe%d" % i).disabled = true
 	$BotaoFugir.disabled = true
+
+
+func _on_botao_item_especial_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_botao_item_chave_pressed() -> void:
+	pass # Replace with function body.
