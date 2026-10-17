@@ -10,4 +10,11 @@ enum class ItemId {
     HALTER = 0,
     SUCO = 1,
     LASER = 2,
+    JAMES_STEWART = 3,
+    INTEGRAL = 4,
+    DERIVADA = 5,
+    VETOR = 6,
+    INTERPOLACAO = 7,
+    REFRIGERADOR = 8,
+    PONTEIRO = 9,
 };
