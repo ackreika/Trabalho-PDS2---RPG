@@ -7,7 +7,7 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "GerenciadorQuiz.hpp", "GerenciadorQuiz_8hpp_source.html", null ],
     [ "GerenciadorRecompensas.hpp", "GerenciadorRecompensas_8hpp_source.html", null ],
     [ "GerenciadorSemestre.hpp", "GerenciadorSemestre_8hpp_source.html", null ],
-    [ "herois.hpp", "herois_8hpp_source.html", null ],
+    [ "Herois.hpp", "Herois_8hpp_source.html", null ],
     [ "ItemEspecial.hpp", "ItemEspecial_8hpp_source.html", null ],
     [ "ItemPassivo.hpp", "ItemPassivo_8hpp_source.html", null ],
     [ "ItensConcretos.hpp", "ItensConcretos_8hpp_source.html", null ],
@@ -18,5 +18,5 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "Professor.hpp", "Professor_8hpp_source.html", null ],
     [ "ProfessoresFabrica.hpp", "ProfessoresFabrica_8hpp_source.html", null ],
     [ "ProgressoJogador.hpp", "ProgressoJogador_8hpp_source.html", null ],
-    [ "register_types.h", "register__types_8h_source.html", null ]
+    [ "Register_types.hpp", "Register__types_8hpp_source.html", null ]
 ];

@@ -1,5 +1,8 @@
 var annotated_dup =
 [
+    [ "godot", null, [
+      [ "GerenciadorMenu", "classgodot_1_1GerenciadorMenu.html", "classgodot_1_1GerenciadorMenu" ]
+    ] ],
     [ "Batalha", "classBatalha.html", "classBatalha" ],
     [ "GerenciadorInterface", "classGerenciadorInterface.html", "classGerenciadorInterface" ],
     [ "GerenciadorQuiz", "classGerenciadorQuiz.html", "classGerenciadorQuiz" ],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['herois_0',['Herois',['../classHerois.html',1,'Herois'],['../classHerois.html#a8979c43da6f507601e89be80fbdcc2fe',1,'Herois::Herois()']]]
+  ['objetivos_20principais_0',['Objetivos Principais',['../md_README.html#autotoc_md3',1,'']]]
 ];

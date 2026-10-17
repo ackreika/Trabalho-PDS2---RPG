@@ -11,7 +11,7 @@ var searchData=
   ['getdanobase_8',['getDanoBase',['../classHerois.html#a3a41e4191536d7dd8c6503b96e4b4272',1,'Herois']]],
   ['getdefesa_9',['getDefesa',['../classHerois.html#ace35582049fa39578d1cb88d3720dbbe',1,'Herois']]],
   ['getestado_10',['getEstado',['../classBatalha.html#ac8d0324bc1f39a5b6637c667560a0f72',1,'Batalha']]],
-  ['getestadoatual_11',['getEstadoAtual',['../classGerenciadorInterface.html#abd5f4e2aa43261ec92fc1b0039deb5f8',1,'GerenciadorInterface']]],
+  ['getestadoatual_11',['getEstadoAtual',['../classGerenciadorInterface.html#ab689170bdf0f224f627c6ddeaf8bc9ac',1,'GerenciadorInterface']]],
   ['getidareaatual_12',['getIdAreaAtual',['../classGerenciadorSemestre.html#a0e6a9d9d9cdab0e87b656d2c104f555f',1,'GerenciadorSemestre']]],
   ['getindicebatalhaatual_13',['getIndiceBatalhaAtual',['../classGerenciadorSemestre.html#a6b1740e474f243e06a249f9e5461f8d3',1,'GerenciadorSemestre']]],
   ['getindiceresolucao_14',['getIndiceResolucao',['../classGerenciadorInterface.html#aaf7c1e0b59de1b524ad472bbe3e4568b',1,'GerenciadorInterface']]],
