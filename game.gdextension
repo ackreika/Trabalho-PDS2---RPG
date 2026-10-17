@@ -1,0 +1,7 @@
+[configuration]
+entry_symbol = "game_library_init"
+compatibility_minimum = "4.1"
+
+[libraries]
+linux.x86_64 = "res://build/libgame.linux.template_debug.x86_64.so"
+windows.x86_64 = "res://build/libgame.windows.template_debug.x86_64.dll"
