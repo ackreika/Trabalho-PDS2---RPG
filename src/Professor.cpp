@@ -64,6 +64,9 @@ std::string Professor::getCaminhoSprite(EstadoVisual estado) const {
     return fallback != spritesPorEstado.end() ? fallback->second : "";
 }
 
+int Professor::get_tipo() const { return static_cast<int>(tipo); }
+bool Professor::is_batalha_falsa() const { return ehBatalhaFalsa; }
+
 // ======================================================================
 // Wrappers Godot-friendly (ver Professor.hpp)
 // ======================================================================
@@ -91,9 +94,6 @@ void Professor::adicionar_movimento_simples(String nomeMovimento, int dano, int 
     adicionarMovimento(Movimento(nomeConvertido, dano, usosMaximos));
 }
 
-int Professor::get_tipo() const { return static_cast<int>(tipo); }
-bool Professor::is_batalha_falsa() const { return ehBatalhaFalsa; }
-
 void Professor::definir_sprite(int estado, String caminho) {
     definirSprite(static_cast<EstadoVisual>(estado), std::string(caminho.utf8().get_data()));
 }
@@ -103,8 +103,6 @@ String Professor::get_caminho_sprite(int estado) const {
 }
 
 void Professor::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("get_tipo"), &Professor::get_tipo);
-    ClassDB::bind_method(D_METHOD("is_batalha_falsa"), &Professor::is_batalha_falsa);
     ClassDB::bind_method(D_METHOD("definir_sprite", "estado", "caminho"), &Professor::definir_sprite);
     ClassDB::bind_method(D_METHOD("get_caminho_sprite", "estado"), &Professor::get_caminho_sprite);
     ClassDB::bind_method(D_METHOD("inicializar", "nome", "materia", "vida_maxima", "defesa", "tipo", "batalha_falsa"), &Professor::inicializar);
@@ -115,4 +113,7 @@ void Professor::_bind_methods() {
     ClassDB::bind_method(D_METHOD("esta_vivo"), &Professor::esta_vivo);
     ClassDB::bind_method(D_METHOD("is_invulneravel"), &Professor::is_invulneravel);
     ClassDB::bind_method(D_METHOD("adicionar_movimento_simples", "nome", "dano", "usos_maximos"), &Professor::adicionar_movimento_simples);
+    ClassDB::bind_method(D_METHOD("get_tipo"), &Professor::get_tipo);
+    ClassDB::bind_method(D_METHOD("is_batalha_falsa"), &Professor::is_batalha_falsa);
+    ClassDB::bind_method(D_METHOD("remover_invulnerabilidade"), &Professor::removerInvulnerabilidade);  
 }
