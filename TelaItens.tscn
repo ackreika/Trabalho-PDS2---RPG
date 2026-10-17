@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://ctet83wicywkc"]
+
+[ext_resource type="Script" uid="uid://bojsricrwt27j" path="res://Scripts/TelaItens.gd" id="1_ks480"]
+
+[node name="VBoxContainer" type="VBoxContainer" unique_id=1651172206]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ks480")
+
+[node name="LabelPassivos" type="Label" parent="." unique_id=827299356]
+layout_mode = 2
+
+[node name="LabelEspeciais" type="Label" parent="." unique_id=1484853926]
+layout_mode = 2
+
+[node name="ListaEspeciais" type="VBoxContainer" parent="." unique_id=402516440]
+layout_mode = 2
+
+[node name="LabelMensagem" type="Label" parent="." unique_id=2011202082]
+layout_mode = 2
+
+[node name="BotaoVoltar" type="Button" parent="." unique_id=1577318513]
+layout_mode = 2
+text = "Voltar"
+
+[node name="LabelStatus" type="Label" parent="." unique_id=680361215]
+layout_mode = 2

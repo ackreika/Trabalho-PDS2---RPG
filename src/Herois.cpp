@@ -3,6 +3,25 @@
 #include "ItensConcretos.hpp"
 #include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/dictionary.hpp>
+
+namespace {
+bool idParaItem(const String& id, ItemId& saida) {
+    std::string chave = std::string(id.utf8().get_data());
+    if (chave == "HALTER")        { saida = ItemId::HALTER;        return true; }
+    if (chave == "SUCO")          { saida = ItemId::SUCO;          return true; }
+    if (chave == "LASER")         { saida = ItemId::LASER;         return true; }
+    if (chave == "JAMES_STEWART") { saida = ItemId::JAMES_STEWART; return true; }
+    if (chave == "INTEGRAL")      { saida = ItemId::INTEGRAL;      return true; }
+    if (chave == "DERIVADA")      { saida = ItemId::DERIVADA;      return true; }
+    if (chave == "VETOR")         { saida = ItemId::VETOR;         return true; }
+    if (chave == "INTERPOLACAO")  { saida = ItemId::INTERPOLACAO;  return true; }
+    if (chave == "REFRIGERADOR")  { saida = ItemId::REFRIGERADOR;  return true; }
+    if (chave == "PONTEIRO")      { saida = ItemId::PONTEIRO;      return true; }
+    return false;
+}
+}
+
 
 Herois::Herois() : nome("Estudante"), nivel(1), vida(100), vidaMaxima(100), vidaMaximaBase(100), defesa(10), danoBase(15), possuiItemEspecialAtivo(false), possuiItemChave(false) {}
 std::string Herois::getNome() const { return nome; }
@@ -209,26 +228,43 @@ void Herois::aplicar_bonus_permanente(int bonusVida, int bonusDano) {
 }
 
 String Herois::dar_item_passivo(String id) {
-    std::string chave = std::string(id.utf8().get_data());
     ItemId itemId;
-    if (chave == "HALTER")      itemId = ItemId::HALTER;
-    else if (chave == "SUCO")   itemId = ItemId::SUCO;
-    else return String("");
-
+    if (!idParaItem(id, itemId) || ehItemEspecial(itemId)) return String("");
     ItemPassivo item = criarItemPassivo(itemId);
     adicionarItemPassivo(item);
     return String(item.nome.c_str());
 }
 
 String Herois::dar_item_especial(String id) {
-    std::string chave = std::string(id.utf8().get_data());
     ItemId itemId;
-    if (chave == "LASER") itemId = ItemId::LASER;
-    else return String("");
-
+    if (!idParaItem(id, itemId) || !ehItemEspecial(itemId)) return String("");
     ItemEspecial item = criarItemEspecial(itemId);
     definirItemEspecial(item);
     return String(item.nome.c_str());
+}
+
+Dictionary Herois::descrever_item_passivo(String id) {
+    Dictionary d;
+    ItemId itemId;
+    if (!idParaItem(id, itemId) || ehItemEspecial(itemId)) { d["valido"] = false; return d; }
+    ItemPassivo item = criarItemPassivo(itemId);
+    d["valido"] = true;
+    d["nome"] = String(item.nome.c_str());
+    d["efeito"] = (item.tipo == TipoEfeito::BONUS_VIDA_MAXIMA) ? 1 : 0;
+    d["multiplicador"] = item.multiplicador;
+    return d;
+}
+
+Dictionary Herois::descrever_item_especial(String id) {
+    Dictionary d;
+    ItemId itemId;
+    if (!idParaItem(id, itemId) || !ehItemEspecial(itemId)) { d["valido"] = false; return d; }
+    ItemEspecial item = criarItemEspecial(itemId);
+    d["valido"] = true;
+    d["nome"] = String(item.nome.c_str());
+    d["multiplicador"] = item.multiplicadorDano;
+    d["usos"] = item.usosMaximos;
+    return d;
 }
 
 bool Herois::possui_item_especial() const { return possuiItemEspecial(); }
@@ -270,4 +306,6 @@ void Herois::_bind_methods() {
     ClassDB::bind_method(D_METHOD("aplicar_bonus_permanente", "bonus_vida", "bonus_dano"), &Herois::aplicar_bonus_permanente);
     ClassDB::bind_method(D_METHOD("dar_item_passivo", "id"), &Herois::dar_item_passivo);
     ClassDB::bind_method(D_METHOD("dar_item_especial", "id"), &Herois::dar_item_especial);
+    ClassDB::bind_static_method("Herois", D_METHOD("descrever_item_passivo", "id"), &Herois::descrever_item_passivo);
+    ClassDB::bind_static_method("Herois", D_METHOD("descrever_item_especial", "id"), &Herois::descrever_item_especial);
 }

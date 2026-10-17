@@ -128,5 +128,10 @@ text = "Sair
 
 "
 
+[node name="BotaoItens" type="Button" parent="ContainerBotoes" unique_id=154860014]
+layout_mode = 2
+text = "Itens"
+
 [connection signal="pressed" from="ContainerBotoes/BotaoJogar" to="." method="_on_botao_jogar_pressed"]
 [connection signal="pressed" from="ContainerBotoes/BotaoUpgrades" to="." method="_on_botao_upgrades_pressed"]
+[connection signal="pressed" from="ContainerBotoes/BotaoItens" to="." method="_on_botao_itens_pressed"]

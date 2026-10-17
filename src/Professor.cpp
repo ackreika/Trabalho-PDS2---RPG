@@ -103,8 +103,6 @@ String Professor::get_caminho_sprite(int estado) const {
 }
 
 void Professor::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("get_tipo"), &Professor::get_tipo);
-    ClassDB::bind_method(D_METHOD("is_batalha_falsa"), &Professor::is_batalha_falsa);
     ClassDB::bind_method(D_METHOD("definir_sprite", "estado", "caminho"), &Professor::definir_sprite);
     ClassDB::bind_method(D_METHOD("get_caminho_sprite", "estado"), &Professor::get_caminho_sprite);
     ClassDB::bind_method(D_METHOD("inicializar", "nome", "materia", "vida_maxima", "defesa", "tipo", "batalha_falsa"), &Professor::inicializar);
@@ -117,4 +115,5 @@ void Professor::_bind_methods() {
     ClassDB::bind_method(D_METHOD("adicionar_movimento_simples", "nome", "dano", "usos_maximos"), &Professor::adicionar_movimento_simples);
     ClassDB::bind_method(D_METHOD("get_tipo"), &Professor::get_tipo);
     ClassDB::bind_method(D_METHOD("is_batalha_falsa"), &Professor::is_batalha_falsa);
+    ClassDB::bind_method(D_METHOD("remover_invulnerabilidade"), &Professor::removerInvulnerabilidade);  
 }
