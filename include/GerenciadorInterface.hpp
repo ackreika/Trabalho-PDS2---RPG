@@ -1,5 +1,7 @@
 #pragma once
-#include <godot_cpp/classes/ref_counted.hpp>
+
+#include <godot_cpp/classes/canvas_layer.hpp>
+#include <godot_cpp/classes/button.hpp>
 #include "EstadoMenu.hpp"
 
 using namespace godot;
@@ -14,14 +16,14 @@ using namespace godot;
  * EstadoMenu, do lado do GDScript, é só um número (int) — a correspondência é:
  * 0 = MENU_INICIAL, 1 = MENU_JOGAR, 2 = MENU_CONFIGURACOES, 3 = MENU_INVENTARIO, 4 = EM_BATALHA
  */
-class GerenciadorInterface : public RefCounted {
-    GDCLASS(GerenciadorInterface, RefCounted)
+class GerenciadorInterface : public CanvasLayer {
+    GDCLASS(GerenciadorInterface, CanvasLayer)
 
 private:
-    EstadoMenu estadoAtual;
+    GerenciadorMenu::EstadoMenu estadoAtual;
     float volume;
     int indiceResolucao;
-
+    void atualizar_telas();
 protected:
     /** @brief Registra os métodos públicos pro Godot/GDScript enxergar. */
     static void _bind_methods();
@@ -30,10 +32,22 @@ public:
     /** @brief Cria o gerenciador já no MENU_INICIAL, volume 1.0 e resolução padrão. */
     GerenciadorInterface();
 
+    void _ready() override;
+    // Logica dos botões
+    void clicar_jogar();
+    void iniciar_batalha(); 
+    void clicar_configuracoes();
+    void clicar_sair();
+    void clicar_voltar(); 
+    void mudar_volume(float valor);
+    void mudar_resolucao(int indice);
+    void clicar_mundo_principal();
+    void clicar_quests();
+    void clicar_equipamento();
     /** @brief Retorna o int correspondente ao EstadoMenu atual. */
-    int getEstadoAtual() const;
+    GerenciadorMenu::EstadoMenu getEstadoAtual() const;
     /** @brief Muda o estado do menu (recebe o int, converte pra EstadoMenu internamente). */
-    void irPara(int novoEstado);
+    void irPara(GerenciadorMenu::EstadoMenu novoEstado);
     /** @brief Volta pro MENU_INICIAL — usado pelos botões "Voltar" dos submenus. */
     void voltar();
 

@@ -1,4 +1,6 @@
 #pragma once
+#include <godot_cpp/variant/dictionary.hpp>
+#include <godot_cpp/classes/node2d.hpp>
 #include <string>
 #include <vector>
 #include <map>
@@ -6,6 +8,9 @@
 #include "ItemPassivo.hpp"
 #include "ItemEspecial.hpp"
 #include "EstadosVisuais.hpp"
+
+
+using namespace godot;
 
 class Professor; // precisa declarar o tipo Professor, usado em Herois::usarItemEspecial()
 
@@ -16,7 +21,11 @@ class Professor; // precisa declarar o tipo Professor, usado em Herois::usarItem
  * os itens passivos coletados na run atual, o item especial equipado (4º slot
  * de golpe na batalha) e o item de história usado contra bosses invulneráveis.
  */
-class Herois {
+class Herois : public Node2D {
+    GDCLASS(Herois, Node2D)
+
+protected:
+    static void _bind_methods();
 private:
     std::string nome;
     int nivel;
@@ -44,6 +53,7 @@ public:
      * @param defesa Defesa base, usada na fórmula de dano recebido.
      * @param danoBase Dano base, usado nos cálculos de ataque.
      */
+    Herois();
     Herois(std::string nome, int vidaMaxima, int defesa, int danoBase);
 
     /** @brief Retorna o nome do herói. */
@@ -124,4 +134,68 @@ public:
      * retorna a pose PARADO.
      */
     std::string getCaminhoSprite(EstadoVisual estado) const;
+
+    // ======================================================================
+    // API exposta ao GDScript (wrappers "Godot-friendly" dos métodos acima).
+    // Os métodos acima continuam existindo normalmente pro lado C++/testes;
+    // estes aqui só convertem tipos (std::string -> String) pra poder
+    // ser registrados no ClassDB e chamados do GDScript.
+    // ======================================================================
+
+    /** @brief Chamar logo após `Herois.new()` no GDScript pra definir os status iniciais. */
+    void inicializar(String nome, int vidaMaxima, int defesa, int danoBase);
+
+    String get_nome() const;
+    int get_vida() const;
+    int get_vida_maxima() const;
+    int get_defesa() const;
+    int get_dano_base() const;
+    bool esta_vivo() const;
+
+    /** @brief Cria e aprende um movimento novo direto do GDScript (sem precisar expor a classe Movimento). */
+    void aprender_movimento_simples(String nome, int dano, int usosMaximos);
+    int get_quantidade_movimentos() const;
+    String get_nome_movimento(int indice) const;
+    int get_dano_movimento(int indice) const;
+
+    /** @brief Usos restantes do movimento no índice; -1 = ilimitado, 0 = esgotado (ou índice inválido). */
+    int get_usos_restantes_movimento(int indice) const;
+    /** @brief true se o movimento existe e ainda pode ser usado. */
+    bool movimento_pode_usar(int indice) const;
+
+    /**
+     * @brief Define o sprite de uma pose. estado: 0 = TOMANDO_DANO, 1 = VITORIA,
+     * 2 = DERROTA, 3 = PARADO (idle), 4 = ATACANDO (mesma ordem do enum EstadoVisual).
+     */
+    void definir_sprite(int estado, String caminho);
+    /** @brief Caminho do sprite da pose (fallback: PARADO). Mesmos valores de estado acima. */
+    String get_caminho_sprite(int estado) const;
+    
+    /** @brief Cria o item passivo pelo nome do ID (ex: "HALTER", "SUCO") e adiciona ao herói. Retorna o nome do item, ou "" se o ID não existir. */
+    String dar_item_passivo(String id);
+    /** @brief Cria o item especial pelo nome do ID (ex: "LASER") e equipa no 4º slot. Retorna o nome, ou "" se o ID não existir. */
+    String dar_item_especial(String id);
+        /** @brief Dados de um item passivo pelo ID ("HALTER", "SUCO"): valido, nome, efeito (0 = dano, 1 = vida), multiplicador. */
+    static Dictionary descrever_item_passivo(String id);
+    /** @brief Dados de um item especial pelo ID ("LASER"): valido, nome, multiplicador, usos. */
+    static Dictionary descrever_item_especial(String id);
+
+    /** @brief Retorna a quantidade de itens passivos coletados. */
+    int get_quantidade_itens_passivos() const;
+    /** @brief Retorna o nome do item passivo no índice informado, ou "" se inválido. */
+    String get_nome_item_passivo(int indice) const;
+    /** @brief Retorna true se o herói possuir um item especial equipado. */
+    bool possui_item_especial() const;
+    /** @brief Retorna o nome do item especial equipado, ou "" se nenhum estiver equipado. */
+    String get_nome_item_especial() const;
+    /** @brief Retorna a quantidade de usos restantes do item especial equipado, ou 0 se nenhum estiver equipado. */
+    int get_usos_item_especial() const;
+
+    /** @brief Obtém o item de chave. */
+    void obter_item_chave();
+    /** @brief Retorna true se o herói possuir o item de chave. */
+    bool possui_item_chave() const;
+    /** @brief Soma bônus permanentes (upgrades do menu) à vida máxima base e ao dano base, e enche a vida. Chamar logo após inicializar(). */
+    void aplicar_bonus_permanente(int bonusVida, int bonusDano);
+
 };

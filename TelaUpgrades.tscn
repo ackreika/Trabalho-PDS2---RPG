@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bebtnwbsoqmuw"]
+
+[ext_resource type="Script" uid="uid://ceooa5p2clc3f" path="res://Scripts/Telaupgrades.gd" id="1_q2cij"]
+
+[node name="TelaUpgrades" type="VBoxContainer" unique_id=1792681846]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q2cij")
+
+[node name="LabelPontos" type="Label" parent="." unique_id=364554496]
+layout_mode = 2
+
+[node name="LabelVida" type="Label" parent="." unique_id=988201003]
+layout_mode = 2
+
+[node name="LabelDano" type="Label" parent="." unique_id=575611019]
+layout_mode = 2
+
+[node name="LabelMensagem" type="Label" parent="." unique_id=1641653841]
+layout_mode = 2
+
+[node name="BotaoUpgradeVida" type="Button" parent="." unique_id=777443059]
+layout_mode = 2
+
+[node name="BotaoUpgradeDano" type="Button" parent="." unique_id=1107189457]
+layout_mode = 2
+
+[node name="BotaoVoltar" type="Button" parent="." unique_id=1788431053]
+layout_mode = 2
+text = "Voltar
+"

@@ -1,0 +1,54 @@
+\doxysection{Batalha.\+hpp}
+\hypertarget{Batalha_8hpp_source}{}\label{Batalha_8hpp_source}\index{include/Batalha.hpp@{include/Batalha.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}Herois.hpp"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Professor.hpp"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{enum\ class}\ EstadoBatalha\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ ESCOLHENDO\_ACAO,\ }
+\DoxyCodeLine{00009\ \ \ \ \ VITORIA,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00010\ \ \ \ \ DERROTA,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00011\ \ \ \ \ FUGIU,\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00012\ \};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structResultadoTurno}{ResultadoTurno}}\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structResultadoTurno_ab7e3257bd6eca2c7066f89606ec34c38}{acaoValida}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00020\ \ \ \ \ std::string\ \mbox{\hyperlink{structResultadoTurno_a2c95a85f32aec3179d189db72f38456d}{mensagem}};\ \ \ }
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{bool}\ heroiAtacou;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{int}\ danoCausadoPeloHeroi;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{bool}\ professorAtacou;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ danoCausadoPeloProfessor;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ EstadoBatalha\ \mbox{\hyperlink{structResultadoTurno_a3873f4630398b8743695889c1ae6b73b}{estadoResultante}};\ }
+\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBatalha_a57be806e5f4aa4893fa6a0ac9c93fe85}{Batalha}}\ \{}
+\DoxyCodeLine{00039\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{classHerois}{Herois}}\&\ heroi;}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{classProfessor}{Professor}}\ professor;}
+\DoxyCodeLine{00042\ \ \ \ \ EstadoBatalha\ estado;}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{int}\ turnosDecorridos;}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ TURNOS\_PARA\_VITORIA\_BATALHA\_FALSA\ =\ 2;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{structResultadoTurno}{ResultadoTurno}}\ processarTurnoProfessor();}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{classBatalha_a57be806e5f4aa4893fa6a0ac9c93fe85}{Batalha}}(\mbox{\hyperlink{classHerois}{Herois}}\&\ heroi,\ \mbox{\hyperlink{classProfessor}{Professor}}\ professor);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00059\ \ \ \ \ EstadoBatalha\ \mbox{\hyperlink{classBatalha_ac8d0324bc1f39a5b6637c667560a0f72}{getEstado}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classProfessor}{Professor}}\&\ \mbox{\hyperlink{classBatalha_acb32b22305abdb3dc1a5cad77b19eb89}{getProfessor}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{structResultadoTurno}{ResultadoTurno}}\ \mbox{\hyperlink{classBatalha_a7bb31344699bd96fabfa3f1268dab070}{executarAcao}}(\textcolor{keywordtype}{int}\ indiceGolpe);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{structResultadoTurno}{ResultadoTurno}}\ \mbox{\hyperlink{classBatalha_a003d77029e6ed555588db705ae24fb26}{usarItemChave}}();}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{structResultadoTurno}{ResultadoTurno}}\ \mbox{\hyperlink{classBatalha_af21d0f12d6f3292badd282b8ad7debb5}{fugir}}();}
+\DoxyCodeLine{00081\ \};}
+
+\end{DoxyCode}
