@@ -19,8 +19,9 @@ var indice_batalha_atual: int = 1
 const BATALHAS_POR_AREA := {0: 3, 1: 2, 2: 4, 3: 2}
 
 ## Monta o herói (se ainda não existir) e a primeira batalha da área/índice atuais.
-## Chame isso quando o jogador clicar em "Jogar".
-func iniciar_primeira_batalha() -> void:
+## Chame isso quando o jogador escolher uma área no menu.
+## id_area: 0=Calculo, 1=GAAL, 2=Fisica, 3=PDS (padrão 0, como antes).
+func iniciar_primeira_batalha(id_area: int = 0) -> void:
 	encerrar_run()  # NOVO: limpa o herói e o professor da run anterior
 
 	# é sempre criado do zero, então o bloco fica sem indentação extra)
@@ -36,10 +37,20 @@ func iniciar_primeira_batalha() -> void:
 	heroi.dar_item_especial("LASER")
 	heroi.obter_item_chave()
 
-	id_area_atual = 0
+	id_area_atual = clampi(id_area, 0, BATALHAS_POR_AREA.size() - 1)
 	indice_batalha_atual = 1
 	_iniciar_batalha_atual()
 	
+## Uma área está liberada se for a primeira (Cálculo) ou se o boss dela (a última
+## batalha da área anterior) já foi vencido em alguma run. Isso persiste em disco,
+## pois usa a lista Progresso.professores_derrotados, que já é salva.
+func area_desbloqueada(id_area: int) -> bool:
+	if id_area <= 0:
+		return true
+	var anterior: int = id_area - 1
+	var chave := "%d_%d" % [anterior, BATALHAS_POR_AREA[anterior]]
+	return chave in Progresso.professores_derrotados
+
 func encerrar_run() -> void:
 	batalha_atual = null
 	if is_instance_valid(professor_atual):
