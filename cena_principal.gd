@@ -11,7 +11,9 @@ var _botoes_areas: Array[Button] = []
 
 func _ready() -> void:
 	_criar_painel_areas()
-
+	if Global.voltar_para_submenu:
+		Global.voltar_para_submenu = false 
+		clicar_jogar()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -84,11 +86,44 @@ func _on_area_escolhida(id_area: int) -> void:
 func _on_botao_upgrades_pressed() -> void:
 	get_tree().change_scene_to_file("res://TelaUpgrades.tscn")
 
-
-# Antes: iniciava direto a primeira batalha. Agora abre a seleção de área.
-func _on_botao_jogar_pressed() -> void:
+func _on_botao_mundo_pressed() -> void:
 	_abrir_painel_areas()
 
 
 func _on_botao_itens_pressed() -> void:
 	get_tree().change_scene_to_file("res://TelaItens.tscn")
+
+
+func _on_botao_config_pressed() -> void:
+	clicar_configuracoes() 
+
+func _on_botao_voltar_pressed() -> void:
+	
+	clicar_voltar()
+
+func _on_slider_volume_value_changed(valor: float) -> void:
+	
+	mudar_volume(valor)
+
+func _on_caixa_resolucao_item_selected(indice: int) -> void:
+	
+	mudar_resolucao(indice)
+	
+func _on_botao_sair_pressed() -> void:
+	clicar_sair()
+
+func _on_botao_jogar_pressed() -> void:
+	var nova_textura = load("res://imagens/maxpayne.jpg")
+	if nova_textura:
+		$FundoJogo.texture = nova_textura
+	clicar_jogar() 
+
+# --- FUNÇÕES DO NOVO SUBMENU (CONTAINER JOGAR) ---
+
+func _on_botao_voltar_jogar_pressed() -> void:
+	# Puxa o voltar do C++ para esconder o submenu e voltar pro menu principal
+	clicar_voltar()
+
+
+
+	
