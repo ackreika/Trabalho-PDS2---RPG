@@ -1,4 +1,8 @@
 #pragma once
+<<<<<<< HEAD
+=======
+#include <godot_cpp/variant/dictionary.hpp>
+>>>>>>> b6ba4931c73a326c6f2cac1f7330ca0d65d1f4bb
 #include <godot_cpp/classes/node2d.hpp>
 #include <string>
 #include <vector>
@@ -174,6 +178,13 @@ public:
     String dar_item_passivo(String id);
     /** @brief Cria o item especial pelo nome do ID (ex: "LASER") e equipa no 4º slot. Retorna o nome, ou "" se o ID não existir. */
     String dar_item_especial(String id);
+<<<<<<< HEAD
+=======
+        /** @brief Dados de um item passivo pelo ID ("HALTER", "SUCO"): valido, nome, efeito (0 = dano, 1 = vida), multiplicador. */
+    static Dictionary descrever_item_passivo(String id);
+    /** @brief Dados de um item especial pelo ID ("LASER"): valido, nome, multiplicador, usos. */
+    static Dictionary descrever_item_especial(String id);
+>>>>>>> b6ba4931c73a326c6f2cac1f7330ca0d65d1f4bb
 
     /** @brief Retorna a quantidade de itens passivos coletados. */
     int get_quantidade_itens_passivos() const;

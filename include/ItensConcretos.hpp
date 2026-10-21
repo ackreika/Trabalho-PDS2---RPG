@@ -16,3 +16,6 @@ ItemPassivo criarItemPassivo(ItemId id);
  * @return Struct preenchido com nome/multiplicador/usos desse item.
  */
 ItemEspecial criarItemEspecial(ItemId id);
+
+/** @brief true se o ID é um item especial (4º slot); false se for passivo. */
+bool ehItemEspecial(ItemId id);

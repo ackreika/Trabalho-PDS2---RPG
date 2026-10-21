@@ -7,8 +7,8 @@ GerenciadorSemestre::GerenciadorSemestre()
 int GerenciadorSemestre::getIdAreaAtual() const { return idAreaAtual; }
 int GerenciadorSemestre::getIndiceBatalhaAtual() const { return indiceBatalhaAtual; }
 
-Professor GerenciadorSemestre::gerarProximoProfessor() const {
-    return ProfessoresFabrica::criarProfessor(idAreaAtual, indiceBatalhaAtual);
+Professor* GerenciadorSemestre::gerarProximoProfessor() const {
+    return ProfessoresFabrica::criar_professor(idAreaAtual, indiceBatalhaAtual);
 }
 
 void GerenciadorSemestre::avancarBatalha() {
