@@ -29,14 +29,11 @@ expand_mode = 1
 [node name="Titulo" type="Label" parent="." unique_id=269766682]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 179.0
+offset_bottom = 120.0
 grow_horizontal = 2
 size_flags_vertical = 0
-offset_transform_position = Vector2(300, 0)
-offset_transform_visual_only = false
 theme_override_font_sizes/font_size = 64
-text = "Resenha games
-"
+text = "Resenha games"
 horizontal_alignment = 1
 
 [node name="Node2D" type="Node2D" parent="." unique_id=500788709]
@@ -56,8 +53,7 @@ theme_override_constants/separation = 30
 
 [node name="LabelVolume" type="Label" parent="ContainerConfig" unique_id=748870247]
 layout_mode = 2
-text = "Volume
-"
+text = "Volume"
 
 [node name="SliderVolume" type="HSlider" parent="ContainerConfig" unique_id=1275801486]
 layout_mode = 2
@@ -86,52 +82,53 @@ popup/item_5/id = 5
 
 [node name="BotaoVoltar" type="Button" parent="ContainerConfig" unique_id=1400558470]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "Voltar
-"
+theme_override_font_sizes/font_size = 48
+text = "Voltar"
 
 [node name="ContainerBotoes" type="VBoxContainer" parent="." unique_id=1529815874]
 anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.5
-anchor_right = 0.35
-anchor_bottom = 0.9
+anchor_left = 0.05
+anchor_top = 0.22
+anchor_right = 0.38
+anchor_bottom = 0.95
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 10
 
 [node name="BotaoJogar" type="Button" parent="ContainerBotoes" unique_id=573225232]
 layout_mode = 2
-offset_transform_position = Vector2(50, 100)
-offset_transform_visual_only = false
-theme_override_font_sizes/font_size = 64
-text = "Jogar
-"
+theme_override_font_sizes/font_size = 40
+text = "Jogar"
+
+[node name="BotaoMovimentos" type="Button" parent="ContainerBotoes" unique_id=1954860015]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Movimentos"
 
 [node name="BotaoUpgrades" type="Button" parent="ContainerBotoes" unique_id=516737630]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 40
 text = "Upgrades"
+
+[node name="BotaoItens" type="Button" parent="ContainerBotoes" unique_id=154860014]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Itens"
 
 [node name="BotaoConfig" type="Button" parent="ContainerBotoes" unique_id=1830915783]
 layout_mode = 2
-offset_transform_position = Vector2(50, 100)
-offset_transform_visual_only = false
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 40
 text = "Configurações"
 
 [node name="BotaoSair" type="Button" parent="ContainerBotoes" unique_id=840576201]
 layout_mode = 2
-offset_transform_position = Vector2(50, 100)
-offset_transform_visual_only = false
-theme_override_font_sizes/font_size = 64
-text = "Sair
-
-"
-
-[node name="BotaoItens" type="Button" parent="ContainerBotoes" unique_id=154860014]
-layout_mode = 2
-text = "Itens"
+theme_override_font_sizes/font_size = 40
+text = "Sair"
 
 [connection signal="pressed" from="ContainerBotoes/BotaoJogar" to="." method="_on_botao_jogar_pressed"]
+[connection signal="pressed" from="ContainerBotoes/BotaoMovimentos" to="." method="clicar_movimentos"]
 [connection signal="pressed" from="ContainerBotoes/BotaoUpgrades" to="." method="_on_botao_upgrades_pressed"]
 [connection signal="pressed" from="ContainerBotoes/BotaoItens" to="." method="_on_botao_itens_pressed"]
+[connection signal="pressed" from="ContainerBotoes/BotaoConfig" to="." method="clicar_configuracoes"]
+[connection signal="pressed" from="ContainerBotoes/BotaoSair" to="." method="clicar_sair"]
+[connection signal="pressed" from="ContainerConfig/BotaoVoltar" to="." method="clicar_voltar"]

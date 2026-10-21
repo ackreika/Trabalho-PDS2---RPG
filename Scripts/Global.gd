@@ -25,9 +25,7 @@ func iniciar_primeira_batalha(id_area: int = 0) -> void:
 	heroi = Herois.new()
 	heroi.inicializar("Estudante", 100, 10, 20) # nome, vida_maxima, defesa, dano_base
 	Progresso.aplicar_ao_heroi(heroi)           # aplica os upgrades comprados
-	heroi.aprender_movimento_simples("Derivada Rapida", 15, -1)      # -1 = usos ilimitados
-	heroi.aprender_movimento_simples("Integral por Partes", 25, 3)   # só 3 usos
-	heroi.aprender_movimento_simples("Limite Fundamental", 10, -1)
+	heroi.carregar_movimentos_escolhidos()      # carrega do C++ os 3 movimentos escolhidos no Menu de Movimentos
 
 	# NOVO, só para testar (apague depois):
 	heroi.dar_item_passivo("HALTER")
