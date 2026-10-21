@@ -13,7 +13,7 @@ var batalha_atual: Batalha
 
 var id_area_atual: int = 0      # 0=Calculo, 1=GAAL, 2=Fisica, 3=PDS
 var indice_batalha_atual: int = 1
-
+var voltar_para_submenu: bool = false
 
 ## Monta o herói (se ainda não existir) e a primeira batalha da área/índice atuais.
 ## Chame isso quando o jogador escolher uma área no menu.
@@ -57,7 +57,6 @@ func encerrar_run() -> void:
 		heroi.free()
 	professor_atual = null
 	heroi = null
-
 
 ## Avança pra próxima batalha (chamar depois de uma VITORIA). Troca de área
 ## automaticamente quando a área atual acaba. Retorna false se o jogo já acabou.

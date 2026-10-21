@@ -91,11 +91,12 @@ void GerenciadorInterface::inicializar_componentes()
         caixa_resolucao->add_item("1920x1080");
         caixa_resolucao->add_item("1920x1440");
         caixa_resolucao->add_item("2560x1440");
-
-        Callable funcao_resolucao(this, "mudar_resolucao");
-        if (!caixa_resolucao->is_connected("item_selected", funcao_resolucao)) {
-            caixa_resolucao->connect("item_selected", funcao_resolucao);
-        }
+        caixa_resolucao->add_item("Tela Cheia (Exclusive)"); 
+        caixa_resolucao->add_item("Tela Cheia (Borderless)");
+       // Callable funcao_resolucao(this, "mudar_resolucao");
+       // if (!caixa_resolucao->is_connected("item_selected", funcao_resolucao)) {
+        //    caixa_resolucao->connect("item_selected", funcao_resolucao);
+        //}
     }
 
     if (botao_jogar && !botao_jogar->is_connected("pressed", Callable(this, "clicar_jogar")))
@@ -411,14 +412,30 @@ void GerenciadorInterface::mudar_resolucao(int indice)
     Window* janela = get_window();
     if (!janela) return;
 
-    switch (indice) {
-        case 0: janela->set_size(Vector2i(640, 480)); break;
-        case 1: janela->set_size(Vector2i(1280, 720)); break;
-        case 2: janela->set_size(Vector2i(1280, 960)); break;
-        case 3: janela->set_size(Vector2i(1920, 1080)); break;
-        case 4: janela->set_size(Vector2i(1920, 1440)); break;
-        case 5: janela->set_size(Vector2i(2560, 1440)); break;
+    if (indice <= 5) 
+    {
+        janela->set_mode(Window::MODE_WINDOWED);
+        
+        switch (indice) {
+            case 0: janela->set_size(Vector2i(640, 480)); break;
+            case 1: janela->set_size(Vector2i(1280, 720)); break;
+            case 2: janela->set_size(Vector2i(1280, 960)); break;
+            case 3: janela->set_size(Vector2i(1920, 1080)); break;
+            case 4: janela->set_size(Vector2i(1920, 1440)); break;
+            case 5: janela->set_size(Vector2i(2560, 1440)); break;
+        }
+    } 
+    else if (indice == 6) 
+    {
+        // Tela Cheia Exclusiva
+        janela->set_mode(Window::MODE_EXCLUSIVE_FULLSCREEN);
+    } 
+    else if (indice == 7) 
+    {
+        // Tela Cheia
+        janela->set_mode(Window::MODE_FULLSCREEN); 
     }
+
     UtilityFunctions::print("Resolução alterada. Índice: ", indice);
 }
 
