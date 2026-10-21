@@ -1,17 +1,28 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -I include/ -fprofile-arcs -ftest-coverage
+CXXFLAGS = -std=c++17 -Wall -I include/ -I godot-cpp/gdextension -I godot-cpp/include -I godot-cpp/gen/include -fprofile-arcs -ftest-coverage
 
 SRC_DIR = src
 TEST_DIR = tests
 OBJ_DIR = obj
 BIN_DIR = bin
+DLL_DIR = build
+
+# ---> ARQUIVO DE BIBLIOTECA GERADO PELO SCONS <---
+GODOT_LIB = godot-cpp/bin/libgodot-cpp.windows.template_debug.x86_64.a
+
+# ---> NOME EXATO DA DLL QUE O GODOT ESPERA <---
+DLL_OUT = $(DLL_DIR)/libgame.windows.template_debug.x86_64.dll
 
 # -------------------------------------------------------------
-# TRUQUE PARA GODOT: Para evitar dores de cabeça com dependências,
-# vamos compilar APENAS as classes de lógica pura que não tocam 
-# no godot_cpp.
+# 1. ARQUIVOS PARA O GODOT (O Jogo Completo)
 # -------------------------------------------------------------
-SRC_FILES = $(SRC_DIR)/GerenciadorQuiz.cpp \
+GAME_SRC = $(wildcard $(SRC_DIR)/*.cpp)
+GAME_OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(GAME_SRC))
+
+# -------------------------------------------------------------
+# 2. ARQUIVOS PARA OS TESTES DE TERMINAL (Lógica Pura)
+# -------------------------------------------------------------
+SRC_FILES_LOGICA = $(SRC_DIR)/GerenciadorQuiz.cpp \
             $(SRC_DIR)/GerenciadorRecompensas.cpp \
             $(SRC_DIR)/GerenciadorSemestre.cpp \
             $(SRC_DIR)/ItensConcretos.cpp \
@@ -21,49 +32,59 @@ SRC_FILES = $(SRC_DIR)/GerenciadorQuiz.cpp \
             $(SRC_DIR)/ProfessoresFabrica.cpp \
             $(SRC_DIR)/ProgressoJogador.cpp
 
-# Pega todos os testes, mas depois filtra os que dão problema
 TEST_FILES = $(wildcard $(TEST_DIR)/*.cpp)
 
 TEST_FILES_VALIDOS = $(filter-out $(TEST_DIR)/test_herois.cpp \
                                   $(TEST_DIR)/test_Herois.cpp \
                                   $(TEST_DIR)/test_batalha.cpp \
-                                  $(TEST_DIR)/test_Batalha.cpp, $(TEST_FILES))
+                                  $(TEST_DIR)/test_Batalha.cpp \
+                                  $(TEST_DIR)/test_Professor.cpp \
+                                  $(TEST_DIR)/test_Movimento.cpp, $(TEST_FILES))
 
-# Gera os nomes dos arquivos .o usando APENAS os testes validos
-SRC_OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
+SRC_OBJS_LOGICA = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES_LOGICA))
 TEST_OBJS = $(patsubst $(TEST_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(TEST_FILES_VALIDOS))
 
-EXEC = $(BIN_DIR)/test_suite
+EXEC_TESTE = $(BIN_DIR)/test_suite
 
-# Cria diretórios de objetos e binários se não existirem
-$(shell mkdir -p $(OBJ_DIR) $(BIN_DIR))
+# Cria diretórios nativamente no Windows
+$(shell if not exist $(OBJ_DIR) mkdir $(OBJ_DIR))
+$(shell if not exist $(BIN_DIR) mkdir $(BIN_DIR))
+$(shell if not exist $(DLL_DIR) mkdir $(DLL_DIR))
 
-# Comando padrao do make vai rodar o "test"
-all: test
+# Comando padrao do make vai rodar a compilação do jogo
+all: dll
 
-# Regra de compilacao: Codigo fonte
+# Regras de compilacao
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Regra de compilacao: Testes doctest
 $(OBJ_DIR)/%.o: $(TEST_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Linkagem final para gerar o executavel de testes
-test: $(SRC_OBJS) $(TEST_OBJS)
-	$(CXX) $(CXXFLAGS) $^ -o $(EXEC)
+# ==============================================================
+# 1. GERA A DLL PARA O GODOT
+# ==============================================================
+dll: $(GAME_OBJ)
+	$(CXX) $(CXXFLAGS) -shared -static -static-libgcc -static-libstdc++ -o $(DLL_OUT) $(GAME_OBJ) $(GODOT_LIB)
+	@echo "\n>>> DLL do jogo gerada com sucesso na pasta 'build'! Abra o Godot. <<<"
 
-# Roda os testes no terminal
+# ==============================================================
+# 2. COMANDOS DE TESTE E COBERTURA
+# ==============================================================
+test: $(SRC_OBJS_LOGICA) $(TEST_OBJS)
+	$(CXX) $(CXXFLAGS) $^ $(GODOT_LIB) -o $(EXEC_TESTE)
+
 run_tests: test
-	./$(EXEC)
+	./$(EXEC_TESTE)
 
-# Roda o gcovr para gerar o relatorio html (Exigência >60%)
 coverage: run_tests
-	gcovr -r . --html --html-details -o coverage_report.html
-	@echo "\n>>> Relatório gerado: coverage_report.html <<<"
+	if not exist relatorio mkdir relatorio
+	python -m gcovr -r . --html --html-details -o relatorio/coverage_report.html
+	@echo "\n>>> Relatórios gerados com sucesso na pasta 'relatorio' <<<"
 
-# Limpa toda a compilação gerada pelo g++
+# Limpa toda a compilação e apaga a pasta de relatórios (Versão Windows)
 clean:
-	rm -rf $(OBJ_DIR)/* $(BIN_DIR)/* *.gcno *.gcda coverage_report*
+	-del /q /s obj\* bin\* build\* *.gcno *.gcda coverage_report* 2>nul
+	-rmdir /q /s relatorio 2>nul
 
-.PHONY: all test run_tests coverage clean
+.PHONY: all dll test run_tests coverage clean
