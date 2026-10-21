@@ -101,6 +101,7 @@ theme_override_font_sizes/font_size = 48
 text = "Voltar"
 
 [node name="ContainerBotoes" type="VBoxContainer" parent="." unique_id=1529815874]
+visible = false
 anchors_preset = -1
 anchor_left = 0.05
 anchor_top = 0.22
@@ -114,11 +115,6 @@ theme_override_constants/separation = 10
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Jogar"
-
-[node name="BotaoMovimentos" type="Button" parent="ContainerBotoes" unique_id=1954860015]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Movimentos"
 
 [node name="BotaoConfig" type="Button" parent="ContainerBotoes" unique_id=1830915783]
 layout_mode = 2
@@ -135,7 +131,7 @@ text = "Sair
 "
 
 [node name="ContainerJogar" type="VBoxContainer" parent="." unique_id=968872321]
-visible = false
+anchors_preset = -1
 offset_left = 34.69999
 offset_top = 238.1
 offset_right = 74.69999
@@ -143,22 +139,27 @@ offset_bottom = 278.1
 
 [node name="BotaoMundo" type="Button" parent="ContainerJogar" unique_id=1251157647]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 48
 text = "Mundo"
+
+[node name="BotaoMovimentos" type="Button" parent="ContainerJogar" unique_id=1954860015]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Movimentos"
 
 [node name="BotaoUpgrades" type="Button" parent="ContainerJogar" unique_id=516737630]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 48
 text = "Upgrades"
 
 [node name="BotaoItens" type="Button" parent="ContainerJogar" unique_id=154860014]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 48
 text = "Itens"
 
 [node name="BotaoVoltar" type="Button" parent="ContainerJogar" unique_id=201058940]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 48
 text = "Voltar
 "
 
@@ -166,10 +167,10 @@ text = "Voltar
 [connection signal="item_selected" from="ContainerConfig/CaixaResolucao" to="." method="_on_caixa_resolucao_item_selected"]
 [connection signal="pressed" from="ContainerConfig/BotaoVoltar" to="." method="_on_botao_voltar_pressed"]
 [connection signal="pressed" from="ContainerBotoes/BotaoJogar" to="." method="_on_botao_jogar_pressed"]
-[connection signal="pressed" from="ContainerBotoes/BotaoMovimentos" to="." method="clicar_movimentos"]
 [connection signal="pressed" from="ContainerBotoes/BotaoConfig" to="." method="_on_botao_config_pressed"]
 [connection signal="pressed" from="ContainerBotoes/BotaoSair" to="." method="_on_botao_sair_pressed"]
 [connection signal="pressed" from="ContainerJogar/BotaoMundo" to="." method="_on_botao_mundo_pressed"]
+[connection signal="pressed" from="ContainerJogar/BotaoMovimentos" to="." method="clicar_movimentos"]
 [connection signal="pressed" from="ContainerJogar/BotaoUpgrades" to="." method="_on_botao_upgrades_pressed"]
 [connection signal="pressed" from="ContainerJogar/BotaoItens" to="." method="_on_botao_itens_pressed"]
 [connection signal="pressed" from="ContainerJogar/BotaoVoltar" to="." method="_on_botao_voltar_pressed"]
