@@ -14,7 +14,10 @@ func _ready() -> void:
 	if Global.voltar_para_submenu:
 		Global.voltar_para_submenu = false 
 		clicar_jogar()
-
+	var caixa_res = $ContainerConfig/CaixaResolucao
+	if caixa_res.item_count == 6:
+		caixa_res.add_item("Tela Cheia (Exclusive)")
+		caixa_res.add_item("Tela Cheia (Borderless)")
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
