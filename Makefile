@@ -7,21 +7,18 @@ OBJ_DIR = obj
 BIN_DIR = bin
 DLL_DIR = build
 
-# ---> ARQUIVO DE BIBLIOTECA GERADO PELO SCONS <---
+# ARQUIVO DE BIBLIOTECA GERADO PELO SCONS
 GODOT_LIB = godot-cpp/bin/libgodot-cpp.windows.template_debug.x86_64.a
 
-# ---> NOME EXATO DA DLL QUE O GODOT ESPERA <---
+# NOME EXATO DA DLL QUE O GODOT ESPERA
 DLL_OUT = $(DLL_DIR)/libgame.windows.template_debug.x86_64.dll
 
-# -------------------------------------------------------------
-# 1. ARQUIVOS PARA O GODOT (O Jogo Completo)
-# -------------------------------------------------------------
+
+# 1. ARQUIVOS PARA O GODOT
 GAME_SRC = $(wildcard $(SRC_DIR)/*.cpp)
 GAME_OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(GAME_SRC))
 
-# -------------------------------------------------------------
 # 2. ARQUIVOS PARA OS TESTES DE TERMINAL (Lógica Pura)
-# -------------------------------------------------------------
 SRC_FILES_LOGICA = $(SRC_DIR)/GerenciadorQuiz.cpp \
             $(SRC_DIR)/GerenciadorRecompensas.cpp \
             $(SRC_DIR)/GerenciadorSemestre.cpp \
@@ -61,16 +58,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 $(OBJ_DIR)/%.o: $(TEST_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# ==============================================================
 # 1. GERA A DLL PARA O GODOT
-# ==============================================================
 dll: $(GAME_OBJ)
 	$(CXX) $(CXXFLAGS) -shared -static -static-libgcc -static-libstdc++ -o $(DLL_OUT) $(GAME_OBJ) $(GODOT_LIB)
 	@echo "\n>>> DLL do jogo gerada com sucesso na pasta 'build'! Abra o Godot. <<<"
 
-# ==============================================================
 # 2. COMANDOS DE TESTE E COBERTURA
-# ==============================================================
 test: $(SRC_OBJS_LOGICA) $(TEST_OBJS)
 	$(CXX) $(CXXFLAGS) $^ $(GODOT_LIB) -o $(EXEC_TESTE)
 
@@ -82,7 +75,7 @@ coverage: run_tests
 	python -m gcovr -r . --html --html-details -o relatorio/coverage_report.html
 	@echo "\n>>> Relatórios gerados com sucesso na pasta 'relatorio' <<<"
 
-# Limpa toda a compilação e apaga a pasta de relatórios (Versão Windows)
+# Limpa toda a compilação e apaga a pasta de relatórios
 clean:
 	-del /q /s obj\* bin\* build\* *.gcno *.gcda coverage_report* 2>nul
 	-rmdir /q /s relatorio 2>nul
