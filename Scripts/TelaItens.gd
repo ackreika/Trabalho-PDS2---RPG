@@ -47,4 +47,5 @@ func _ao_equipar(id: String) -> void:
 	atualizar()
 
 func _ao_voltar() -> void:
+	Global.voltar_para_submenu = true
 	get_tree().change_scene_to_file(CENA_MENU)

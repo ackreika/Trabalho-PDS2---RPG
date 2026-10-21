@@ -33,16 +33,16 @@ GerenciadorInterface::GerenciadorInterface()
 void GerenciadorInterface::_ready() 
 {
     Button* botao_jogar = get_node<Button>("ContainerBotoes/BotaoJogar");
-    Button* botao_config = get_node<Button>("ContainerBotoes/BotaoConfig");
-    Button* botao_sair = get_node<Button>("ContainerBotoes/BotaoSair"); 
+   // Button* botao_config = get_node<Button>("ContainerBotoes/BotaoConfig");
+   // Button* botao_sair = get_node<Button>("ContainerBotoes/BotaoSair"); 
     Button* botao_voltar = get_node<Button>("ContainerConfig/BotaoVoltar");
     
     Button* botao_mundo = get_node<Button>("ContainerJogar/BotaoMundo");
-    Button* botao_quests = get_node<Button>("ContainerJogar/BotaoQuests");
-    Button* botao_equipamento = get_node<Button>("ContainerJogar/BotaoEquipamento");
+   // Button* botao_quests = get_node<Button>("ContainerJogar/BotaoQuests");
+    //Button* botao_equipamento = get_node<Button>("ContainerJogar/BotaoEquipamento");
     Button* botao_voltar_jogar = get_node<Button>("ContainerJogar/BotaoVoltar");
     
-    HSlider* slider_volume = get_node<HSlider>("ContainerConfig/SliderVolume");
+    //HSlider* slider_volume = get_node<HSlider>("ContainerConfig/SliderVolume");
     OptionButton* caixa_resolucao = get_node<OptionButton>("ContainerConfig/CaixaResolucao");
     
     if (caixa_resolucao) 
@@ -55,23 +55,23 @@ void GerenciadorInterface::_ready()
         caixa_resolucao->add_item("1920x1440");
         caixa_resolucao->add_item("2560x1440");
 
-        Callable funcao_resolucao(this, "mudar_resolucao");
-        if (!caixa_resolucao->is_connected("item_selected", funcao_resolucao)) {
-            caixa_resolucao->connect("item_selected", funcao_resolucao);
-        }
+       // Callable funcao_resolucao(this, "mudar_resolucao");
+       // if (!caixa_resolucao->is_connected("item_selected", funcao_resolucao)) {
+        //    caixa_resolucao->connect("item_selected", funcao_resolucao);
+        //}
     }
 
     if (botao_jogar) botao_jogar->connect("pressed", Callable(this, "clicar_jogar"));
-    if (botao_config) botao_config->connect("pressed", Callable(this, "clicar_configuracoes"));
-    if (botao_sair) botao_sair->connect("pressed", Callable(this, "clicar_sair"));
+  //  if (botao_config) botao_config->connect("pressed", Callable(this, "clicar_configuracoes"));
+  //  if (botao_sair) botao_sair->connect("pressed", Callable(this, "clicar_sair"));
     if (botao_voltar) botao_voltar->connect("pressed", Callable(this, "clicar_voltar"));
     
     if (botao_mundo) botao_mundo->connect("pressed", Callable(this, "clicar_mundo_principal"));
-    if (botao_quests) botao_quests->connect("pressed", Callable(this, "clicar_quests"));
-    if (botao_equipamento) botao_equipamento->connect("pressed", Callable(this, "clicar_equipamento"));
+   // if (botao_quests) botao_quests->connect("pressed", Callable(this, "clicar_quests"));
+   // if (botao_equipamento) botao_equipamento->connect("pressed", Callable(this, "clicar_equipamento"));
     if (botao_voltar_jogar) botao_voltar_jogar->connect("pressed", Callable(this, "clicar_voltar"));
 
-    if (slider_volume) slider_volume->connect("value_changed", Callable(this, "mudar_volume"));
+  //  if (slider_volume) slider_volume->connect("value_changed", Callable(this, "mudar_volume"));
 }
 
 void GerenciadorInterface::atualizar_telas() 

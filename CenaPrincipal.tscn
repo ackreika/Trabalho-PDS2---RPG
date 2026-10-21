@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://swevwraqpc6c"]
 
-[ext_resource type="Texture2D" uid="uid://ditt1pmy7dgeb" path="res://imagens/Israel.png" id="1_11bju"]
+[ext_resource type="Texture2D" uid="uid://b8eu56lswhe7g" path="res://imagens/Israel.png" id="1_11bju"]
 [ext_resource type="Script" uid="uid://ckr4fn0yhda83" path="res://cena_principal.gd" id="1_a34lh"]
-[ext_resource type="Texture2D" uid="uid://br66244khyqg4" path="res://imagens/BG_menu.jpeg" id="1_oacou"]
+[ext_resource type="Texture2D" uid="uid://badw18tugwpew" path="res://imagens/BG_menu.jpeg" id="1_oacou"]
+[ext_resource type="Texture2D" uid="uid://cjleu1otjmoaw" path="res://imagens/maxpayne.jpg" id="3_nj3ej"]
 
 [node name="Control" type="GerenciadorInterface" unique_id=1178082262]
 script = ExtResource("1_a34lh")
@@ -15,6 +16,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_11bju")
+expand_mode = 1
+
+[node name="FundoJogo" type="TextureRect" parent="." unique_id=1094976893]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_nj3ej")
 expand_mode = 1
 
 [node name="FundoPrincipal" type="TextureRect" parent="." unique_id=1859792666]
@@ -107,11 +118,6 @@ theme_override_font_sizes/font_size = 64
 text = "Jogar
 "
 
-[node name="BotaoUpgrades" type="Button" parent="ContainerBotoes" unique_id=516737630]
-layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "Upgrades"
-
 [node name="BotaoConfig" type="Button" parent="ContainerBotoes" unique_id=1830915783]
 layout_mode = 2
 offset_transform_position = Vector2(50, 100)
@@ -128,10 +134,41 @@ text = "Sair
 
 "
 
-[node name="BotaoItens" type="Button" parent="ContainerBotoes" unique_id=154860014]
+[node name="ContainerJogar" type="VBoxContainer" parent="." unique_id=968872321]
+visible = false
+offset_left = 34.69999
+offset_top = 238.1
+offset_right = 74.69999
+offset_bottom = 278.1
+
+[node name="BotaoMundo" type="Button" parent="ContainerJogar" unique_id=1251157647]
 layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Mundo"
+
+[node name="BotaoUpgrades" type="Button" parent="ContainerJogar" unique_id=516737630]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Upgrades"
+
+[node name="BotaoItens" type="Button" parent="ContainerJogar" unique_id=154860014]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
 text = "Itens"
 
+[node name="BotaoVoltar" type="Button" parent="ContainerJogar" unique_id=201058940]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Voltar
+"
+
+[connection signal="value_changed" from="ContainerConfig/SliderVolume" to="." method="_on_slider_volume_value_changed"]
+[connection signal="item_selected" from="ContainerConfig/CaixaResolucao" to="." method="_on_caixa_resolucao_item_selected"]
+[connection signal="pressed" from="ContainerConfig/BotaoVoltar" to="." method="_on_botao_voltar_pressed"]
 [connection signal="pressed" from="ContainerBotoes/BotaoJogar" to="." method="_on_botao_jogar_pressed"]
-[connection signal="pressed" from="ContainerBotoes/BotaoUpgrades" to="." method="_on_botao_upgrades_pressed"]
-[connection signal="pressed" from="ContainerBotoes/BotaoItens" to="." method="_on_botao_itens_pressed"]
+[connection signal="pressed" from="ContainerBotoes/BotaoConfig" to="." method="_on_botao_config_pressed"]
+[connection signal="pressed" from="ContainerBotoes/BotaoSair" to="." method="_on_botao_sair_pressed"]
+[connection signal="pressed" from="ContainerJogar/BotaoMundo" to="." method="_on_botao_mundo_pressed"]
+[connection signal="pressed" from="ContainerJogar/BotaoUpgrades" to="." method="_on_botao_upgrades_pressed"]
+[connection signal="pressed" from="ContainerJogar/BotaoItens" to="." method="_on_botao_itens_pressed"]
+[connection signal="pressed" from="ContainerJogar/BotaoVoltar" to="." method="_on_botao_voltar_pressed"]
