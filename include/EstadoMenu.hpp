@@ -14,12 +14,13 @@ class GerenciadorMenu : public Node
     public:
     /** @brief Estados de menu que o Godot consulta pra saber qual painel/tela mostrar. */
     enum EstadoMenu {
-    MENU_INICIAL,
-    MENU_JOGAR,          ///< submenu: Batalhar / Inventario Completo / Voltar
-    MENU_CONFIGURACOES,  ///< submenu: Volume / Resolucao / Voltar
-    MENU_INVENTARIO,
-    EM_BATALHA,
-};
+        MENU_INICIAL,
+        MENU_JOGAR,          ///< submenu: Batalhar / Inventario Completo / Voltar
+        MENU_CONFIGURACOES,  ///< submenu: Volume / Resolucao / Voltar
+        MENU_INVENTARIO,
+        EM_BATALHA,
+        MENU_MOVIMENTOS,     ///< submenu: Grade Curricular de Movimentos (Escolha dos 3 golpes)
+    };
     
     GerenciadorMenu();
     ~GerenciadorMenu();
@@ -29,10 +30,7 @@ class GerenciadorMenu : public Node
 
     private: 
     EstadoMenu estado_atual = EstadoMenu::MENU_INICIAL;
-
-
 };
 
 }
 VARIANT_ENUM_CAST(godot::GerenciadorMenu::EstadoMenu);
-

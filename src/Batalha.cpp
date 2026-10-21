@@ -4,6 +4,9 @@
 Batalha::Batalha()
     : heroi(nullptr), professor(nullptr), estado(EstadoBatalha::ESCOLHENDO_ACAO), turnosDecorridos(0) {}
 
+Batalha::Batalha(Herois* h, Professor* p)
+    : heroi(h), professor(p), estado(EstadoBatalha::ESCOLHENDO_ACAO), turnosDecorridos(0) {}
+
 void Batalha::inicializar(Herois* heroiDoJogador, Professor* professorAlvo) {
     heroi = heroiDoJogador;
     professor = professorAlvo;
@@ -12,6 +15,7 @@ void Batalha::inicializar(Herois* heroiDoJogador, Professor* professorAlvo) {
 }
 
 int Batalha::get_estado() const { return static_cast<int>(estado); }
+EstadoBatalha Batalha::getEstado() { return estado; }
 Professor* Batalha::get_professor() const { return professor; }
 Herois* Batalha::get_heroi() const { return heroi; }
 
@@ -27,7 +31,7 @@ Dictionary Batalha::converterParaDictionary(const ResultadoTurno& resultado) con
     return d;
 }
 
-Dictionary Batalha::executar_acao(int indiceGolpe) {
+ResultadoTurno Batalha::executarAcao(int indiceGolpe) {
     ResultadoTurno resultado{};
     resultado.acaoValida = true;
     resultado.heroiAtacou = false;
@@ -39,36 +43,38 @@ Dictionary Batalha::executar_acao(int indiceGolpe) {
         resultado.acaoValida = false;
         resultado.mensagem = "Batalha nao foi inicializada (chame inicializar() antes).";
         resultado.estadoResultante = estado;
-        return converterParaDictionary(resultado);
+        return resultado;
     }
 
     if (estado != EstadoBatalha::ESCOLHENDO_ACAO) {
         resultado.acaoValida = false;
         resultado.mensagem = "A batalha terminou.";
         resultado.estadoResultante = estado;
-        return converterParaDictionary(resultado);
+        return resultado;
     }
 
     int danoBase = 0;
+    int curaBase = 0;
+    std::string nomeMovimento = "";
 
     if (indiceGolpe >= 0 && indiceGolpe < 3) {
-        // Movimento normal escolhido pelo jogador
-        Movimento* movimento = heroi->getMovimentoParaEditar(indiceGolpe); // acesso não-const, pra poder consumir o uso
+        Movimento* movimento = heroi->getMovimentoParaEditar(indiceGolpe);
         if (movimento == nullptr || !movimento->podeUsar()) {
             resultado.acaoValida = false;
-            resultado.mensagem = "Esse movimento nao pode ser usado agora.";
+            resultado.mensagem = "Esse movimento nao possui mais usos disponiveis!";
             resultado.estadoResultante = estado;
-            return converterParaDictionary(resultado);
+            return resultado;
         }
         danoBase = movimento->getDano();
+        curaBase = movimento->getCura();
+        nomeMovimento = movimento->getNome();
         movimento->usar();
     } else if (indiceGolpe == 3) {
-        // 4º slot: item especial
         if (!heroi->itemEspecialPodeUsar()) {
             resultado.acaoValida = false;
             resultado.mensagem = "Nenhum item especial disponivel.";
             resultado.estadoResultante = estado;
-            return converterParaDictionary(resultado);
+            return resultado;
         }
         std::string nomeItem = heroi->getNomeItemEspecial();
         int danoItem = heroi->usarItemEspecial(*professor);
@@ -79,38 +85,58 @@ Dictionary Batalha::executar_acao(int indiceGolpe) {
         if (!professor->estaVivo()) {
             estado = EstadoBatalha::VITORIA;
             resultado.estadoResultante = estado;
-            return converterParaDictionary(resultado);
+            return resultado;
         }
 
         ResultadoTurno resultadoProfessor = processarTurnoProfessor();
         resultadoProfessor.heroiAtacou = resultado.heroiAtacou;
         resultadoProfessor.danoCausadoPeloHeroi = resultado.danoCausadoPeloHeroi;
-        return converterParaDictionary(resultadoProfessor);
+        resultadoProfessor.mensagem = resultado.mensagem + "\n" + resultadoProfessor.mensagem;
+        return resultadoProfessor;
     } else {
         resultado.acaoValida = false;
         resultado.mensagem = "Indice de golpe invalido.";
         resultado.estadoResultante = estado;
-        return converterParaDictionary(resultado);
+        return resultado;
     }
 
-    // dano final do movimento normal, passando pelos itens passivos do herói
-    int danoFinal = heroi->calcularDanoFinal(danoBase);
-    professor->receberDano(danoFinal);
+    int danoFinal = 0;
+    if (danoBase > 0) {
+        danoFinal = heroi->calcularDanoFinal(danoBase);
+        professor->receberDano(danoFinal);
+    }
+    if (curaBase > 0) {
+        heroi->curar(curaBase);
+    }
 
     resultado.heroiAtacou = true;
     resultado.danoCausadoPeloHeroi = danoFinal;
-    resultado.mensagem = heroi->getNome() + " atacou causando " + std::to_string(danoFinal) + " de dano!";
+
+    std::string msgHeroi = heroi->getNome() + " usou " + nomeMovimento + "!";
+    if (danoFinal > 0 && curaBase > 0) {
+        msgHeroi += " (Causou " + std::to_string(danoFinal) + " de dano e recuperou " + std::to_string(curaBase) + " de HP)";
+    } else if (danoFinal > 0) {
+        msgHeroi += " (Causou " + std::to_string(danoFinal) + " de dano)";
+    } else if (curaBase > 0) {
+        msgHeroi += " (Recuperou " + std::to_string(curaBase) + " de HP)";
+    }
+    resultado.mensagem = msgHeroi;
 
     if (!professor->estaVivo()) {
         estado = EstadoBatalha::VITORIA;
         resultado.estadoResultante = estado;
-        return converterParaDictionary(resultado);
+        return resultado;
     }
 
     ResultadoTurno resultadoComProfessor = processarTurnoProfessor();
     resultadoComProfessor.heroiAtacou = resultado.heroiAtacou;
     resultadoComProfessor.danoCausadoPeloHeroi = resultado.danoCausadoPeloHeroi;
-    return converterParaDictionary(resultadoComProfessor);
+    resultadoComProfessor.mensagem = msgHeroi + "\n" + resultadoComProfessor.mensagem;
+    return resultadoComProfessor;
+}
+
+Dictionary Batalha::executar_acao(int indiceGolpe) {
+    return converterParaDictionary(executarAcao(indiceGolpe));
 }
 
 ResultadoTurno Batalha::processarTurnoProfessor() {
@@ -122,7 +148,6 @@ ResultadoTurno Batalha::processarTurnoProfessor() {
     Movimento& golpeProfessor = professor->escolherAtaque();
 
     if (professor->isBatalhaFalsa()) {
-        // US05: entidade roteirizada, não pode causar dano real
         resultado.professorAtacou = true;
         resultado.danoCausadoPeloProfessor = 0;
         resultado.mensagem = professor->getNome() + " faz uma cena dramatica de " + golpeProfessor.getNome() + ", mas erra feio (batalha falsa).";
@@ -136,7 +161,6 @@ ResultadoTurno Batalha::processarTurnoProfessor() {
     turnosDecorridos++;
 
     if (professor->isBatalhaFalsa() && turnosDecorridos >= TURNOS_PARA_VITORIA_BATALHA_FALSA) {
-        // US05: vitória automática após o número fixo de turnos, independente do HP do professor
         estado = EstadoBatalha::VITORIA;
     } else if (!heroi->estaVivo()) {
         estado = EstadoBatalha::DERROTA;
@@ -179,13 +203,13 @@ Dictionary Batalha::usar_item_chave() {
 
     resultado.acaoValida = true;
     resultado.mensagem = professor->getNome() + " nao esta mais invulneravel!";
-    resultado.estadoResultante = estado; // continua ESCOLHENDO_ACAO — o professor ainda nao apanhou
+    resultado.estadoResultante = estado;
 
     return converterParaDictionary(resultado);
 }
 
 Dictionary Batalha::fugir() {
-    estado = EstadoBatalha::FUGIU; // o jogador escolheu fugir da batalha, a run é perdida
+    estado = EstadoBatalha::FUGIU;
 
     ResultadoTurno resultado{};
     resultado.acaoValida = true;
