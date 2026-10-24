@@ -25,7 +25,7 @@ public:
     int getIndiceBatalhaAtual() const;
 
     /** @brief Cria (via ProfessoresFabrica) o Professor correspondente à batalha atual. */
-    Professor gerarProximoProfessor() const;
+    Professor* gerarProximoProfessor() const;
 
     /**
      * @brief Avança a progressão após uma VITORIA na Batalha.

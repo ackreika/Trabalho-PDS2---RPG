@@ -1,26 +1,5 @@
 #include "ItensConcretos.hpp"
 
-namespace {
-/** Tabela única ItemId <-> texto. Ao criar um item novo em ItensIds.hpp, acrescente-o aqui também. */
-struct NomeDeItem {
-    ItemId id;
-    const char* texto;
-};
-
-const NomeDeItem NOMES_DE_ITENS[] = {
-    {ItemId::HALTER,        "HALTER"},
-    {ItemId::SUCO,          "SUCO"},
-    {ItemId::LASER,         "LASER"},
-    {ItemId::JAMES_STEWART, "JAMES_STEWART"},
-    {ItemId::INTEGRAL,      "INTEGRAL"},
-    {ItemId::DERIVADA,      "DERIVADA"},
-    {ItemId::VETOR,         "VETOR"},
-    {ItemId::INTERPOLACAO,  "INTERPOLACAO"},
-    {ItemId::REFRIGERADOR,  "REFRIGERADOR"},
-    {ItemId::PONTEIRO,      "PONTEIRO"},
-};
-}
-
 ItemPassivo criarItemPassivo(ItemId id) {
     switch (id) {
         case ItemId::HALTER:
@@ -64,27 +43,4 @@ bool ehItemEspecial(ItemId id) {
         default:
             return false;
     }
-}
-
-bool itemIdDeTexto(const std::string& texto, ItemId& saida) {
-    for (const NomeDeItem& entrada : NOMES_DE_ITENS) {
-        if (texto == entrada.texto) {
-            saida = entrada.id;
-            return true;
-        }
-    }
-    return false;
-}
-
-std::string itemIdParaTexto(ItemId id) {
-    for (const NomeDeItem& entrada : NOMES_DE_ITENS) {
-        if (entrada.id == id) {
-            return entrada.texto;
-        }
-    }
-    return "";
-}
-
-bool ehItemPassivo(ItemId id) {
-    return !itemIdParaTexto(id).empty() && !ehItemEspecial(id);
 }

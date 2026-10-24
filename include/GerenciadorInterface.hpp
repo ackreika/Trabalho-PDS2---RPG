@@ -1,20 +1,17 @@
 #pragma once
 
 #include <godot_cpp/classes/canvas_layer.hpp>
+#include <godot_cpp/classes/control.hpp>
 #include <godot_cpp/classes/button.hpp>
+#include <godot_cpp/classes/label.hpp>
+#include <vector>
 #include "EstadoMenu.hpp"
 
 using namespace godot;
 
 /**
- * @brief Conhece em qual tela de menu o jogador está e guarda as configurações
- * de áudio/vídeo (GerenciadorInterface, no CRC).
- *
- * A aplicação real do volume/resolução no motor (AudioServer, DisplayServer)
- * é feita pelo Godot; aqui só fica o DADO da configuração.
- *
- * EstadoMenu, do lado do GDScript, é só um número (int) — a correspondência é:
- * 0 = MENU_INICIAL, 1 = MENU_JOGAR, 2 = MENU_CONFIGURACOES, 3 = MENU_INVENTARIO, 4 = EM_BATALHA
+ * @brief Conhece em qual tela de menu o jogador está, guarda as configurações
+ * de áudio/vídeo e constrói/controla o Menu de Movimentos em C++.
  */
 class GerenciadorInterface : public CanvasLayer {
     GDCLASS(GerenciadorInterface, CanvasLayer)
@@ -23,17 +20,29 @@ private:
     GerenciadorMenu::EstadoMenu estadoAtual;
     float volume;
     int indiceResolucao;
+
+    // Componentes do Menu de Movimentos gerenciados em C++
+    Control* painelMovimentos;
+    Label* labelStatusMovimentos;
+    Button* botoesSlot[3];
+    std::vector<Button*> botoesCatalogo;
+    int slotMovimentoSelecionado;
+
+    void inicializar_componentes();
     void atualizar_telas();
+    void criar_painel_movimentos();
+    void atualizar_painel_movimentos();
+
 protected:
-    /** @brief Registra os métodos públicos pro Godot/GDScript enxergar. */
     static void _bind_methods();
 
 public:
-    /** @brief Cria o gerenciador já no MENU_INICIAL, volume 1.0 e resolução padrão. */
     GerenciadorInterface();
 
     void _ready() override;
-    // Logica dos botões
+    void _notification(int p_what);
+
+    // Lógica dos botões principais
     void clicar_jogar();
     void iniciar_batalha(); 
     void clicar_configuracoes();
@@ -44,23 +53,22 @@ public:
     void clicar_mundo_principal();
     void clicar_quests();
     void clicar_equipamento();
-    /** @brief Retorna o int correspondente ao EstadoMenu atual. */
+
+    // Lógica do Menu de Movimentos em C++
+    void clicar_movimentos();
+    void clicar_fechar_movimentos();
+    void selecionar_slot_movimento(int slot);
+    void escolher_movimento_catalogo(int idCatalogo);
+
     GerenciadorMenu::EstadoMenu getEstadoAtual() const;
-    /** @brief Muda o estado do menu (recebe o int, converte pra EstadoMenu internamente). */
     void irPara(GerenciadorMenu::EstadoMenu novoEstado);
-    /** @brief Volta pro MENU_INICIAL — usado pelos botões "Voltar" dos submenus. */
     void voltar();
 
-    /** @brief Retorna o volume configurado (0.0 a 1.0). */
     float getVolume() const;
-    /** @brief Define o volume, travado entre 0.0 e 1.0. */
     void definirVolume(float novoVolume);
 
-    /** @brief Retorna o índice da resolução escolhida. */
     int getIndiceResolucao() const;
-    /** @brief Define o índice da resolução escolhida. */
     void definirIndiceResolucao(int indice);
 
-    /** @brief Sinaliza início/retomada de partida; muda o estado pra EM_BATALHA. */
     void iniciarOuRetomarPartida();
 };
