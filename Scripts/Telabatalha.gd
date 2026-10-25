@@ -126,9 +126,8 @@ func _verificar_fim_de_batalha(estado: int) -> void:
 						heroi.dar_item_especial(item_id)
 					$LabelMensagem.text += "\nNovo item ativo: %s" % Itens.descricao_especial(item_id)
 
-			# Item chave: entregue em TODA run por quem estiver em Itens.DROPA_ITEM_CHAVE
-			var chave_prof := "%d_%d" % [Global.id_area_atual, Global.indice_batalha_atual]
-			if chave_prof in Itens.DROPA_ITEM_CHAVE:
+			# Item chave: entregue em TODA run por quem a tabela do C++ (GerenciadorRecompensas) indicar
+			if Recompensas.dropa_item_chave(Global.id_area_atual, Global.indice_batalha_atual):
 				heroi.obter_item_chave()
 				$LabelMensagem.text += "\nVoce obteve o item chave! Use-o contra o chefe final."
 			
