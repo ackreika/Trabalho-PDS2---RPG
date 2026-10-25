@@ -9,6 +9,7 @@
 #include "Professor.hpp"
 #include "Batalha.hpp"
 #include "GerenciadorInterface.hpp"
+#include "Recompensas.hpp"
 #include "ProfessoresFabrica.hpp"
 
 using namespace godot;
@@ -22,6 +23,7 @@ void initialize_game_module(ModuleInitializationLevel p_level) {
     ClassDB::register_class<Herois>();
     ClassDB::register_class<Professor>();
     ClassDB::register_class<Batalha>();
+    ClassDB::register_class<Recompensas>();
     ClassDB::register_class<ProfessoresFabrica>();
 }
 
