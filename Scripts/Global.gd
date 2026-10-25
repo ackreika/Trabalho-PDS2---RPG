@@ -27,11 +27,6 @@ func iniciar_primeira_batalha(id_area: int = 0) -> void:
 	Progresso.aplicar_ao_heroi(heroi)           # aplica os upgrades comprados
 	heroi.carregar_movimentos_escolhidos()      # carrega do C++ os 3 movimentos escolhidos no Menu de Movimentos
 
-	# NOVO, só para testar (apague depois):
-	heroi.dar_item_passivo("HALTER")
-	heroi.dar_item_especial("LASER")
-	heroi.obter_item_chave()
-
 	id_area_atual = clampi(id_area, 0, ProfessoresFabrica.get_quantidade_areas() - 1)
 	indice_batalha_atual = 1
 	_iniciar_batalha_atual()
