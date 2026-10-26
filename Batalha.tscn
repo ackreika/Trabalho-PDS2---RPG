@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://de7eoto2cxd2c"]
 
 [ext_resource type="Script" uid="uid://bj2h8r0t0y7od" path="res://Scripts/Telabatalha.gd" id="1_7tfhx"]
-[ext_resource type="Texture2D" uid="uid://ditt1pmy7dgeb" path="res://imagens/Israel.png" id="2_6nkgd"]
+[ext_resource type="Texture2D" uid="uid://b8eu56lswhe7g" path="res://imagens/Israel.png" id="2_6nkgd"]
 [ext_resource type="Texture2D" uid="uid://wd4g7nd0vifu" path="res://imagens/SubstitutoNormal-removebg-preview.png" id="3_ubxm8"]
 
 [node name="Control" type="Control" unique_id=2016982446]

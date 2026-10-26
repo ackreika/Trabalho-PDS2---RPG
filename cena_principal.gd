@@ -105,8 +105,11 @@ func _on_botao_voltar_pressed() -> void:
 	clicar_voltar()
 
 func _on_slider_volume_value_changed(valor: float) -> void:
+	mudar_volume(valor) # Mantém o seu código C++ salvo
 	
-	mudar_volume(valor)
+	# Se o valor for 0, fica mudo. Se for 100, fica no volume normal.
+	var volume_db = linear_to_db(valor / 100.0)
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), volume_db)
 
 func _on_caixa_resolucao_item_selected(indice: int) -> void:
 	
