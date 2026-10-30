@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://8btqe7dmk4kl"]
+
+[ext_resource type="Script" uid="uid://b02fm8nd4f4te" path="res://musica_fundo.gd" id="1_2ooq4"]
+[ext_resource type="AudioStream" uid="uid://cmt0xc3qs1npi" path="res://musicas/LoopFundo.ogg" id="1_6sxsq"]
+[ext_resource type="AudioStream" uid="uid://duaf1nt4usicr" path="res://musicas/LoopBatalha.ogg" id="2_mttq6"]
+[ext_resource type="AudioStream" uid="uid://6cj433l1ornk" path="res://musicas/LoopBatalhaBoss.ogg" id="3_mttq6"]
+
+[node name="MusicaFundo" type="Node" unique_id=146511134]
+script = ExtResource("1_2ooq4")
+
+[node name="TocadorIntro" type="AudioStreamPlayer" parent="." unique_id=1579755269]
+stream = ExtResource("1_6sxsq")
+
+[node name="TocadorBatalha" type="AudioStreamPlayer" parent="." unique_id=2021049277]
+stream = ExtResource("2_mttq6")
+
+[node name="TocadorBatalhaBoss" type="AudioStreamPlayer" parent="." unique_id=1604968052]
+stream = ExtResource("3_mttq6")

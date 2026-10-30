@@ -16,6 +16,7 @@ const ESTADO_ATACANDO = 4
 const CENA_MENU := "res://CenaPrincipal.tscn"
 
 func _ready() -> void:
+	get_node("/root/MusicaFundo").tocar_intro()
 	if Global.batalha_atual == null:
 		push_error("Entrou na tela de batalha sem Global.iniciar_primeira_batalha() ter sido chamado antes.")
 		return
@@ -72,6 +73,7 @@ func _executar_turno(indice: int) -> void:
 	if _ocupado:
 		return
 	_ocupado = true
+	get_node("/root/MusicaFundo").iniciar_musica_batalha()
 	atualizar_sprite_professor(ESTADO_ATACANDO)
 
 	var resultado: Dictionary = Global.batalha_atual.executar_acao(indice)
@@ -185,5 +187,6 @@ func _desabilitar_botoes() -> void:
 	$BotaoItemChave.disabled = true
 
 func _voltar_ao_menu() -> void:
-	Global.encerrar_run()  # libera herói e professor da run que acabou
+	get_node("/root/MusicaFundo").parar_tudo()
+	Global.encerrar_run()
 	get_tree().change_scene_to_file(CENA_MENU)
