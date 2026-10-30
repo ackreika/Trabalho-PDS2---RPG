@@ -24,11 +24,8 @@ func iniciar_primeira_batalha(id_area: int = 0) -> void:
 	# é sempre criado do zero, então o bloco fica sem indentação extra)
 	heroi = Herois.new()
 	heroi.inicializar("Estudante", 100, 10, 20) # nome, vida_maxima, defesa, dano_base
-	Progresso.aplicar_ao_heroi(heroi)           # aplica os upgrades comprados    
-	# NOVO, só para testar (apague depois):
-	heroi.dar_item_passivo("HALTER")
-	heroi.dar_item_especial("LASER")
-	heroi.obter_item_chave()
+	Progresso.aplicar_ao_heroi(heroi)           # aplica os upgrades comprados
+	heroi.carregar_movimentos_escolhidos()      # carrega do C++ os 3 movimentos escolhidos no Menu de Movimentos
 
 	id_area_atual = clampi(id_area, 0, ProfessoresFabrica.get_quantidade_areas() - 1)
 	indice_batalha_atual = 1

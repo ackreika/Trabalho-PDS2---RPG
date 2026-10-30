@@ -6,19 +6,9 @@
 #include <godot_cpp/variant/dictionary.hpp>
 
 namespace {
+/** Converte o ID textual vindo do GDScript ("HALTER"...) em ItemId, usando a tabela única de ItensConcretos. */
 bool idParaItem(const String& id, ItemId& saida) {
-    std::string chave = std::string(id.utf8().get_data());
-    if (chave == "HALTER")        { saida = ItemId::HALTER;        return true; }
-    if (chave == "SUCO")          { saida = ItemId::SUCO;          return true; }
-    if (chave == "LASER")         { saida = ItemId::LASER;         return true; }
-    if (chave == "JAMES_STEWART") { saida = ItemId::JAMES_STEWART; return true; }
-    if (chave == "INTEGRAL")      { saida = ItemId::INTEGRAL;      return true; }
-    if (chave == "DERIVADA")      { saida = ItemId::DERIVADA;      return true; }
-    if (chave == "VETOR")         { saida = ItemId::VETOR;         return true; }
-    if (chave == "INTERPOLACAO")  { saida = ItemId::INTERPOLACAO;  return true; }
-    if (chave == "REFRIGERADOR")  { saida = ItemId::REFRIGERADOR;  return true; }
-    if (chave == "PONTEIRO")      { saida = ItemId::PONTEIRO;      return true; }
-    return false;
+    return itemIdDeTexto(std::string(id.utf8().get_data()), saida);
 }
 }
 

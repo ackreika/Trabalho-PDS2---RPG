@@ -56,7 +56,7 @@ func desbloquear_por_vitoria(area: int, indice: int) -> Array:
 	if chave in professores_derrotados:
 		return ganhos
 	professores_derrotados.append(chave)
-	for item in Itens.RECOMPENSAS.get(chave, []):
+	for item in Recompensas.itens_do_professor(area, indice): # tabela de drops: GerenciadorRecompensas.cpp
 		if item in itens_desbloqueados:
 			continue
 		itens_desbloqueados.append(item)
