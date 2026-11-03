@@ -1,4 +1,6 @@
 #include "ModificadorStatus.hpp"
+#include <algorithm>
+#include <limits>
 
 ModificadorStatus::ModificadorStatus(TipoModificador tipo, int duracaoTurnos)
     : tipo(tipo), duracaoRestante(duracaoTurnos) {}
@@ -20,11 +22,15 @@ bool ModificadorStatus::deveSerRemovido() const {
 }
 
 int ModificadorStatus::interceptarDano(int danoBase) const {
+	if (danoBase <= 0) return 0;
+    if (!estaAtivo()) return danoBase;
     switch (tipo) {
         case TipoModificador::INVULNERAVEL:
             return 0;
-        case TipoModificador::FORTALECIDO:
-            return static_cast<int>(danoBase * 1.20);
+		case TipoModificador::FORTALECIDO: {
+			const double fortalecido = static_cast<double>(danoBase) * 1.20;
+			return static_cast<int>(std::min(fortalecido, static_cast<double>(std::numeric_limits<int>::max())));
+		}
         default:
             return danoBase;
     }

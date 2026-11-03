@@ -1,12 +1,15 @@
 #include "Movimento.hpp"
+#include <algorithm>
+#include <limits>
 
 Movimento::Movimento(std::string nome, int dano, int usosMaximos)
-    : nome(nome), disciplina("Geral"), dano(dano), cura(0),
+    : nome(nome.empty() ? "Movimento" : nome), disciplina("Geral"), dano(std::max(0, dano)), cura(0),
       usosMaximos(usosMaximos), usosRestantes(usosMaximos), descricao("") {}
 
 Movimento::Movimento(std::string nome, std::string disciplina, int dano, int cura, int usosMaximos, std::string descricao)
-    : nome(nome), disciplina(disciplina), dano(dano), cura(cura),
-      usosMaximos(usosMaximos), usosRestantes(usosMaximos), descricao(descricao) {}
+    : nome(nome.empty() ? "Movimento" : nome), disciplina(disciplina.empty() ? "Geral" : disciplina),
+      dano(std::max(0, dano)), cura(std::max(0, cura)), usosMaximos(usosMaximos),
+      usosRestantes(usosMaximos), descricao(descricao) {}
 
 std::string Movimento::getNome() const { return nome; }
 std::string Movimento::getDisciplina() const { return disciplina; }
@@ -49,7 +52,9 @@ void Movimento::resetarUsos() {
 }
 
 void Movimento::aumentarPoder(int incremento) {
-    dano += incremento;
+    if (incremento <= 0) return;
+    const long long danoNovo = static_cast<long long>(dano) + incremento;
+    dano = static_cast<int>(std::min<long long>(danoNovo, std::numeric_limits<int>::max()));
 }
 
 const std::vector<Movimento>& Movimento::getCatalogoMovimentos() {

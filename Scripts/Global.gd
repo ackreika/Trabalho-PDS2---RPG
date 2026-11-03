@@ -11,15 +11,26 @@ var heroi: Herois
 var professor_atual: Professor
 var batalha_atual: Batalha
 
-var id_area_atual: int = 0      # 0=Calculo, 1=GAAL, 2=Fisica, 3=PDS
-var indice_batalha_atual: int = 1
+var _semestre: GerenciadorSemestre
+var id_area_atual: int:
+	get: return _semestre.get_id_area_atual() if _semestre else 0
+var indice_batalha_atual: int:
+	get: return _semestre.get_indice_batalha_atual() if _semestre else 1
 var voltar_para_submenu: bool = false
 
 ## Monta o herói (se ainda não existir) e a primeira batalha da área/índice atuais.
 ## Chame isso quando o jogador escolher uma área no menu.
 ## id_area: 0=Calculo, 1=GAAL, 2=Fisica, 3=PDS (padrão 0, como antes).
-func iniciar_primeira_batalha(id_area: int = 0) -> void:
+func iniciar_primeira_batalha(id_area: int = 0) -> bool:
+	if not ClassDB.class_exists("GerenciadorSemestre") or not ClassDB.class_exists("ProfessoresFabrica") or not ClassDB.class_exists("Herois") or not ClassDB.class_exists("Batalha"):
+		push_error("Não foi possível iniciar a batalha: extensão C++ incompleta ou não carregada.")
+		return false
+	if id_area < 0 or id_area >= ProfessoresFabrica.get_quantidade_areas():
+		push_error("Não foi possível iniciar a batalha: área selecionada inválida.")
+		return false
 	encerrar_run()  # limpa o herói e o professor da run anterior
+	_semestre = GerenciadorSemestre.new()
+	_semestre.iniciar(id_area)
 
 	# é sempre criado do zero, então o bloco fica sem indentação extra)
 	heroi = Herois.new()
@@ -27,21 +38,20 @@ func iniciar_primeira_batalha(id_area: int = 0) -> void:
 	Progresso.aplicar_ao_heroi(heroi)           # aplica os upgrades comprados
 	heroi.carregar_movimentos_escolhidos()      # carrega do C++ os 3 movimentos escolhidos no Menu de Movimentos
 
-	id_area_atual = clampi(id_area, 0, ProfessoresFabrica.get_quantidade_areas() - 1)
-	indice_batalha_atual = 1
-	_iniciar_batalha_atual()
+	return _iniciar_batalha_atual()
 
 
 ## Uma área está liberada se for a primeira (Cálculo) ou se o boss dela (a última
 ## batalha da área anterior) já foi vencido em alguma run. Isso persiste em disco,
 ## pois usa a lista Progresso.professores_derrotados, que já é salva.
 func area_desbloqueada(id_area: int) -> bool:
-	if id_area <= 0:
+	if id_area < 0 or id_area >= ProfessoresFabrica.get_quantidade_areas():
+		return false
+	if id_area == 0:
 		return true
 	var anterior: int = id_area - 1
-	var chave := "%d_%d" % [anterior, ProfessoresFabrica.get_quantidade_batalhas(anterior)]
-	return chave in Progresso.professores_derrotados
-
+	var boss_indice: int = ProfessoresFabrica.get_quantidade_batalhas(anterior)
+	return Progresso.ja_venceu_professor(anterior, boss_indice)
 
 ## Libera a run atual (herói, professor e batalha).
 func encerrar_run() -> void:
@@ -52,21 +62,38 @@ func encerrar_run() -> void:
 		heroi.free()
 	professor_atual = null
 	heroi = null
+	_semestre = null
 
 ## Avança pra próxima batalha (chamar depois de uma VITORIA). Troca de área
 ## automaticamente quando a área atual acaba. Retorna false se o jogo já acabou.
 func avancar_para_proxima_batalha() -> bool:
-	indice_batalha_atual += 1
-	if indice_batalha_atual > ProfessoresFabrica.get_quantidade_batalhas(id_area_atual):
-		id_area_atual += 1
-		indice_batalha_atual = 1
-		if id_area_atual >= ProfessoresFabrica.get_quantidade_areas():
-			return false # acabaram todas as áreas — fim de jogo
-	_iniciar_batalha_atual()
-	return true
+	if not is_instance_valid(_semestre) or not is_instance_valid(heroi) or not _semestre.avancar_batalha():
+		return false
+	return _iniciar_batalha_atual()
+
+func semestre_concluido() -> bool:
+	return is_instance_valid(_semestre) and _semestre.venceu_o_jogo()
 
 
-func _iniciar_batalha_atual() -> void:
+func _iniciar_batalha_atual() -> bool:
+	if not is_instance_valid(_semestre) or not is_instance_valid(heroi):
+		push_error("Não foi possível criar a batalha: semestre ou herói inválido.")
+		return false
 	professor_atual = ProfessoresFabrica.criar_professor(id_area_atual, indice_batalha_atual)
+	if not is_instance_valid(professor_atual):
+		push_error("A fábrica não conseguiu criar um professor para esta batalha.")
+		return false
 	batalha_atual = Batalha.new()
+	if not is_instance_valid(batalha_atual):
+		professor_atual.free()
+		professor_atual = null
+		push_error("Não foi possível alocar o estado da batalha.")
+		return false
 	batalha_atual.inicializar(heroi, professor_atual)
+	if batalha_atual.get_estado() != 0:
+		batalha_atual = null
+		professor_atual.free()
+		professor_atual = null
+		push_error("A batalha rejeitou os personagens por estado inválido.")
+		return false
+	return true

@@ -13,10 +13,12 @@
  */
 class MochilaItens {
 private:
-    Herois& heroi;
+    const Herois& heroi;
+    Herois* heroiMutavel;
 
 public:
     /** @brief Cria a mochila associada a um herói específico. */
+    MochilaItens(const Herois& heroi);
     MochilaItens(Herois& heroi);
 
     /** @brief Retorna quantos itens passivos o herói possui. */

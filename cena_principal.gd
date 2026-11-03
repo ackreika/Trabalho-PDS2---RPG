@@ -12,7 +12,7 @@ var _botoes_areas: Array[Button] = []
 func _ready() -> void:
 	_criar_painel_areas()
 	if Global.voltar_para_submenu:
-		Global.voltar_para_submenu = false 
+		Global.voltar_para_submenu = false
 		clicar_jogar()
 	var caixa_res = $ContainerConfig/CaixaResolucao
 	if caixa_res.item_count == 6:
@@ -79,11 +79,12 @@ func _abrir_painel_areas() -> void:
 
 func _fechar_painel_areas() -> void:
 	_painel_areas.visible = false
+	clicar_jogar()
 
 
 func _on_area_escolhida(id_area: int) -> void:
-	Global.iniciar_primeira_batalha(id_area)
-	get_tree().change_scene_to_file(CENA_BATALHA)
+	if Global.iniciar_primeira_batalha(id_area):
+		get_tree().change_scene_to_file(CENA_BATALHA)
 
 
 func _on_botao_upgrades_pressed() -> void:

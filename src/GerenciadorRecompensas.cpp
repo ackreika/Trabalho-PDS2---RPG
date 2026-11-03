@@ -1,4 +1,6 @@
-#include "GerenciadorRecompensas.hpp"
+﻿#include "GerenciadorRecompensas.hpp"
+
+using namespace godot;
 
 namespace {
 /** Um professor que dá recompensa. Professores fora da tabela não dão nada. */

@@ -3,7 +3,7 @@
  * @brief Testes de unidade (TDD) para a entidade Professor.
  *        Valida a mecânica de chefes finais (Bosses) e invulnerabilidade (US04).
  */
-#include "../include/doctest.h"
+#include "../third_party/doctest.h"
 #include "../include/Professor.hpp"
 
 TEST_CASE("Testando Invulnerabilidade de Boss Final") {
