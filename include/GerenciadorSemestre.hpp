@@ -1,23 +1,29 @@
 #pragma once
+#include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/core/class_db.hpp>
 #include "Professor.hpp"
-#include "ProgressoJogador.hpp"
 
 /**
  * @brief Orquestra a progressão da run (GerenciadorSemestre, no CRC): sabe em
  * qual área o jogador está, em qual das 4 batalhas daquela área, e quando a
  * run inteira foi vencida ("Fuga do ICEx").
  *
- * idArea: 0=Cálculo, 1=Física, 2=GAAL, 3=PDS (nessa ordem fixa)
+ * idArea: 0=Cálculo, 1=GAAL, 2=Física, 3=PDS (nessa ordem fixa)
  */
-class GerenciadorSemestre {
+class GerenciadorSemestre : public godot::RefCounted {
+    GDCLASS(GerenciadorSemestre, godot::RefCounted)
+
+protected:
+    static void _bind_methods();
+
 private:
     int idAreaAtual;
     int indiceBatalhaAtual; ///< 1 a 4
-    static const int TOTAL_AREAS = 4;
 
 public:
     /** @brief Inicia a progressão na área 0 (Cálculo), batalha 1. */
     GerenciadorSemestre();
+    void iniciar(int idArea = 0);
 
     /** @brief Retorna o índice da área atual (0 a 3). */
     int getIdAreaAtual() const;
@@ -36,4 +42,9 @@ public:
 
     /** @brief Retorna true se o boss da última área já foi vencido ("Fuga do ICEx"). */
     bool venceuOJogo() const;
+
+    int get_id_area_atual() const;
+    int get_indice_batalha_atual() const;
+    bool avancar_batalha();
+    bool venceu_o_jogo() const;
 };

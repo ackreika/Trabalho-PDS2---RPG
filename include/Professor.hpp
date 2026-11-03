@@ -5,6 +5,7 @@
 #include <map>
 #include "Movimento.hpp"
 #include "EstadosVisuais.hpp"
+#include "ModificadorStatus.hpp"
 
 using namespace godot;
 
@@ -43,7 +44,9 @@ private:
     int vida;
     int vidaMaxima;
     int defesa;
-    bool invulneravel;
+    ModificadorStatus statusInvulnerabilidade;
+    bool invulnerabilidadeNaMetadeHabilitada;
+    bool invulnerabilidadeMetadeAtivada;
     bool ehBatalhaFalsa;
     std::vector<Movimento> movimentos;
 
@@ -82,6 +85,7 @@ public:
     bool isInvulneravel() const;
     /** @brief Remove a invulnerabilidade do Boss (chamado ao usar o item de história na batalha). */
     void removerInvulnerabilidade();
+    void ativarInvulnerabilidadeNaMetadeDaVida();
 
     int get_tipo() const;
     bool is_batalha_falsa() const;

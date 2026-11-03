@@ -52,7 +52,6 @@ public:
     void mudar_resolucao(int indice);
     void clicar_mundo_principal();
     void clicar_quests();
-    void clicar_equipamento();
 
     // Lógica do Menu de Movimentos em C++
     void clicar_movimentos();

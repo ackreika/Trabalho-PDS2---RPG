@@ -19,6 +19,7 @@
 #include <godot_cpp/classes/button.hpp>
 #include <godot_cpp/classes/label.hpp>
 #include <algorithm>
+#include <cmath>
 
 using namespace godot;
 
@@ -33,7 +34,6 @@ void GerenciadorInterface::_bind_methods()
     
     ClassDB::bind_method(D_METHOD("clicar_mundo_principal"), &GerenciadorInterface::clicar_mundo_principal);
     ClassDB::bind_method(D_METHOD("clicar_quests"), &GerenciadorInterface::clicar_quests);
-    ClassDB::bind_method(D_METHOD("clicar_equipamento"), &GerenciadorInterface::clicar_equipamento);
 
     // Métodos do Menu de Movimentos em C++
     ClassDB::bind_method(D_METHOD("clicar_movimentos"), &GerenciadorInterface::clicar_movimentos);
@@ -74,9 +74,7 @@ void GerenciadorInterface::inicializar_componentes()
     Button* botao_sair = has_node("ContainerBotoes/BotaoSair") ? get_node<Button>("ContainerBotoes/BotaoSair") : nullptr;
     Button* botao_voltar = has_node("ContainerConfig/BotaoVoltar") ? get_node<Button>("ContainerConfig/BotaoVoltar") : nullptr;
     
-    Button* botao_mundo = has_node("ContainerJogar/BotaoMundo") ? get_node<Button>("ContainerJogar/BotaoMundo") : nullptr;
     Button* botao_quests = has_node("ContainerJogar/BotaoQuests") ? get_node<Button>("ContainerJogar/BotaoQuests") : nullptr;
-    Button* botao_equipamento = has_node("ContainerJogar/BotaoEquipamento") ? get_node<Button>("ContainerJogar/BotaoEquipamento") : nullptr;
     Button* botao_voltar_jogar = has_node("ContainerJogar/BotaoVoltar") ? get_node<Button>("ContainerJogar/BotaoVoltar") : nullptr;
     
     HSlider* slider_volume = has_node("ContainerConfig/SliderVolume") ? get_node<HSlider>("ContainerConfig/SliderVolume") : nullptr;
@@ -108,37 +106,15 @@ void GerenciadorInterface::inicializar_componentes()
     if (botao_voltar && !botao_voltar->is_connected("pressed", Callable(this, "clicar_voltar")))
         botao_voltar->connect("pressed", Callable(this, "clicar_voltar"));
     
-    if (botao_mundo && !botao_mundo->is_connected("pressed", Callable(this, "clicar_mundo_principal")))
-        botao_mundo->connect("pressed", Callable(this, "clicar_mundo_principal"));
+    // BotaoMundo e conectado pelo cena_principal.gd, que abre o seletor de areas.
+    // Nao iniciar uma run por uma segunda conexao C++ neste mesmo botao.
     if (botao_quests && !botao_quests->is_connected("pressed", Callable(this, "clicar_quests")))
         botao_quests->connect("pressed", Callable(this, "clicar_quests"));
-    if (botao_equipamento && !botao_equipamento->is_connected("pressed", Callable(this, "clicar_equipamento")))
-        botao_equipamento->connect("pressed", Callable(this, "clicar_equipamento"));
     if (botao_voltar_jogar && !botao_voltar_jogar->is_connected("pressed", Callable(this, "clicar_voltar")))
         botao_voltar_jogar->connect("pressed", Callable(this, "clicar_voltar"));
 
     if (slider_volume && !slider_volume->is_connected("value_changed", Callable(this, "mudar_volume")))
         slider_volume->connect("value_changed", Callable(this, "mudar_volume"));
-
-    if (has_node("ContainerBotoes")) {
-        Control* container_botoes = get_node<Control>("ContainerBotoes");
-        Button* botao_movimentos = has_node("ContainerBotoes/BotaoMovimentos")
-                                       ? get_node<Button>("ContainerBotoes/BotaoMovimentos")
-                                       : nullptr;
-        if (!botao_movimentos && container_botoes) {
-            botao_movimentos = memnew(Button);
-            botao_movimentos->set_name("BotaoMovimentos");
-            botao_movimentos->set_text("Movimentos");
-            botao_movimentos->add_theme_font_size_override("font_size", 40);
-            container_botoes->add_child(botao_movimentos);
-        }
-        if (botao_movimentos) {
-            Callable acao_movimentos(this, "clicar_movimentos");
-            if (!botao_movimentos->is_connected("pressed", acao_movimentos)) {
-                botao_movimentos->connect("pressed", acao_movimentos);
-            }
-        }
-    }
 
     criar_painel_movimentos();
 }
@@ -250,10 +226,22 @@ void GerenciadorInterface::atualizar_painel_movimentos()
     if (!painelMovimentos) return;
 
     const auto& catalogo = Movimento::getCatalogoMovimentos();
+    if (catalogo.empty()) {
+        UtilityFunctions::push_error("Não foi possível atualizar os movimentos: catálogo vazio.");
+        for (Button* btn : botoesSlot) {
+            if (btn) btn->set_text("Movimentos indisponíveis");
+        }
+        return;
+    }
 
     for (int i = 0; i < 3; i++) {
         if (!botoesSlot[i]) continue;
         int idEquipado = Herois::getMovimentoEscolhido(i);
+        if (idEquipado < 0 || idEquipado >= static_cast<int>(catalogo.size())) {
+            UtilityFunctions::push_warning("Movimento equipado inválido; restaurando o primeiro movimento do catálogo.");
+            Herois::definirMovimentoEscolhido(i, 0);
+            idEquipado = 0;
+        }
         const Movimento& m = catalogo[idEquipado];
 
         std::string prefixo = (i == slotMovimentoSelecionado) ? ">> [EDITANDO SLOT " : "[SLOT ";
@@ -271,6 +259,7 @@ void GerenciadorInterface::atualizar_painel_movimentos()
 
     for (int id = 0; id < static_cast<int>(botoesCatalogo.size()) && id < static_cast<int>(catalogo.size()); id++) {
         Button* btn = botoesCatalogo[id];
+        if (!btn) continue;
         const Movimento& m = catalogo[id];
         int slotOndeEsta = Herois::encontrarSlotDoMovimento(id);
 
@@ -306,7 +295,7 @@ void GerenciadorInterface::clicar_fechar_movimentos()
     if (painelMovimentos) {
         painelMovimentos->set_visible(false);
     }
-    irPara(GerenciadorMenu::EstadoMenu::MENU_INICIAL);
+    irPara(GerenciadorMenu::EstadoMenu::MENU_JOGAR);
     atualizar_telas();
 }
 
@@ -320,6 +309,11 @@ void GerenciadorInterface::selecionar_slot_movimento(int slot)
 
 void GerenciadorInterface::escolher_movimento_catalogo(int idCatalogo)
 {
+    if (slotMovimentoSelecionado < 0 || slotMovimentoSelecionado >= 3 ||
+        idCatalogo < 0 || idCatalogo >= Movimento::getQuantidadeCatalogo()) {
+        UtilityFunctions::push_warning("Seleção de movimento fora da faixa; ação ignorada.");
+        return;
+    }
     Herois::definirMovimentoEscolhido(slotMovimentoSelecionado, idCatalogo);
     slotMovimentoSelecionado = (slotMovimentoSelecionado + 1) % 3;
     atualizar_painel_movimentos();
@@ -361,23 +355,13 @@ void GerenciadorInterface::clicar_jogar()
 
 void GerenciadorInterface::clicar_mundo_principal() 
 {
-    UtilityFunctions::print(">> Entrou no Mundo Principal!");
-    iniciarOuRetomarPartida(); 
-    Node* global = has_node("/root/Global") ? get_node<Node>("/root/Global") : nullptr;
-    if (global) {
-        global->call("iniciar_primeira_batalha");
-    }
+    irPara(GerenciadorMenu::EstadoMenu::MENU_JOGAR);
     atualizar_telas();
 }
 
 void GerenciadorInterface::clicar_quests() 
 {
     UtilityFunctions::print(">> Abrindo menu de Quests...");
-}
-
-void GerenciadorInterface::clicar_equipamento() 
-{
-    UtilityFunctions::print(">> Abrindo Inventário/Equipamentos...");
 }
 
 void GerenciadorInterface::clicar_configuracoes() 
@@ -402,12 +386,20 @@ void GerenciadorInterface::clicar_sair()
 
 void GerenciadorInterface::mudar_volume(float valor) 
 {
+    if (!std::isfinite(valor)) {
+        UtilityFunctions::push_warning("Valor de volume inválido ignorado.");
+        return;
+    }
     definirVolume(valor);
     UtilityFunctions::print("Volume ajustado para: ", volume);
 }
 
 void GerenciadorInterface::mudar_resolucao(int indice) 
 {
+    if (indice < 0 || indice > 7) {
+        UtilityFunctions::push_warning("Índice de resolução fora da faixa; configuração mantida.");
+        return;
+    }
     definirIndiceResolucao(indice);
     Window* janela = get_window();
     if (!janela) return;
@@ -440,10 +432,32 @@ void GerenciadorInterface::mudar_resolucao(int indice)
 }
 
 GerenciadorMenu::EstadoMenu GerenciadorInterface::getEstadoAtual() const { return estadoAtual; }
-void GerenciadorInterface::irPara(GerenciadorMenu::EstadoMenu novoEstado) { estadoAtual = novoEstado; }
+void GerenciadorInterface::irPara(GerenciadorMenu::EstadoMenu novoEstado) {
+    const int valor = static_cast<int>(novoEstado);
+    if (valor < static_cast<int>(GerenciadorMenu::EstadoMenu::MENU_INICIAL) ||
+        valor > static_cast<int>(GerenciadorMenu::EstadoMenu::MENU_MOVIMENTOS)) {
+        UtilityFunctions::push_warning("Estado de menu inválido; retornando ao menu inicial.");
+        estadoAtual = GerenciadorMenu::EstadoMenu::MENU_INICIAL;
+        return;
+    }
+    estadoAtual = novoEstado;
+}
 void GerenciadorInterface::voltar() { estadoAtual = GerenciadorMenu::EstadoMenu::MENU_INICIAL; }
 float GerenciadorInterface::getVolume() const { return volume; }
-void GerenciadorInterface::definirVolume(float novoVolume) { volume = std::max(0.0f, std::min(100.0f, novoVolume)); }
+void GerenciadorInterface::definirVolume(float novoVolume) {
+    if (!std::isfinite(novoVolume)) {
+        UtilityFunctions::push_warning("Volume não finito ignorado.");
+        return;
+    }
+    volume = std::max(0.0f, std::min(100.0f, novoVolume));
+}
 int GerenciadorInterface::getIndiceResolucao() const { return indiceResolucao; }
-void GerenciadorInterface::definirIndiceResolucao(int indice) { indiceResolucao = indice; }
+void GerenciadorInterface::definirIndiceResolucao(int indice) {
+    if (indice < 0 || indice > 7) {
+        UtilityFunctions::push_warning("Índice de resolução inválido; usando a resolução padrão.");
+        indiceResolucao = 0;
+        return;
+    }
+    indiceResolucao = indice;
+}
 void GerenciadorInterface::iniciarOuRetomarPartida() { estadoAtual = GerenciadorMenu::EstadoMenu::EM_BATALHA; }
