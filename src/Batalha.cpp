@@ -1,12 +1,22 @@
 #include "Batalha.hpp"
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
+#include <godot_cpp/classes/label.hpp>
+#include <godot_cpp/classes/rich_text_label.hpp>
+#include <godot_cpp/classes/texture_rect.hpp>
+#include <godot_cpp/classes/texture2d.hpp>
+#include <godot_cpp/classes/resource_loader.hpp>
+#include <godot_cpp/classes/resource.hpp>
+#include <godot_cpp/classes/theme_db.hpp>
+#include <godot_cpp/classes/theme.hpp>
+#include <godot_cpp/classes/font.hpp>
+#include <godot_cpp/classes/text_server.hpp>
 
 Batalha::Batalha()
-    : heroi(nullptr), professor(nullptr), estado(EstadoBatalha::DERROTA), turnosDecorridos(0) {}
+    : heroi(nullptr), professor(nullptr), telaBatalhaAtual(nullptr), estado(EstadoBatalha::DERROTA), turnosDecorridos(0) {}
 
 Batalha::Batalha(Herois* h, Professor* p)
-    : heroi(h), professor(p), estado((h && p) ? EstadoBatalha::ESCOLHENDO_ACAO : EstadoBatalha::DERROTA), turnosDecorridos(0) {}
+    : heroi(h), professor(p), telaBatalhaAtual(nullptr), estado((h && p) ? EstadoBatalha::ESCOLHENDO_ACAO : EstadoBatalha::DERROTA), turnosDecorridos(0) {}
 
 void Batalha::inicializar(Herois* heroiDoJogador, Professor* professorAlvo) {
 	if (!heroiDoJogador || !professorAlvo || !heroiDoJogador->estaVivo() || !professorAlvo->estaVivo()) {
@@ -245,6 +255,7 @@ Dictionary Batalha::fugir() {
 
 void Batalha::atualizar_botoes_acao(Control* telaBatalha) {
     if (!telaBatalha || !heroi) return;
+    telaBatalhaAtual = telaBatalha;
 
     bool turnoDoJogador = (estado == EstadoBatalha::ESCOLHENDO_ACAO);
 
@@ -271,6 +282,7 @@ void Batalha::atualizar_botoes_acao(Control* telaBatalha) {
 
 void Batalha::posicionar_barras_vida(Control* telaBatalha) {
     if (!telaBatalha) return;
+    telaBatalhaAtual = telaBatalha;
 
     Control* hudHeroi = telaBatalha->has_node("HUDHeroi") ? telaBatalha->get_node<Control>("HUDHeroi") : nullptr;
     Control* hudProfessor = telaBatalha->has_node("HUDProfessor") ? telaBatalha->get_node<Control>("HUDProfessor") : nullptr;
@@ -298,6 +310,107 @@ void Batalha::posicionar_barras_vida(Control* telaBatalha) {
         hudProfessor->set_offset(SIDE_RIGHT, 0.0f);
         hudProfessor->set_offset(SIDE_BOTTOM, 0.0f);
     }
+
+    // Aplica a tipografia global estilo Pixel Art nos rótulos, caixa de diálogo e botões da Batalha
+    ThemeDB* bancoTemas = ThemeDB::get_singleton();
+    if (!bancoTemas) return;
+
+    Ref<Font> fonteGlobal = bancoTemas->get_fallback_font();
+    if (!fonteGlobal.is_valid()) return;
+
+    const char* caminhosNomes[] = {
+        "HUDHeroi/Conteudo/LabelHeroiNome",
+        "HUDProfessor/Conteudo/LabelProfessorNome"
+    };
+    for (const char* caminho : caminhosNomes) {
+        Label* lbl = telaBatalha->has_node(caminho) ? telaBatalha->get_node<Label>(caminho) : nullptr;
+        if (lbl) {
+            lbl->add_theme_font_override("font", fonteGlobal);
+            lbl->add_theme_font_size_override("font_size", 18);
+        }
+    }
+
+    const char* caminhosVida[] = {
+        "HUDHeroi/Conteudo/LabelHeroiVida",
+        "HUDProfessor/Conteudo/LabelProfessorVida"
+    };
+    for (const char* caminho : caminhosVida) {
+        Label* lbl = telaBatalha->has_node(caminho) ? telaBatalha->get_node<Label>(caminho) : nullptr;
+        if (lbl) {
+            lbl->add_theme_font_override("font", fonteGlobal);
+            lbl->add_theme_font_size_override("font_size", 15);
+        }
+    }
+
+    if (telaBatalha->has_node("CaixaMensagem/LabelMensagem")) {
+        Node* noDialogo = telaBatalha->get_node<Node>("CaixaMensagem/LabelMensagem");
+        Label* lblMensagem = Object::cast_to<Label>(noDialogo);
+        if (lblMensagem) {
+            lblMensagem->set_autowrap_mode(TextServer::AUTOWRAP_WORD_SMART);
+            lblMensagem->add_theme_font_override("font", fonteGlobal);
+            lblMensagem->add_theme_font_size_override("font_size", 16);
+        }
+        RichTextLabel* richMensagem = Object::cast_to<RichTextLabel>(noDialogo);
+        if (richMensagem) {
+            richMensagem->add_theme_font_override("normal_font", fonteGlobal);
+            richMensagem->add_theme_font_override("bold_font", fonteGlobal);
+            richMensagem->add_theme_font_size_override("normal_font_size", 16);
+        }
+    }
+
+    const char* caminhosBotoes[] = {
+        "BarraAcoes/BotoesGolpe/Golpe0",
+        "BarraAcoes/BotoesGolpe/Golpe1",
+        "BarraAcoes/BotoesGolpe/Golpe2",
+        "BarraAcoes/BotoesGolpe/BotaoFugir",
+        "BarraAcoes/BotoesGolpe/BotaoItemEspecial",
+        "BarraAcoes/BotoesGolpe/BotaoItemChave"
+    };
+    for (const char* caminho : caminhosBotoes) {
+        Button* btn = telaBatalha->has_node(caminho) ? telaBatalha->get_node<Button>(caminho) : nullptr;
+        if (btn) {
+            btn->add_theme_font_override("font", fonteGlobal);
+            btn->add_theme_font_size_override("font_size", 15);
+        }
+    }
+}
+
+void Batalha::alterar_fundo_batalha(int area_atual) {
+    if (!telaBatalhaAtual) return;
+
+    TextureRect* fundo = telaBatalhaAtual->has_node("Fundo")
+        ? telaBatalhaAtual->get_node<TextureRect>("Fundo")
+        : nullptr;
+    if (!fundo) return;
+
+    String caminho_da_imagem;
+    switch (area_atual) {
+        case 0: // Área 1 (Cálculo)
+            caminho_da_imagem = String::utf8("res://imagens/Sala_icex.jpeg");
+            break;
+        case 1: // Área 2 (GAAL / Análise Numérica)
+            caminho_da_imagem = String::utf8("res://imagens/Auditorio_icex.jpeg");
+            break;
+        case 2: // Área 3 (Física / Mecânica)
+            caminho_da_imagem = String::utf8("res://imagens/Sala_icex.jpeg");
+            break;
+        case 3: // Área 4 (PDS)
+            caminho_da_imagem = String::utf8("res://imagens/Dcc_padrao.jpeg");
+            break;
+        default:
+            caminho_da_imagem = String::utf8("res://imagens/Sala_icex.jpeg");
+            break;
+    }
+
+    ResourceLoader* loader = ResourceLoader::get_singleton();
+    if (!loader) return;
+
+    Ref<Resource> recurso = loader->load(caminho_da_imagem);
+    Ref<Texture2D> textura = recurso;
+    if (textura.is_valid()) {
+        fundo->set_expand_mode(TextureRect::EXPAND_IGNORE_SIZE);
+        fundo->set_texture(textura);
+    }
 }
 
 void Batalha::_bind_methods() {
@@ -310,4 +423,5 @@ void Batalha::_bind_methods() {
     ClassDB::bind_method(D_METHOD("fugir"), &Batalha::fugir);
     ClassDB::bind_method(D_METHOD("atualizar_botoes_acao", "tela_batalha"), &Batalha::atualizar_botoes_acao);
     ClassDB::bind_method(D_METHOD("posicionar_barras_vida", "tela_batalha"), &Batalha::posicionar_barras_vida);
+    ClassDB::bind_method(D_METHOD("alterar_fundo_batalha", "area_atual"), &Batalha::alterar_fundo_batalha);
 }

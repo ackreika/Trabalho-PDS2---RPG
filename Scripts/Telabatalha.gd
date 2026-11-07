@@ -227,10 +227,8 @@ func _reabilitar_botoes() -> void:
 	_fim_tratado = false
 
 func _atualizar_fundo_batalha() -> void:
-	if Global.id_area_atual == 0 and Global.indice_batalha_atual == 3:
-		fundo_batalha_node.texture = FUNDO_SALA_ICEX
-	else:
-		fundo_batalha_node.texture = FUNDO_BATALHA_PADRAO
+	if is_instance_valid(Global.batalha_atual):
+		Global.batalha_atual.alterar_fundo_batalha(Global.id_area_atual)
 
 func _animar_turno_professor(resultado: Dictionary, professor: Professor, vida_antes: int) -> void:
 	var posicao_original: Vector2 = professor_sprite_node.position

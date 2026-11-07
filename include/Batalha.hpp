@@ -64,6 +64,7 @@ protected:
 private:
     Herois* heroi;
     Professor* professor;
+    Control* telaBatalhaAtual;
     EstadoBatalha estado;
     int turnosDecorridos;
 
@@ -127,4 +128,9 @@ public:
      * @brief Posiciona o HUD do Estudante no topo esquerdo e o HUD do Oponente na direita.
      */
     void posicionar_barras_vida(Control* telaBatalha);
+
+    /**
+     * @brief Altera dinamicamente a textura de fundo da batalha conforme a Área atual (0 a 3).
+     */
+    void alterar_fundo_batalha(int area_atual);
 };

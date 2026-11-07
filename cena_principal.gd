@@ -68,10 +68,7 @@ func _on_botao_sair_pressed() -> void:
 	clicar_sair()
 
 func _on_botao_jogar_pressed() -> void:
-	var nova_textura = load("res://imagens/maxpayne.jpg")
-	if nova_textura:
-		$FundoJogo.texture = nova_textura
-	clicar_jogar() 
+	clicar_jogar()
 
 # --- FUNÇÕES DO NOVO SUBMENU (CONTAINER JOGAR) ---
 

@@ -23,6 +23,11 @@
 #include <godot_cpp/classes/style_box_flat.hpp>
 #include <godot_cpp/classes/style_box_line.hpp>
 #include <godot_cpp/classes/text_server.hpp>
+#include <godot_cpp/classes/font_file.hpp>
+#include <godot_cpp/classes/system_font.hpp>
+#include <godot_cpp/classes/theme_db.hpp>
+#include <godot_cpp/classes/rich_text_label.hpp>
+#include <godot_cpp/variant/packed_string_array.hpp>
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/classes/button.hpp>
 #include <godot_cpp/classes/label.hpp>
@@ -44,8 +49,10 @@ void GerenciadorInterface::_bind_methods()
     ClassDB::bind_method(D_METHOD("clicar_mundo_principal"), &GerenciadorInterface::clicar_mundo_principal);
     ClassDB::bind_method(D_METHOD("clicar_quests"), &GerenciadorInterface::clicar_quests);
 
-    // Método para trocar a imagem de fundo do menu de Configurações
+    // Métodos para trocar as imagens de fundo do menu de Configurações e do Submenu Principal
     ClassDB::bind_method(D_METHOD("definir_imagem_fundo_config", "caminho_textura"), &GerenciadorInterface::definir_imagem_fundo_config);
+    ClassDB::bind_method(D_METHOD("definir_imagem_fundo_submenu", "caminho_textura"), &GerenciadorInterface::definir_imagem_fundo_submenu);
+    ClassDB::bind_method(D_METHOD("aplicar_tema_global"), &GerenciadorInterface::aplicar_tema_global);
 
     // Métodos do Submenu "Escolha a Área" em C++
     ClassDB::bind_method(D_METHOD("abrir_painel_areas"), &GerenciadorInterface::abrir_painel_areas);
@@ -64,7 +71,9 @@ GerenciadorInterface::GerenciadorInterface()
     : estadoAtual(GerenciadorMenu::EstadoMenu::MENU_INICIAL),
       volume(100.0f),
       indiceResolucao(0),
-      caminhoFundoConfig(String::utf8("res://imagens/Israel.png")),
+      caminhoFundoConfig(String::utf8("res://imagens/Icex_padrao.jpeg")),
+      caminhoFundoSubmenu(String::utf8("res://imagens/Quadro_prob.jpeg")),
+      caminhoFonteGlobal(String::utf8("res://fontes/PixelArt.ttf")),
       painelConfig(nullptr),
       labelVolumeConfig(nullptr),
       labelResolucaoConfig(nullptr),
@@ -174,6 +183,9 @@ void GerenciadorInterface::estilizar_botao(Button* botao, const Color& cor_norma
     botao->add_theme_color_override("font_hover_color", Color(1.0f, 1.0f, 1.0f, 1.0f));
     botao->add_theme_color_override("font_disabled_color", Color(0.537f, 0.592f, 0.667f, 1.0f));
     botao->add_theme_font_size_override("font_size", tamanho_fonte);
+    if (fontePixelArt.is_valid()) {
+        botao->add_theme_font_override("font", fontePixelArt);
+    }
 }
 
 void GerenciadorInterface::estilizar_botao_destaque(Button* botao, bool ativo, int tamanho_fonte) const
@@ -201,6 +213,9 @@ void GerenciadorInterface::estilizar_botao_destaque(Button* botao, bool ativo, i
     botao->add_theme_color_override("font_color", Color(0.612f, 0.894f, 0.851f, 1.0f));
     botao->add_theme_color_override("font_hover_color", Color(1.0f, 1.0f, 1.0f, 1.0f));
     botao->add_theme_font_size_override("font_size", tamanho_fonte);
+    if (fontePixelArt.is_valid()) {
+        botao->add_theme_font_override("font", fontePixelArt);
+    }
 }
 
 void GerenciadorInterface::aplicar_tema_padrao_submenu(
@@ -216,13 +231,20 @@ void GerenciadorInterface::aplicar_tema_padrao_submenu(
     }
     if (titulo) {
         titulo->set_horizontal_alignment(HORIZONTAL_ALIGNMENT_CENTER);
-        titulo->add_theme_font_size_override("font_size", 30);
+        titulo->add_theme_font_size_override("font_size", 26);
         titulo->add_theme_color_override("font_color", Color(0.439f, 0.882f, 0.847f, 1.0f)); // #70e1d8
+        if (fontePixelArt.is_valid()) {
+            titulo->add_theme_font_override("font", fontePixelArt);
+        }
     }
     if (subtitulo) {
         subtitulo->set_horizontal_alignment(HORIZONTAL_ALIGNMENT_CENTER);
-        subtitulo->add_theme_font_size_override("font_size", 20);
+        subtitulo->set_autowrap_mode(TextServer::AUTOWRAP_WORD_SMART);
+        subtitulo->add_theme_font_size_override("font_size", 17);
         subtitulo->add_theme_color_override("font_color", Color(0.910f, 0.941f, 1.000f, 1.0f)); // #e8f0ff
+        if (fontePixelArt.is_valid()) {
+            subtitulo->add_theme_font_override("font", fontePixelArt);
+        }
     }
     if (separador) {
         Ref<StyleBoxLine> linha;
@@ -237,6 +259,167 @@ void GerenciadorInterface::aplicar_tema_padrao_submenu(
     }
 }
 
+// ---------------------------------------------------------------------------
+// Tema Global e Tipografia Estilo Pixel Art via C++
+// ---------------------------------------------------------------------------
+
+Ref<Font> GerenciadorInterface::carregar_fonte_pixel_art() const
+{
+    ResourceLoader* loader = ResourceLoader::get_singleton();
+    if (loader && !caminhoFonteGlobal.is_empty() && loader->exists(caminhoFonteGlobal)) {
+        Ref<Resource> recurso = loader->load(caminhoFonteGlobal);
+        Ref<Font> fonteArquivo = recurso;
+        if (fonteArquivo.is_valid()) {
+            FontFile* arquivoDinamico = Object::cast_to<FontFile>(fonteArquivo.ptr());
+            if (arquivoDinamico) {
+                arquivoDinamico->set_antialiasing(TextServer::FONT_ANTIALIASING_NONE);
+                arquivoDinamico->set_subpixel_positioning(TextServer::SUBPIXEL_POSITIONING_DISABLED);
+                arquivoDinamico->set_generate_mipmaps(false);
+            }
+            return fonteArquivo;
+        }
+    }
+
+    // Caso o arquivo res://fontes/PixelArt.ttf ainda não exista no projeto,
+    // constrói uma fonte de sistema monoespaçada sem antialiasing para simular pixel art.
+    Ref<SystemFont> fonteSistema;
+    fonteSistema.instantiate();
+
+    PackedStringArray familias;
+    familias.push_back("Consolas");
+    familias.push_back("Lucida Console");
+    familias.push_back("Courier New");
+    familias.push_back("Monospace");
+
+    fonteSistema->set_font_names(familias);
+    fonteSistema->set_antialiasing(TextServer::FONT_ANTIALIASING_NONE);
+    fonteSistema->set_subpixel_positioning(TextServer::SUBPIXEL_POSITIONING_DISABLED);
+    fonteSistema->set_hinting(TextServer::HINTING_NORMAL);
+    fonteSistema->set_force_autohinter(true);
+    fonteSistema->set_font_weight(600);
+    fonteSistema->set_generate_mipmaps(false);
+
+    return fonteSistema;
+}
+
+void GerenciadorInterface::aplicar_fonte_nos_filhos(Node* no_raiz) const
+{
+    if (!no_raiz || !fontePixelArt.is_valid()) return;
+
+    Control* controle = Object::cast_to<Control>(no_raiz);
+    if (controle && controle->get_parent() == this && temaGlobal.is_valid()) {
+        controle->set_theme(temaGlobal);
+    }
+
+    Button* botao = Object::cast_to<Button>(no_raiz);
+    if (botao) {
+        botao->add_theme_font_override("font", fontePixelArt);
+    }
+
+    Label* rotulo = Object::cast_to<Label>(no_raiz);
+    if (rotulo) {
+        rotulo->add_theme_font_override("font", fontePixelArt);
+    }
+
+    RichTextLabel* textoRico = Object::cast_to<RichTextLabel>(no_raiz);
+    if (textoRico) {
+        textoRico->add_theme_font_override("normal_font", fontePixelArt);
+        textoRico->add_theme_font_override("bold_font", fontePixelArt);
+    }
+
+    int totalFilhos = no_raiz->get_child_count();
+    for (int i = 0; i < totalFilhos; i++) {
+        aplicar_fonte_nos_filhos(no_raiz->get_child(i));
+    }
+}
+
+void GerenciadorInterface::aplicar_tema_global()
+{
+    fontePixelArt = carregar_fonte_pixel_art();
+    if (!fontePixelArt.is_valid()) return;
+
+    if (!temaGlobal.is_valid()) {
+        temaGlobal.instantiate();
+    }
+
+    temaGlobal->set_default_font(fontePixelArt);
+    temaGlobal->set_default_font_size(16);
+
+    const char* tiposControles[] = {"Button", "Label", "OptionButton", "PopupMenu"};
+    for (const char* tipo : tiposControles) {
+        temaGlobal->set_font("font", tipo, fontePixelArt);
+        temaGlobal->set_font_size("font_size", tipo, 16);
+    }
+    temaGlobal->set_font("normal_font", "RichTextLabel", fontePixelArt);
+    temaGlobal->set_font("bold_font", "RichTextLabel", fontePixelArt);
+    temaGlobal->set_font_size("normal_font_size", "RichTextLabel", 16);
+
+    // Aplica também no ThemeDB padrão do Godot para unificar todas as cenas (incluindo Batalha e Upgrades)
+    ThemeDB* bancoTemas = ThemeDB::get_singleton();
+    if (bancoTemas) {
+        bancoTemas->set_fallback_font(fontePixelArt);
+        bancoTemas->set_fallback_font_size(16);
+
+        Ref<Theme> temaPadrao = bancoTemas->get_default_theme();
+        if (temaPadrao.is_valid()) {
+            temaPadrao->set_default_font(fontePixelArt);
+            temaPadrao->set_default_font_size(16);
+            for (const char* tipo : tiposControles) {
+                temaPadrao->set_font("font", tipo, fontePixelArt);
+            }
+            temaPadrao->set_font("normal_font", "RichTextLabel", fontePixelArt);
+            temaPadrao->set_font("bold_font", "RichTextLabel", fontePixelArt);
+        }
+    }
+
+    aplicar_fonte_nos_filhos(this);
+}
+
+void GerenciadorInterface::estilizar_botoes_menus_principais()
+{
+    const char* caminhosMenuInicial[] = {
+        "ContainerBotoes/BotaoJogar",
+        "ContainerBotoes/BotaoConfig",
+        "ContainerBotoes/BotaoSair"
+    };
+    const char* textosMenuInicial[] = {
+        "Jogar",
+        "Configurações",
+        "Sair"
+    };
+
+    for (int i = 0; i < 3; i++) {
+        Button* btn = has_node(caminhosMenuInicial[i]) ? get_node<Button>(caminhosMenuInicial[i]) : nullptr;
+        if (!btn) continue;
+        btn->set_text(String::utf8(textosMenuInicial[i]));
+        btn->set_custom_minimum_size(Vector2(0, 62));
+        estilizar_botao(btn, Color(0.063f, 0.102f, 0.169f, 0.88f), Color(0.141f, 0.306f, 0.451f, 0.95f), 28);
+    }
+
+    const char* caminhosSubmenuJogar[] = {
+        "ContainerJogar/BotaoMundo",
+        "ContainerJogar/BotaoMovimentos",
+        "ContainerJogar/BotaoUpgrades",
+        "ContainerJogar/BotaoItens",
+        "ContainerJogar/BotaoVoltar"
+    };
+    const char* textosSubmenuJogar[] = {
+        "Mundo",
+        "Movimentos",
+        "Upgrades",
+        "Itens",
+        "Voltar"
+    };
+
+    for (int i = 0; i < 5; i++) {
+        Button* btn = has_node(caminhosSubmenuJogar[i]) ? get_node<Button>(caminhosSubmenuJogar[i]) : nullptr;
+        if (!btn) continue;
+        btn->set_text(String::utf8(textosSubmenuJogar[i]));
+        btn->set_custom_minimum_size(Vector2(260, 54));
+        estilizar_botao(btn, Color(0.063f, 0.102f, 0.169f, 0.88f), Color(0.141f, 0.306f, 0.451f, 0.95f), 24);
+    }
+}
+
 void GerenciadorInterface::estilizar_titulo_principal()
 {
     Label* titulo = has_node("Titulo") ? get_node<Label>("Titulo") : nullptr;
@@ -244,10 +427,13 @@ void GerenciadorInterface::estilizar_titulo_principal()
 
     titulo->set_text(String::utf8("Fuja do ICEX"));
     titulo->set_horizontal_alignment(HORIZONTAL_ALIGNMENT_CENTER);
-    titulo->add_theme_font_size_override("font_size", 64);
+    titulo->add_theme_font_size_override("font_size", 56);
     titulo->add_theme_color_override("font_color", Color(0.92f, 0.97f, 1.0f, 1.0f));
     titulo->add_theme_color_override("font_outline_color", Color(0.06f, 0.10f, 0.17f, 1.0f));
     titulo->add_theme_constant_override("outline_size", 8);
+    if (fontePixelArt.is_valid()) {
+        titulo->add_theme_font_override("font", fontePixelArt);
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -256,7 +442,9 @@ void GerenciadorInterface::estilizar_titulo_principal()
 
 void GerenciadorInterface::inicializar_componentes()
 {
+    aplicar_tema_global();
     estilizar_titulo_principal();
+    estilizar_botoes_menus_principais();
 
     Button* botao_jogar = has_node("ContainerBotoes/BotaoJogar") ? get_node<Button>("ContainerBotoes/BotaoJogar") : nullptr;
     Button* botao_config = has_node("ContainerBotoes/BotaoConfig") ? get_node<Button>("ContainerBotoes/BotaoConfig") : nullptr;
@@ -303,8 +491,10 @@ void GerenciadorInterface::inicializar_componentes()
         sliderVolumeConfig->connect("value_changed", Callable(this, "mudar_volume"));
 
     estilizar_menu_configuracoes();
+    definir_imagem_fundo_submenu(caminhoFundoSubmenu);
     criar_painel_areas();
     criar_painel_movimentos();
+    aplicar_fonte_nos_filhos(this);
 }
 
 void GerenciadorInterface::definir_imagem_fundo_config(const String& caminho_textura)
@@ -323,10 +513,35 @@ void GerenciadorInterface::definir_imagem_fundo_config(const String& caminho_tex
     Ref<Resource> recurso = loader->load(caminho);
     Ref<Texture2D> textura = recurso;
     if (textura.is_valid()) {
+        fundo_config->set_expand_mode(TextureRect::EXPAND_IGNORE_SIZE);
         fundo_config->set_texture(textura);
         caminhoFundoConfig = caminho;
     } else {
         UtilityFunctions::push_warning(String::utf8("Não foi possível carregar a textura de fundo: ") + caminho);
+    }
+}
+
+void GerenciadorInterface::definir_imagem_fundo_submenu(const String& caminho_textura)
+{
+    String caminho = caminho_textura.strip_edges();
+    if (caminho.is_empty()) {
+        caminho = caminhoFundoSubmenu;
+    }
+
+    TextureRect* fundo_jogo = has_node("FundoJogo") ? get_node<TextureRect>("FundoJogo") : nullptr;
+    if (!fundo_jogo) return;
+
+    ResourceLoader* loader = ResourceLoader::get_singleton();
+    if (!loader) return;
+
+    Ref<Resource> recurso = loader->load(caminho);
+    Ref<Texture2D> textura = recurso;
+    if (textura.is_valid()) {
+        fundo_jogo->set_expand_mode(TextureRect::EXPAND_IGNORE_SIZE);
+        fundo_jogo->set_texture(textura);
+        caminhoFundoSubmenu = caminho;
+    } else {
+        UtilityFunctions::push_warning(String::utf8("Não foi possível carregar a textura do submenu: ") + caminho);
     }
 }
 
@@ -461,6 +676,7 @@ void GerenciadorInterface::estilizar_menu_configuracoes()
     }
 
     aplicar_tema_padrao_submenu(painelConfig, titulo, subtitulo, separador, botaoVoltarConfig, 0.90f);
+    definir_imagem_fundo_config(caminhoFundoConfig);
     container_antigo->set_visible(false);
 }
 
@@ -531,6 +747,7 @@ void GerenciadorInterface::criar_painel_areas()
     ScrollContainer* scroll = memnew(ScrollContainer);
     scroll->set_h_size_flags(Control::SIZE_EXPAND_FILL);
     scroll->set_v_size_flags(Control::SIZE_EXPAND_FILL);
+    scroll->set_horizontal_scroll_mode(ScrollContainer::SCROLL_MODE_DISABLED);
     coluna->add_child(scroll);
 
     VBoxContainer* listaAreas = memnew(VBoxContainer);
@@ -547,11 +764,17 @@ void GerenciadorInterface::criar_painel_areas()
 
         VBoxContainer* boxCard = memnew(VBoxContainer);
         boxCard->add_theme_constant_override("separation", 8);
+        boxCard->set_h_size_flags(Control::SIZE_EXPAND_FILL);
         card->add_child(boxCard);
 
         Label* infoArea = memnew(Label);
-        infoArea->add_theme_font_size_override("font_size", 18);
+        infoArea->set_autowrap_mode(TextServer::AUTOWRAP_WORD_SMART);
+        infoArea->set_h_size_flags(Control::SIZE_EXPAND_FILL);
+        infoArea->add_theme_font_size_override("font_size", 16);
         infoArea->add_theme_color_override("font_color", Color(0.863f, 0.910f, 0.969f, 1.0f));
+        if (fontePixelArt.is_valid()) {
+            infoArea->add_theme_font_override("font", fontePixelArt);
+        }
         boxCard->add_child(infoArea);
         labelsAreas[id] = infoArea;
 
@@ -734,6 +957,7 @@ void GerenciadorInterface::criar_painel_movimentos()
     ScrollContainer* scroll = memnew(ScrollContainer);
     scroll->set_h_size_flags(Control::SIZE_EXPAND_FILL);
     scroll->set_v_size_flags(Control::SIZE_EXPAND_FILL);
+    scroll->set_horizontal_scroll_mode(ScrollContainer::SCROLL_MODE_DISABLED);
     caixaPrincipal->add_child(scroll);
 
     VBoxContainer* listaCatalogo = memnew(VBoxContainer);
@@ -755,12 +979,17 @@ void GerenciadorInterface::criar_painel_movimentos()
 
         VBoxContainer* boxMov = memnew(VBoxContainer);
         boxMov->add_theme_constant_override("separation", 8);
+        boxMov->set_h_size_flags(Control::SIZE_EXPAND_FILL);
         cardMov->add_child(boxMov);
 
         Label* labelMov = memnew(Label);
         labelMov->set_autowrap_mode(TextServer::AUTOWRAP_WORD_SMART);
-        labelMov->add_theme_font_size_override("font_size", 17);
+        labelMov->set_h_size_flags(Control::SIZE_EXPAND_FILL);
+        labelMov->add_theme_font_size_override("font_size", 16);
         labelMov->add_theme_color_override("font_color", Color(0.863f, 0.910f, 0.969f, 1.0f));
+        if (fontePixelArt.is_valid()) {
+            labelMov->add_theme_font_override("font", fontePixelArt);
+        }
         boxMov->add_child(labelMov);
         labelsCatalogo.push_back(labelMov);
 
@@ -779,8 +1008,8 @@ void GerenciadorInterface::criar_painel_movimentos()
     caixaPrincipal->add_child(btnVoltar);
 
     aplicar_tema_padrao_submenu(painel, titulo, labelStatusMovimentos, separador, btnVoltar, 1.0f);
-    titulo->add_theme_font_size_override("font_size", 28);
-    labelStatusMovimentos->add_theme_font_size_override("font_size", 18);
+    titulo->add_theme_font_size_override("font_size", 24);
+    labelStatusMovimentos->add_theme_font_size_override("font_size", 16);
 
     atualizar_painel_movimentos();
 }
@@ -957,6 +1186,7 @@ void GerenciadorInterface::clicar_jogar()
 {
     if (painelAreas) painelAreas->set_visible(false);
     if (painelMovimentos) painelMovimentos->set_visible(false);
+    definir_imagem_fundo_submenu(caminhoFundoSubmenu);
     irPara(GerenciadorMenu::EstadoMenu::MENU_JOGAR);
     UtilityFunctions::print(">> Abriu o submenu de jogar");
     atualizar_telas();
@@ -977,6 +1207,7 @@ void GerenciadorInterface::clicar_configuracoes()
     if (painelConfig == nullptr) {
         estilizar_menu_configuracoes();
     }
+    definir_imagem_fundo_config(caminhoFundoConfig);
     irPara(GerenciadorMenu::EstadoMenu::MENU_CONFIGURACOES);
     atualizar_texto_volume();
     UtilityFunctions::print("Abriu configuracoes");

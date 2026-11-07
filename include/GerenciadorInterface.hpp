@@ -14,6 +14,8 @@
 #include <godot_cpp/classes/option_button.hpp>
 #include <godot_cpp/classes/style_box_flat.hpp>
 #include <godot_cpp/classes/style_box_line.hpp>
+#include <godot_cpp/classes/theme.hpp>
+#include <godot_cpp/classes/font.hpp>
 #include <godot_cpp/classes/ref.hpp>
 #include <godot_cpp/variant/color.hpp>
 #include <godot_cpp/variant/string.hpp>
@@ -37,8 +39,14 @@ private:
     float volume;
     int indiceResolucao;
 
-    // Guarda o caminho da imagem de fundo da tela de configurações
+    // Guarda os caminhos das imagens de fundo da tela de configurações e do submenu principal
     String caminhoFundoConfig;
+    String caminhoFundoSubmenu;
+
+    // Tema e tipografia global estilo Pixel Art gerenciados em C++
+    String caminhoFonteGlobal;
+    Ref<Font> fontePixelArt;
+    Ref<Theme> temaGlobal;
 
     // Componentes do Menu de Configurações estilizados em C++
     PanelContainer* painelConfig;
@@ -66,6 +74,10 @@ private:
     void inicializar_componentes();
     void atualizar_telas();
 
+    Ref<Font> carregar_fonte_pixel_art() const;
+    void aplicar_fonte_nos_filhos(Node* no_raiz) const;
+    void estilizar_botoes_menus_principais();
+
     void estilizar_titulo_principal();
     void estilizar_menu_configuracoes();
     void atualizar_texto_volume();
@@ -82,6 +94,9 @@ public:
 
     void _ready() override;
     void _notification(int p_what);
+
+    // Aplica o tema e a tipografia Pixel Art unificada em toda a interface
+    void aplicar_tema_global();
 
     // Métodos auxiliares de estilização em C++ (padrão visual de Upgrades Permanentes)
     Ref<StyleBoxFlat> criar_estilo_painel_principal(float opacidade = 1.0f) const;
@@ -103,8 +118,9 @@ public:
     void clicar_mundo_principal();
     void clicar_quests();
 
-    // Troca a imagem de fundo do menu de Configurações mantendo suporte ao TextureRect
+    // Troca a imagem de fundo do menu de Configurações e do Submenu Principal mantendo suporte ao TextureRect
     void definir_imagem_fundo_config(const String& caminho_textura);
+    void definir_imagem_fundo_submenu(const String& caminho_textura);
 
     // Lógica do Submenu "Escolha a Área" em C++
     void abrir_painel_areas();
