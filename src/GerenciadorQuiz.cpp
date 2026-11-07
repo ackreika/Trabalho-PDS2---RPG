@@ -6,21 +6,31 @@
 #include <algorithm>
 
 GerenciadorQuiz::GerenciadorQuiz() {
-    // Perguntas de exemplo pra área 0 (Cálculo). As demais áreas seguem o mesmo
-    // padrão de adicionarPergunta — só faltam ser povoadas.
-    adicionarPergunta(0, Pergunta{
-        "Qual e a derivada de x^2?",
-        {"x", "2x", "x^2", "2"},
-        1 // "2x"
-    });
-    adicionarPergunta(0, Pergunta{
-        "A integral de uma constante c em relacao a x e:",
-        {"c", "c*x + C", "0", "x"},
-        1 // "c*x + C"
-    });
-    adicionarPergunta(1, Pergunta{"Qual lei relaciona tensao, corrente e resistencia?", {"Lei de Ohm", "Lei de Gauss", "Lei de Hooke", "Lei de Snell"}, 0});
-    adicionarPergunta(2, Pergunta{"Qual propriedade de uma matriz identidade?", {"Todos os elementos sao zero", "Multiplicar por ela preserva o vetor", "Ela sempre tem determinante zero", "Ela nao possui diagonal"}, 1});
-    adicionarPergunta(3, Pergunta{"Em C++, para que serve um ponteiro?", {"Guardar uma referencia de memoria", "Ordenar um vetor automaticamente", "Criar uma classe abstrata", "Imprimir uma string"}, 0});
+    // Perguntas por area: 0 = Calculo, 1 = GAAL, 2 = Fisica, 3 = PDS.
+
+    // --- Calculo (0) ---
+    adicionarPergunta(0, Pergunta{"Qual eh a derivada de e^x?", {"e^x", "x*e^(x-1)", "ln(x)", "1"}, 0});
+    adicionarPergunta(0, Pergunta{"Quanto vale o limite de sen(x)/x quando x tende ao infinito?", {"0", "1", "infinito", "nao existe"}, 0});
+    adicionarPergunta(0, Pergunta{"Qual eh a derivada de cos(x)?", {"sen(x)", "cos(x)", "-sen(x)", "-cos(x)"}, 2});
+    adicionarPergunta(0, Pergunta{"Qual eh a integral de 1/x?", {"x^2/2 + C", "-1/x^2 + C", "e^x + C", "ln|x| + C"}, 3});
+
+    // --- GAAL (1) ---
+    adicionarPergunta(1, Pergunta{"Qual a propriedade de uma matriz identidade?", {"Todos os elementos sao zero", "Multiplicar por ela preserva o vetor", "Ela sempre tem determinante zero", "Ela nao possui diagonal"}, 1});
+    adicionarPergunta(1, Pergunta{"Qual eh a soma dos vetores (1, 2) e (3, 4)?", {"(3, 8)", "(4, 6)", "(2, 2)", "(4, 8)"}, 1});
+    adicionarPergunta(1, Pergunta{"Uma matriz quadrada eh aquela que:", {"Tem so uma linha", "Tem so zeros", "Tem o mesmo numero de linhas e colunas", "Tem determinante igual a 1"}, 2});
+    adicionarPergunta(1, Pergunta{"Qual eh o determinante de uma matriz que tem uma linha inteira de zeros?", {"1", "-1", "2", "0"}, 3});
+
+    // --- Fisica (2) ---
+    adicionarPergunta(2, Pergunta{"Qual eh a formula da energia cinetica?", {"m*v^2/2", "m*v", "m*v^2", "m*g*h"}, 0});
+    adicionarPergunta(2, Pergunta{"Qual eh a unidade de forca no SI?", {"Joule", "Watt", "Newton", "Pascal"}, 2});
+    adicionarPergunta(2, Pergunta{"Qual lei relaciona tensao, corrente e resistencia?", {"Lei de Ohm", "Lei de Gauss", "Lei de Hooke", "Lei de Snell"}, 0});
+    adicionarPergunta(2, Pergunta{"O trabalho da forca resultante eh igual a variacao de qual grandeza?", {"energia potencial", "energia cinetica", "momento linear", "potencia"}, 1});
+
+    // --- PDS (3) ---
+    adicionarPergunta(3, Pergunta{"Qual palavra-chave eh usada para declarar uma classe em C++?", {"func", "object", "class", "define"}, 2});
+    adicionarPergunta(3, Pergunta{"Qual operador libera memoria alocada com new?", {"free", "delete", "remove", "clear"}, 1});
+    adicionarPergunta(3, Pergunta{"Qual tipo de dado guarda um numero inteiro em C++?", {"string", "bool", "char", "int"}, 3});
+    adicionarPergunta(3, Pergunta{"Um membro declarado como public em uma classe pode ser acessado:", {"De fora da classe", "Somente dentro da classe", "Somente por classes filhas", "Nunca"}, 0});
 }
 
 void GerenciadorQuiz::_bind_methods() {
