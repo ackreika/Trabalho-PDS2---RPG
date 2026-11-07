@@ -12,6 +12,7 @@
 using namespace godot;
 
 class Professor;
+class MochilaItens;
 
 /**
  * @brief Representa o Estudante (jogador) durante uma run.
@@ -23,6 +24,7 @@ protected:
     static void _bind_methods();
 
 private:
+    friend class MochilaItens;
     std::string nome;
     int nivel;
     int vida;
@@ -139,4 +141,5 @@ public:
     void obter_item_chave();
     bool possui_item_chave() const;
     void aplicar_bonus_permanente(int bonusVida, int bonusDano);
+    void aumentar_poder_movimento(int indice, int incremento);
 };

@@ -8,7 +8,7 @@ const NOMES_AREAS := ["Cálculo", "GAAL / Análise Numérica", "Física", "PDS"]
 
 func _ready() -> void:
 	if Global.voltar_para_submenu:
-		Global.voltar_para_submenu = false 
+		Global.voltar_para_submenu = false
 		clicar_jogar()
 	var caixa_res = find_child("CaixaResolucao", true, false)
 	if caixa_res and caixa_res.item_count == 6:
@@ -29,16 +29,12 @@ func _abrir_painel_areas() -> void:
 
 
 func _fechar_painel_areas() -> void:
-<<<<<<< Updated upstream
-	_painel_areas.visible = false
-=======
 	fechar_painel_areas()
->>>>>>> Stashed changes
 
 
 func _on_area_escolhida(id_area: int) -> void:
-	Global.iniciar_primeira_batalha(id_area)
-	get_tree().change_scene_to_file(CENA_BATALHA)
+	if Global.iniciar_primeira_batalha(id_area):
+		get_tree().change_scene_to_file(CENA_BATALHA)
 
 
 func _on_botao_upgrades_pressed() -> void:
@@ -59,8 +55,11 @@ func _on_botao_voltar_pressed() -> void:
 	clicar_voltar()
 
 func _on_slider_volume_value_changed(valor: float) -> void:
+	mudar_volume(valor) # Mantém o seu código C++ salvo
 	
-	mudar_volume(valor)
+	# Se o valor for 0, fica mudo. Se for 100, fica no volume normal.
+	var volume_db = linear_to_db(valor / 100.0)
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), volume_db)
 
 func _on_caixa_resolucao_item_selected(indice: int) -> void:
 	mudar_resolucao(indice)

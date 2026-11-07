@@ -23,6 +23,7 @@ config/icon="res://icon.svg"
 
 Global="*uid://3ywq8cd6cypi"
 Progresso="*uid://b7xb1ygphesky"
+MusicaFundo="*uid://8btqe7dmk4kl"
 
 [display]
 

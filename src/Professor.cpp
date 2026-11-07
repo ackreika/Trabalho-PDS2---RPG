@@ -1,15 +1,36 @@
 #include "Professor.hpp"
 #include <cstdlib>
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
+#include <algorithm>
+#include <cmath>
+#include <limits>
+
+namespace {
+TipoProfessor validarTipoProfessor(TipoProfessor tipo) {
+	switch (tipo) {
+		case TipoProfessor::COMUM:
+		case TipoProfessor::MINIBOSS:
+		case TipoProfessor::BOSS:
+			return tipo;
+		default:
+			godot::UtilityFunctions::push_warning("Tipo de professor inválido; usando tipo comum.");
+			return TipoProfessor::COMUM;
+	}
+}
+}
 
 Professor::Professor()
     : nome("Professor"), materia("Materia"), tipo(TipoProfessor::COMUM),
-      vida(50), vidaMaxima(50), defesa(5), invulneravel(false), ehBatalhaFalsa(false) {}
+      vida(50), vidaMaxima(50), defesa(5), statusInvulnerabilidade(TipoModificador::INVULNERAVEL, 0),
+      invulnerabilidadeNaMetadeHabilitada(false), invulnerabilidadeMetadeAtivada(false), ehBatalhaFalsa(false) {}
 
 Professor::Professor(std::string nome, std::string materia, int vidaMaxima, int defesa,
                       TipoProfessor tipo, bool batalhaFalsa)
-    : nome(nome), materia(materia), tipo(tipo), vida(vidaMaxima), vidaMaxima(vidaMaxima), defesa(defesa),
-      invulneravel(tipo == TipoProfessor::BOSS), ehBatalhaFalsa(batalhaFalsa) {}
+    : nome(nome.empty() ? "Professor" : nome), materia(materia.empty() ? "Materia" : materia), tipo(validarTipoProfessor(tipo)),
+      vida(std::max(1, vidaMaxima)), vidaMaxima(std::max(1, vidaMaxima)), defesa(std::max(0, defesa)),
+      statusInvulnerabilidade(TipoModificador::INVULNERAVEL, validarTipoProfessor(tipo) == TipoProfessor::BOSS ? -1 : 0),
+      invulnerabilidadeNaMetadeHabilitada(false), invulnerabilidadeMetadeAtivada(false), ehBatalhaFalsa(batalhaFalsa) {}
 
 std::string Professor::getNome() const { return nome; }
 std::string Professor::getMateria() const { return materia; }
@@ -18,8 +39,16 @@ int Professor::getVida() const { return vida; }
 int Professor::getVidaMaxima() const { return vidaMaxima; }
 bool Professor::estaVivo() const { return vida > 0; }
 
-bool Professor::isInvulneravel() const { return invulneravel; }
-void Professor::removerInvulnerabilidade() { invulneravel = false; }
+bool Professor::isInvulneravel() const { return statusInvulnerabilidade.estaAtivo(); }
+void Professor::removerInvulnerabilidade() {
+    statusInvulnerabilidade = ModificadorStatus(TipoModificador::INVULNERAVEL, 0);
+    if (invulnerabilidadeMetadeAtivada) invulnerabilidadeNaMetadeHabilitada = false;
+}
+void Professor::ativarInvulnerabilidadeNaMetadeDaVida() {
+    statusInvulnerabilidade = ModificadorStatus(TipoModificador::INVULNERAVEL, 0);
+    invulnerabilidadeNaMetadeHabilitada = true;
+    invulnerabilidadeMetadeAtivada = false;
+}
 bool Professor::isBatalhaFalsa() const { return ehBatalhaFalsa; }
 
 void Professor::adicionarMovimento(Movimento movimento) {
@@ -27,6 +56,11 @@ void Professor::adicionarMovimento(Movimento movimento) {
 }
 
 Movimento& Professor::escolherAtaque() {
+    if (movimentos.empty()) {
+        static Movimento ataquePadrao("Ataque Basico", 1, -1);
+        UtilityFunctions::push_warning("Professor sem movimentos cadastrados; usando ataque básico de segurança.");
+        return ataquePadrao;
+    }
     std::vector<int> indicesDisponiveis;
     for (size_t i = 0; i < movimentos.size(); i++) {
         if (movimentos[i].podeUsar()) {
@@ -38,20 +72,34 @@ Movimento& Professor::escolherAtaque() {
         return movimentos[0]; // fallback: sem golpes disponíveis, usa o primeiro mesmo assim
     }
 
-    int escolhido = indicesDisponiveis[std::rand() % indicesDisponiveis.size()];
+    const int escolhido = static_cast<int>(UtilityFunctions::randi_range(0, static_cast<int64_t>(indicesDisponiveis.size()) - 1));
     return movimentos[escolhido];
 }
 
 void Professor::receberDano(int danoBase) {
-    if (invulneravel) return; // Boss protegido até o item de história ser usado — dano recebido = 0
+    if (danoBase <= 0 || vida <= 0) return;
+    danoBase = statusInvulnerabilidade.interceptarDano(danoBase);
+    if (danoBase <= 0) return;
 
-    double fator = static_cast<double>(vida) / (vida + defesa);
-    int danoFinal = static_cast<int>(danoBase * fator);
+    const double divisor = static_cast<double>(vida) + std::max(0, defesa);
+    if (divisor <= 0.0) return;
+    const double fator = static_cast<double>(vida) / divisor;
+    const int danoFinal = std::clamp(static_cast<int>(danoBase * fator), 0, vida);
     vida -= danoFinal;
     if (vida < 0) vida = 0;
+    if (invulnerabilidadeNaMetadeHabilitada && !invulnerabilidadeMetadeAtivada &&
+        vida > 0 && vida <= vidaMaxima / 2) {
+        statusInvulnerabilidade = ModificadorStatus(TipoModificador::INVULNERAVEL, -1);
+        invulnerabilidadeMetadeAtivada = true;
+    }
 }
 
 void Professor::definirSprite(EstadoVisual estado, std::string caminho) {
+    const int valor = static_cast<int>(estado);
+    if (valor < static_cast<int>(EstadoVisual::TOMANDO_DANO) || valor > static_cast<int>(EstadoVisual::ATACANDO)) {
+        UtilityFunctions::push_warning("Estado visual de professor fora da faixa; sprite ignorado.");
+        return;
+    }
     spritesPorEstado[estado] = caminho;
 }
 
@@ -72,14 +120,21 @@ bool Professor::is_batalha_falsa() const { return ehBatalhaFalsa; }
 // ======================================================================
 
 void Professor::inicializar(String nomeNovo, String materiaNova, int vidaMaximaNova, int defesaNova, int tipoInt, bool batalhaFalsaNova) {
-    nome = std::string(nomeNovo.utf8().get_data());
-    materia = std::string(materiaNova.utf8().get_data());
+    if (vidaMaximaNova <= 0 || defesaNova < 0 || tipoInt < static_cast<int>(TipoProfessor::COMUM) ||
+        tipoInt > static_cast<int>(TipoProfessor::BOSS)) {
+        UtilityFunctions::push_error("Professor não inicializado: vida, defesa ou tipo inválido.");
+        return;
+    }
+    nome = nomeNovo.strip_edges().is_empty() ? "Professor" : std::string(nomeNovo.utf8().get_data());
+    materia = materiaNova.strip_edges().is_empty() ? "Materia" : std::string(materiaNova.utf8().get_data());
     vidaMaxima = vidaMaximaNova;
     vida = vidaMaximaNova;
     defesa = defesaNova;
     tipo = static_cast<TipoProfessor>(tipoInt);
     ehBatalhaFalsa = batalhaFalsaNova;
-    invulneravel = (tipo == TipoProfessor::BOSS);
+    statusInvulnerabilidade = ModificadorStatus(TipoModificador::INVULNERAVEL, tipo == TipoProfessor::BOSS ? -1 : 0);
+    invulnerabilidadeNaMetadeHabilitada = false;
+    invulnerabilidadeMetadeAtivada = false;
 }
 
 String Professor::get_nome() const { return String::utf8(nome.c_str()); }
@@ -87,7 +142,7 @@ String Professor::get_materia() const { return String::utf8(materia.c_str()); }
 int Professor::get_vida() const { return vida; }
 int Professor::get_vida_maxima() const { return vidaMaxima; }
 bool Professor::esta_vivo() const { return estaVivo(); }
-bool Professor::is_invulneravel() const { return invulneravel; }
+bool Professor::is_invulneravel() const { return isInvulneravel(); }
 
 void Professor::adicionar_movimento_simples(String nomeMovimento, int dano, int usosMaximos) {
     std::string nomeConvertido = std::string(nomeMovimento.utf8().get_data());

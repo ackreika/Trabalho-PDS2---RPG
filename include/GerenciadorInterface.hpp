@@ -102,7 +102,6 @@ public:
     void mudar_resolucao(int indice);
     void clicar_mundo_principal();
     void clicar_quests();
-    void clicar_equipamento();
 
     // Troca a imagem de fundo do menu de Configurações mantendo suporte ao TextureRect
     void definir_imagem_fundo_config(const String& caminho_textura);

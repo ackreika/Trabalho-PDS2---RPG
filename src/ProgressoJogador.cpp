@@ -1,49 +1,49 @@
 #include "ProgressoJogador.hpp"
-#include <fstream>
-#include <sstream>
+#include <godot_cpp/classes/file_access.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
+#include "GerenciadorRecompensas.hpp"
+#include "ProfessoresFabrica.hpp"
+#include "ItensConcretos.hpp"
+#include "Herois.hpp"
+#include <algorithm>
+#include <limits>
+#include <string>
+#include <utility>
+#include <vector>
 
-ProgressoJogador::ProgressoJogador() : pontos(0) {}
-// Implementação dos métodos da classe ProgressoJogador
+using namespace godot;
 
-int ProgressoJogador::getPontos() const { return pontos; }
-//retorna a quantidade de pontos de progresso do jogador
+namespace {
+constexpr int NIVEL_MAXIMO = 100000;
 
-void ProgressoJogador::adicionarPontos(int quantidade) {
-    pontos += quantidade;
-}//adiciona a quantidade de pontos de progresso do jogador
-
-bool ProgressoJogador::gastarPontos(int quantidade) {
-    if (pontos < quantidade) return false;
-    pontos -= quantidade;
+bool lerInteiroNaoNegativo(const String &texto, int maximo, int &saida) {
+    const String limpa = texto.strip_edges();
+    if (limpa.is_empty() || !limpa.is_valid_int()) return false;
+    const int64_t valor = limpa.to_int();
+    if (valor < 0 || valor > maximo) return false;
+    saida = static_cast<int>(valor);
     return true;
-}// retorna false se não tiver pontos suficientes
+}
 
-bool ProgressoJogador::jaObteve(ItemId id) const {
-    return itensDesbloqueados.count(static_cast<int>(id)) > 0;
-}//retorna true se o jogador já desbloqueou o item com o ID especificado, false caso contrário
+bool idItemValido(const String &id, ItemId &saida) {
+    if (id.is_empty()) return false;
+    return itemIdDeTexto(std::string(id.utf8().get_data()), saida);
+}
 
-void ProgressoJogador::desbloquear(ItemId id) {
-    itensDesbloqueados.insert(static_cast<int>(id));
-}//adiciona o ID do item ao conjunto de itens desbloqueados do jogador
+bool contem(const std::vector<String> &lista, const String &valor) {
+    return std::find(lista.begin(), lista.end(), valor) != lista.end();
+}
 
-const std::set<int>& ProgressoJogador::getTodos() const {
-    return itensDesbloqueados;
-}//retorna o conjunto de IDs de itens que o jogador já desbloqueou
+void avisarProgressoInvalido(const String &caminho) {
+    UtilityFunctions::push_warning("Save de progresso inválido ou incompleto; estado atual preservado:", caminho);
+}
+}
 
-void ProgressoJogador::salvar(const std::string& caminho) const {
-    std::ofstream arquivo(caminho);
-    arquivo << pontos << "\n";
+void ProgressoJogador::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("get_pontos"), &ProgressoJogador::get_pontos);
+    ClassDB::bind_method(D_METHOD("adicionar_pontos", "qtd"), &ProgressoJogador::adicionar_pontos);
+    ClassDB::bind_method(D_METHOD("gastar_pontos", "qtd"), &ProgressoJogador::gastar_pontos);
 
-<<<<<<< Updated upstream
-    bool primeiro = true;
-    for (int id : itensDesbloqueados) {
-        if (!primeiro) arquivo << ",";
-        arquivo << id;
-        primeiro = false;
-    }
-    arquivo << "\n";
-}//salva o progresso do jogador em um arquivo no caminho especificado
-=======
     ClassDB::bind_method(D_METHOD("get_nivel_vida"), &ProgressoJogador::get_nivel_vida);
     ClassDB::bind_method(D_METHOD("get_nivel_dano"), &ProgressoJogador::get_nivel_dano);
     ClassDB::bind_method(D_METHOD("get_quantidade_vitorias"), &ProgressoJogador::get_quantidade_vitorias);
@@ -121,35 +121,66 @@ Array ProgressoJogador::registrar_vitoria_professor(int area, int indice) {
         Herois::definirVitoriasJogador(static_cast<int>(professores_derrotados.size()));
     return novos;
 }
->>>>>>> Stashed changes
 
-ProgressoJogador ProgressoJogador::carregar(const std::string& caminho) {
-    ProgressoJogador progresso;
-    std::ifstream arquivo(caminho);
+bool ProgressoJogador::equipar_item_especial_desbloqueado(const String &id) {
+    ItemId itemId;
+    if (!idItemValido(id, itemId) || !ehItemEspecial(itemId) || !contem(itens_desbloqueados, id)) return false;
+    item_especial_equipado = id;
+    return true;
+}
 
-    if (!arquivo.is_open()) {
-        return progresso; // primeira vez jogando, nada salvo ainda
+bool ProgressoJogador::gastar_pontos(int qtd) {
+    if (qtd > 0 && pontos >= qtd) {
+        pontos -= qtd;
+        return true;
+    }
+    return false;
+}
+
+int ProgressoJogador::custo_vida() const {
+    const int64_t custo = 20LL + 10LL * std::max(0, nivel_vida);
+    return static_cast<int>(std::min<int64_t>(custo, std::numeric_limits<int>::max()));
+}
+int ProgressoJogador::custo_dano() const {
+    const int64_t custo = 20LL + 10LL * std::max(0, nivel_dano);
+    return static_cast<int>(std::min<int64_t>(custo, std::numeric_limits<int>::max()));
+}
+
+bool ProgressoJogador::comprar_vida() {
+    if (nivel_vida >= NIVEL_MAXIMO) return false;
+    int custo = custo_vida();
+    if (gastar_pontos(custo)) {
+        nivel_vida++;
+        return true;
+    }
+    return false;
+}
+
+bool ProgressoJogador::comprar_dano() {
+    if (nivel_dano >= NIVEL_MAXIMO) return false;
+    int custo = custo_dano();
+    if (gastar_pontos(custo)) {
+        nivel_dano++;
+        return true;
+    }
+    return false;
+}
+
+void ProgressoJogador::aplicar_ao_heroi(Object *heroi_obj) {
+    Herois *heroi = Object::cast_to<Herois>(heroi_obj);
+    if (!heroi) {
+        UtilityFunctions::push_error("Não foi possível aplicar o progresso: herói nulo ou de tipo incorreto.");
+        return;
     }
 
-    arquivo >> progresso.pontos;
-    arquivo.ignore(); // pula a quebra de linha
-
-    std::string linhaItens;
-    std::getline(arquivo, linhaItens);
-
-    std::stringstream ss(linhaItens);
-    std::string idStr;
-    while (std::getline(ss, idStr, ',')) {
-        if (!idStr.empty()) {
-            progresso.desbloquear(static_cast<ItemId>(std::stoi(idStr)));
+    heroi->aplicar_bonus_permanente(nivel_vida * 10, nivel_dano * 2);
+    for (const String &id : itens_desbloqueados) {
+        ItemId itemId;
+        if (idItemValido(id, itemId) && ehItemPassivo(itemId)) {
+            heroi->dar_item_passivo(id);
         }
     }
 
-<<<<<<< Updated upstream
-    return progresso;
-}//carrega o progresso do jogador a partir de um arquivo no caminho especificado
- //e retorna um objeto ProgressoJogador
-=======
     ItemId itemEspecial;
     if (idItemValido(item_especial_equipado, itemEspecial) && ehItemEspecial(itemEspecial) &&
         contem(itens_desbloqueados, item_especial_equipado) && !heroi->possuiItemEspecial()) {
@@ -283,4 +314,3 @@ bool ProgressoJogador::carregar(const String &caminho) {
     Herois::definirVitoriasJogador(static_cast<int>(professores_derrotados.size()));
     return true;
 }
->>>>>>> Stashed changes

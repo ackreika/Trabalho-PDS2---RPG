@@ -1,13 +1,22 @@
 #include "Batalha.hpp"
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 
 Batalha::Batalha()
-    : heroi(nullptr), professor(nullptr), estado(EstadoBatalha::ESCOLHENDO_ACAO), turnosDecorridos(0) {}
+    : heroi(nullptr), professor(nullptr), estado(EstadoBatalha::DERROTA), turnosDecorridos(0) {}
 
 Batalha::Batalha(Herois* h, Professor* p)
-    : heroi(h), professor(p), estado(EstadoBatalha::ESCOLHENDO_ACAO), turnosDecorridos(0) {}
+    : heroi(h), professor(p), estado((h && p) ? EstadoBatalha::ESCOLHENDO_ACAO : EstadoBatalha::DERROTA), turnosDecorridos(0) {}
 
 void Batalha::inicializar(Herois* heroiDoJogador, Professor* professorAlvo) {
+	if (!heroiDoJogador || !professorAlvo || !heroiDoJogador->estaVivo() || !professorAlvo->estaVivo()) {
+		heroi = nullptr;
+		professor = nullptr;
+		estado = EstadoBatalha::DERROTA;
+		turnosDecorridos = 0;
+		UtilityFunctions::push_error("Batalha não inicializada: herói/professor nulo ou sem vida.");
+		return;
+	}
     heroi = heroiDoJogador;
     professor = professorAlvo;
     estado = EstadoBatalha::ESCOLHENDO_ACAO;
@@ -45,6 +54,8 @@ ResultadoTurno Batalha::executarAcao(int indiceGolpe) {
         resultado.estadoResultante = estado;
         return resultado;
     }
+	if (!heroi->estaVivo()) estado = EstadoBatalha::DERROTA;
+	else if (!professor->estaVivo()) estado = EstadoBatalha::VITORIA;
 
     if (estado != EstadoBatalha::ESCOLHENDO_ACAO) {
         resultado.acaoValida = false;
@@ -183,6 +194,8 @@ Dictionary Batalha::usar_item_chave() {
         resultado.estadoResultante = estado;
         return converterParaDictionary(resultado);
     }
+	if (!heroi->estaVivo()) estado = EstadoBatalha::DERROTA;
+	else if (!professor->estaVivo()) estado = EstadoBatalha::VITORIA;
 
     if (estado != EstadoBatalha::ESCOLHENDO_ACAO) {
         resultado.acaoValida = false;
@@ -209,15 +222,23 @@ Dictionary Batalha::usar_item_chave() {
 }
 
 Dictionary Batalha::fugir() {
-    estado = EstadoBatalha::FUGIU;
-
     ResultadoTurno resultado{};
-    resultado.acaoValida = true;
-    resultado.mensagem = (heroi != nullptr ? heroi->getNome() : std::string("O heroi")) + " fugiu da batalha, o semestre foi perdido.";
     resultado.heroiAtacou = false;
     resultado.danoCausadoPeloHeroi = 0;
     resultado.professorAtacou = false;
     resultado.danoCausadoPeloProfessor = 0;
+	if (heroi && professor && !heroi->estaVivo()) estado = EstadoBatalha::DERROTA;
+	else if (heroi && professor && !professor->estaVivo()) estado = EstadoBatalha::VITORIA;
+	if (!heroi || !professor || estado != EstadoBatalha::ESCOLHENDO_ACAO) {
+		resultado.acaoValida = false;
+		resultado.mensagem = (!heroi || !professor) ? "Batalha não inicializada." : "A batalha já terminou.";
+		resultado.estadoResultante = estado;
+		return converterParaDictionary(resultado);
+	}
+
+	estado = EstadoBatalha::FUGIU;
+	resultado.acaoValida = true;
+	resultado.mensagem = heroi->getNome() + " fugiu da batalha, o semestre foi perdido.";
     resultado.estadoResultante = estado;
     return converterParaDictionary(resultado);
 }
@@ -287,10 +308,6 @@ void Batalha::_bind_methods() {
     ClassDB::bind_method(D_METHOD("executar_acao", "indice_golpe"), &Batalha::executar_acao);
     ClassDB::bind_method(D_METHOD("usar_item_chave"), &Batalha::usar_item_chave);
     ClassDB::bind_method(D_METHOD("fugir"), &Batalha::fugir);
-<<<<<<< Updated upstream
-}
-=======
     ClassDB::bind_method(D_METHOD("atualizar_botoes_acao", "tela_batalha"), &Batalha::atualizar_botoes_acao);
     ClassDB::bind_method(D_METHOD("posicionar_barras_vida", "tela_batalha"), &Batalha::posicionar_barras_vida);
 }
->>>>>>> Stashed changes

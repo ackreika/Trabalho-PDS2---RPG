@@ -1,39 +1,37 @@
-#pragma once
-#include <set>
-#include <string>
-#include "ItensIds.hpp"
+#ifndef PROGRESSO_JOGADOR_HPP
+#define PROGRESSO_JOGADOR_HPP
 
-/**
- * @brief Meta-progresso entre runs: pontos acumulados
- * e itens já desbloqueados. Guarda em um arquivo .txt simples.
- */
-class ProgressoJogador {
+#include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/string.hpp>
+#include <godot_cpp/variant/array.hpp>
+#include <godot_cpp/classes/node.hpp>
+#include <vector>
+
+namespace godot {
+
+class ProgressoJogador : public RefCounted {
+    GDCLASS(ProgressoJogador, RefCounted);
+
 private:
-    int pontos;
-    std::set<int> itensDesbloqueados;
+    int pontos = 0;
+    int nivel_vida = 0;
+    int nivel_dano = 0;
+    String item_especial_equipado = "";
+    std::vector<String> professores_derrotados;
+    std::vector<String> itens_desbloqueados;
+
+protected:
+    static void _bind_methods();
 
 public:
-    /** @brief Cria um progresso vazio: 0 pontos, nenhum item desbloqueado. */
     ProgressoJogador();
+    ~ProgressoJogador();
 
-    /** @brief Retorna a quantidade de pontos acumulados. */
-    int getPontos() const;
-    /** @brief Adiciona pontos ao total acumulado. */
-    void adicionarPontos(int quantidade);
-    /**
-     * @brief Tenta gastar pontos num upgrade.
-     * @return true se havia pontos suficientes (e eles foram descontados); false caso contrário.
-     */
-    bool gastarPontos(int quantidade);
+    int get_pontos() const;
+    void adicionar_pontos(int qtd);
+    bool gastar_pontos(int qtd);
 
-<<<<<<< Updated upstream
-    /** @brief Retorna true se o item com esse ID já foi desbloqueado. */
-    bool jaObteve(ItemId id) const;
-    /** @brief Marca um item como desbloqueado. */
-    void desbloquear(ItemId id);
-    /** @brief Retorna o conjunto de IDs de todos os itens desbloqueados. */
-    const std::set<int>& getTodos() const;
-=======
     int get_nivel_vida() const { return nivel_vida; }
     int get_nivel_dano() const { return nivel_dano; }
     int get_quantidade_vitorias() const { return static_cast<int>(professores_derrotados.size()); }
@@ -43,14 +41,18 @@ public:
     bool ja_venceu_professor(int area, int indice) const;
     Array registrar_vitoria_professor(int area, int indice);
     bool equipar_item_especial_desbloqueado(const String &id);
->>>>>>> Stashed changes
 
-    /** @brief Salva pontos e itens desbloqueados num arquivo de texto. */
-    void salvar(const std::string& caminho) const;
-    /**
-     * @brief Carrega o progresso salvo de um arquivo de texto.
-     * @param caminho Caminho do arquivo salvo previamente.
-     * @return Um ProgressoJogador vazio (0 pontos) se o arquivo não existir ainda.
-     */
-    static ProgressoJogador carregar(const std::string& caminho);
+    bool comprar_vida();
+    bool comprar_dano();
+    int custo_vida() const;
+    int custo_dano() const;
+
+    void aplicar_ao_heroi(Object *heroi_obj);
+
+    bool salvar(const String &caminho);
+    bool carregar(const String &caminho);
 };
+
+}
+
+#endif

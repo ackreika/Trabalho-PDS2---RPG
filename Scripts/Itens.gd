@@ -3,20 +3,9 @@ class_name Itens
 
 const PASSIVOS := ["HALTER", "SUCO", "JAMES_STEWART", "INTEGRAL", "DERIVADA", "INTERPOLACAO", "REFRIGERADOR"]
 const ESPECIAIS := ["LASER", "VETOR", "PONTEIRO"]
-const DROPA_ITEM_CHAVE := ["3_1"]
-
-# Item que cada professor dá na PRIMEIRA vez que é derrotado.
-# Chave = "area_indice" (area 0..3, indice a partir de 1, como no Global).
-const RECOMPENSAS := {
-	"0_1": ["JAMES_STEWART"],           # Substituto
-	"0_2": ["INTEGRAL", "DERIVADA"],    # Xavier
-	"0_3": ["HALTER"],                  # Colina Sombria
-	"1_1": ["VETOR"],                   # Viktor Bekert
-	"1_2": ["INTERPOLACAO"],            # Alexandre
-	"2_3": ["LASER"],                   # Ivonete
-	"2_4": ["REFRIGERADOR"],            # Slide Man
-	"3_1": ["PONTEIRO"],                # Rezeck
-}
+# A tabela de drops (qual professor dá qual item, e quem dá o item chave) fica em
+# C++ (GerenciadorRecompensas.cpp) e é consultada por Recompensas.itens_do_professor()
+# e Recompensas.dropa_item_chave().
 
 static func nome_item(id: String) -> String:
 	var d: Dictionary = Herois.descrever_item_passivo(id) if id in PASSIVOS else Herois.descrever_item_especial(id)

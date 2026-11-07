@@ -1,24 +1,19 @@
 #include "Herois.hpp"
+#include "MochilaItens.hpp"
 #include "Professor.hpp"
 #include "ItensConcretos.hpp"
 #include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/dictionary.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
+#include <algorithm>
+#include <cmath>
+#include <limits>
 
 namespace {
+/** Converte o ID textual vindo do GDScript ("HALTER"...) em ItemId, usando a tabela única de ItensConcretos. */
 bool idParaItem(const String& id, ItemId& saida) {
-    std::string chave = std::string(id.utf8().get_data());
-    if (chave == "HALTER")        { saida = ItemId::HALTER;        return true; }
-    if (chave == "SUCO")          { saida = ItemId::SUCO;          return true; }
-    if (chave == "LASER")         { saida = ItemId::LASER;         return true; }
-    if (chave == "JAMES_STEWART") { saida = ItemId::JAMES_STEWART; return true; }
-    if (chave == "INTEGRAL")      { saida = ItemId::INTEGRAL;      return true; }
-    if (chave == "DERIVADA")      { saida = ItemId::DERIVADA;      return true; }
-    if (chave == "VETOR")         { saida = ItemId::VETOR;         return true; }
-    if (chave == "INTERPOLACAO")  { saida = ItemId::INTERPOLACAO;  return true; }
-    if (chave == "REFRIGERADOR")  { saida = ItemId::REFRIGERADOR;  return true; }
-    if (chave == "PONTEIRO")      { saida = ItemId::PONTEIRO;      return true; }
-    return false;
+    return itemIdDeTexto(std::string(id.utf8().get_data()), saida);
 }
 }
 
@@ -28,11 +23,14 @@ int Herois::vitoriasAcumuladas = 0;
 
 Herois::Herois()
     : nome("Estudante"), nivel(1), vida(100), vidaMaxima(100), vidaMaximaBase(100),
-      defesa(10), danoBase(15), possuiItemEspecialAtivo(false), possuiItemChave(false) {}
+      defesa(10), danoBase(15), possuiItemEspecialAtivo(false), itemEspecialAtivo{"", 1.0f, 0, 0},
+      possuiItemChave(false) {}
 
 Herois::Herois(std::string nome, int vidaMaxima, int defesa, int danoBase)
-    : nome(nome), nivel(1), vida(vidaMaxima), vidaMaxima(vidaMaxima), vidaMaximaBase(vidaMaxima),
-      defesa(defesa), danoBase(danoBase), possuiItemEspecialAtivo(false), possuiItemChave(false) {}
+    : nome(nome.empty() ? "Estudante" : nome), nivel(1), vida(std::max(1, vidaMaxima)),
+      vidaMaxima(std::max(1, vidaMaxima)), vidaMaximaBase(std::max(1, vidaMaxima)),
+      defesa(std::max(0, defesa)), danoBase(std::max(0, danoBase)), possuiItemEspecialAtivo(false),
+      itemEspecialAtivo{"", 1.0f, 0, 0}, possuiItemChave(false) {}
 
 std::string Herois::getNome() const { return nome; }
 int Herois::getVida() const { return vida; }
@@ -42,15 +40,18 @@ int Herois::getDanoBase() const { return danoBase; }
 bool Herois::estaVivo() const { return vida > 0; }
 
 void Herois::curar(int quantidade) {
-    vida += quantidade;
-    if (vida > vidaMaxima) vida = vidaMaxima;
+    if (quantidade <= 0 || vida <= 0) return;
+    const int64_t vidaNova = static_cast<int64_t>(vida) + quantidade;
+    vida = static_cast<int>(std::min<int64_t>(vidaNova, vidaMaxima));
 }
 
 void Herois::receberDano(int danoBase) {
-    double fator = static_cast<double>(vida) / (vida + defesa);
-    int danoFinal = static_cast<int>(danoBase * fator);
+    if (danoBase <= 0 || vida <= 0) return;
+    const double divisor = static_cast<double>(vida) + std::max(0, defesa);
+    if (divisor <= 0.0) return;
+    const double fator = static_cast<double>(vida) / divisor;
+    const int danoFinal = std::clamp(static_cast<int>(danoBase * fator), 0, vida);
     vida -= danoFinal;
-    if (vida < 0) vida = 0;
 }
 
 void Herois::aprenderMovimento(const Movimento& novo, int indiceParaSubstituir) {
@@ -132,39 +133,47 @@ void Herois::carregarMovimentosEscolhidos() {
 }
 
 void Herois::adicionarItemPassivo(ItemPassivo item) {
+    if (item.nome.empty() || !std::isfinite(item.multiplicador) || item.multiplicador <= 0.0f) {
+        UtilityFunctions::push_warning("Item passivo inválido ignorado.");
+        return;
+    }
+    for (const ItemPassivo &existente : itensPassivos) {
+        if (existente.nome == item.nome) return;
+    }
     itensPassivos.push_back(item);
     recalcularVidaMaxima();
 }
 
 int Herois::getQuantidadeItensPassivos() const {
-    return static_cast<int>(itensPassivos.size());
+    return MochilaItens(*this).getQuantidadeItensPassivos();
 }
 
 std::string Herois::getNomeItemPassivo(int indice) const {
-    if (indice < 0 || indice >= static_cast<int>(itensPassivos.size())) {
-        return "";
-    }
-    return itensPassivos[indice].nome;
+    return MochilaItens(*this).getNomeItemPassivo(indice);
 }
 
 int Herois::calcularDanoFinal(int danoBase) const {
-    int dano = danoBase;
+    if (danoBase <= 0) return 0;
+    double dano = danoBase;
     for (const auto& item : itensPassivos) {
-        if (item.tipo == TipoEfeito::BONUS_DANO_CAUSADO) {
-            dano = static_cast<int>(dano * item.multiplicador);
+        if (item.tipo == TipoEfeito::BONUS_DANO_CAUSADO && std::isfinite(item.multiplicador) && item.multiplicador > 0.0f) {
+            dano *= item.multiplicador;
+            if (dano >= std::numeric_limits<int>::max()) return std::numeric_limits<int>::max();
         }
     }
-    return dano;
+    return std::max(0, static_cast<int>(dano));
 }
 
 int Herois::calcularVidaFinal(int vidaBase) const {
-    int vidaFinal = vidaBase;
+    if (vidaBase <= 0) return 1;
+    double vidaFinal = vidaBase;
     for (const auto& item : itensPassivos) {
-        if (item.tipo == TipoEfeito::BONUS_VIDA_MAXIMA) {
-            vidaFinal = static_cast<int>(vidaFinal * item.multiplicador);
+        if (item.tipo == TipoEfeito::BONUS_VIDA_MAXIMA && std::isfinite(item.multiplicador) && item.multiplicador > 0.0f) {
+            vidaFinal *= item.multiplicador;
+            if (vidaFinal >= std::numeric_limits<int>::max()) return std::numeric_limits<int>::max();
         }
     }
-    return vidaFinal;
+    return std::max(1, static_cast<int>(vidaFinal));
 }
 
 void Herois::recalcularVidaMaxima() {
@@ -180,6 +189,11 @@ void Herois::recalcularVidaMaxima() {
 }
 
 void Herois::definirItemEspecial(ItemEspecial item) {
+    if (item.nome.empty() || !std::isfinite(item.multiplicadorDano) || item.multiplicadorDano <= 0.0f ||
+        item.usosMaximos <= 0 || item.usosRestantes < 0 || item.usosRestantes > item.usosMaximos) {
+        UtilityFunctions::push_warning("Item especial inválido; equipamento não alterado.");
+        return;
+    }
     itemEspecialAtivo = item;
     possuiItemEspecialAtivo = true;
 }
@@ -195,11 +209,12 @@ bool Herois::itemEspecialPodeUsar() const {
 }
 
 int Herois::usarItemEspecial(Professor& alvo) {
-    if (!itemEspecialPodeUsar()) {
+    if (!itemEspecialPodeUsar() || !alvo.estaVivo()) {
         return 0;
     }
     itemEspecialAtivo.usosRestantes--;
-    int dano = static_cast<int>(danoBase * itemEspecialAtivo.multiplicadorDano);
+    const double danoCalculado = static_cast<double>(danoBase) * itemEspecialAtivo.multiplicadorDano;
+    const int dano = static_cast<int>(std::clamp(danoCalculado, 0.0, static_cast<double>(std::numeric_limits<int>::max())));
     alvo.receberDano(dano);
     return dano;
 }
@@ -224,7 +239,11 @@ std::string Herois::getCaminhoSprite(EstadoVisual estado) const {
 
 
 void Herois::inicializar(String nomeNovo, int vidaMaximaNova, int defesaNova, int danoBaseNovo) {
-    nome = std::string(nomeNovo.utf8().get_data());
+    if (vidaMaximaNova <= 0 || defesaNova < 0 || danoBaseNovo < 0) {
+        UtilityFunctions::push_error("Herói não inicializado: vida máxima, defesa ou dano inválido.");
+        return;
+    }
+    nome = nomeNovo.strip_edges().is_empty() ? "Estudante" : std::string(nomeNovo.utf8().get_data());
     vidaMaximaBase = vidaMaximaNova;
     vidaMaxima = vidaMaximaNova;
     vida = vidaMaximaNova;
@@ -347,10 +366,21 @@ int Herois::get_quantidade_itens_passivos() const { return getQuantidadeItensPas
 String Herois::get_nome_item_passivo(int indice) const { return String::utf8(getNomeItemPassivo(indice).c_str()); }
 
 void Herois::aplicar_bonus_permanente(int bonusVida, int bonusDano) {
-    vidaMaximaBase += bonusVida;
-    danoBase += bonusDano;
+    if (bonusVida < 0 || bonusDano < 0) {
+        UtilityFunctions::push_warning("Bônus permanente negativo ignorado.");
+        return;
+    }
+    vidaMaximaBase = static_cast<int>(std::min<int64_t>(static_cast<int64_t>(vidaMaximaBase) + bonusVida,
+                                                         std::numeric_limits<int>::max()));
+    danoBase = static_cast<int>(std::min<int64_t>(static_cast<int64_t>(danoBase) + bonusDano,
+                                                   std::numeric_limits<int>::max()));
     recalcularVidaMaxima();
     vida = vidaMaxima;
+}
+
+void Herois::aumentar_poder_movimento(int indice, int incremento) {
+    Movimento* movimento = getMovimentoParaEditar(indice);
+    if (movimento && incremento > 0) movimento->aumentarPoder(incremento);
 }
 
 String Herois::dar_item_passivo(String id) {
@@ -393,13 +423,8 @@ Dictionary Herois::descrever_item_especial(String id) {
     return d;
 }
 
-<<<<<<< Updated upstream
-bool Herois::possui_item_especial() const { return possuiItemEspecial(); }
-String Herois::get_nome_item_especial() const { return String(getNomeItemEspecial().c_str()); }
-=======
 bool Herois::possui_item_especial() const { return MochilaItens(*this).possuiItemEspecialEquipado(); }
 String Herois::get_nome_item_especial() const { return String::utf8(MochilaItens(*this).getNomeItemEspecialEquipado().c_str()); }
->>>>>>> Stashed changes
 int Herois::get_usos_item_especial() const { return possuiItemEspecialAtivo ? itemEspecialAtivo.usosRestantes : 0; }
 
 void Herois::obter_item_chave() { obterItemChave(); }
@@ -437,6 +462,7 @@ void Herois::_bind_methods() {
     ClassDB::bind_method(D_METHOD("obter_item_chave"), &Herois::obter_item_chave);
     ClassDB::bind_method(D_METHOD("possui_item_chave"), &Herois::possui_item_chave);
     ClassDB::bind_method(D_METHOD("aplicar_bonus_permanente", "bonus_vida", "bonus_dano"), &Herois::aplicar_bonus_permanente);
+    ClassDB::bind_method(D_METHOD("aumentar_poder_movimento", "indice", "incremento"), &Herois::aumentar_poder_movimento);
     ClassDB::bind_method(D_METHOD("dar_item_passivo", "id"), &Herois::dar_item_passivo);
     ClassDB::bind_method(D_METHOD("dar_item_especial", "id"), &Herois::dar_item_especial);
     ClassDB::bind_static_method("Herois", D_METHOD("descrever_item_passivo", "id"), &Herois::descrever_item_passivo);

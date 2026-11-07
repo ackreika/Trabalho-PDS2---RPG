@@ -6,30 +6,35 @@
 
 [node name="Control" type="Control" unique_id=2016982446]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_7tfhx")
 
 [node name="Fundo" type="TextureRect" parent="." unique_id=451920585]
-layout_mode = 0
-offset_right = 1153.0
-offset_bottom = 650.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_6nkgd")
 
 [node name="ProfessorSprite" type="TextureRect" parent="." unique_id=2031264722]
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 646.0
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.38
+anchor_top = 0.04
+anchor_right = 0.98
+anchor_bottom = 0.76
+grow_horizontal = 0
+grow_vertical = 0
 texture = ExtResource("3_ubxm8")
+expand_mode = 1
+stretch_mode = 5
 
-<<<<<<< Updated upstream
-[node name="LabelProfessorNome" type="Label" parent="." unique_id=367079397]
-layout_mode = 0
-offset_left = 231.0
-offset_right = 435.0
-offset_bottom = 93.0
-=======
 [node name="HUDProfessor" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 0
@@ -37,37 +42,24 @@ anchor_left = 0.64
 anchor_top = 0.56
 anchor_right = 0.975
 anchor_bottom = 0.70
->>>>>>> Stashed changes
 
-[node name="LabelProfessorVida" type="Label" parent="." unique_id=173290688]
-layout_mode = 0
-offset_left = 710.0
-offset_top = 1.0
-offset_right = 910.0
-offset_bottom = 154.0
+[node name="Conteudo" type="VBoxContainer" parent="HUDProfessor"]
+layout_mode = 2
+theme_override_constants/separation = 5
 
-[node name="LabelHeroiVida" type="Label" parent="." unique_id=1982106232]
-layout_mode = 0
-offset_right = 245.0
-offset_bottom = 100.0
+[node name="LabelProfessorNome" type="Label" parent="HUDProfessor/Conteudo" unique_id=367079397]
+layout_mode = 2
+text = "PROFESSOR"
 
-[node name="LabelMensagem" type="Label" parent="." unique_id=935822678]
-layout_mode = 0
-offset_left = 438.0
-offset_top = 1.0
-offset_right = 735.0
-offset_bottom = 115.0
+[node name="BarraVida" type="ProgressBar" parent="HUDProfessor/Conteudo"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+show_percentage = false
 
-[node name="BotoesGolpe" type="HBoxContainer" parent="." unique_id=951962601]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 7.0
-offset_right = 1151.0
-offset_bottom = 655.0
+[node name="LabelProfessorVida" type="Label" parent="HUDProfessor/Conteudo" unique_id=173290688]
+layout_mode = 2
+text = "HP 100 / 100"
 
-<<<<<<< Updated upstream
-[node name="Golpe0" type="Button" parent="BotoesGolpe" unique_id=1519484692]
-=======
 [node name="HUDHeroi" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 0
@@ -161,44 +153,31 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Golpe2" type="Button" parent="BarraAcoes/BotoesGolpe" unique_id=1107944874]
->>>>>>> Stashed changes
 layout_mode = 2
 
-[node name="Golpe1" type="Button" parent="BotoesGolpe" unique_id=902829780]
+[node name="BotaoItemEspecial" type="Button" parent="BarraAcoes/BotoesGolpe" unique_id=1889012989]
+visible = false
+custom_minimum_size = Vector2(0, 112)
 layout_mode = 2
+size_flags_horizontal = 3
+text = "Item ativo"
 
-[node name="Golpe2" type="Button" parent="BotoesGolpe" unique_id=1107944874]
+[node name="BotaoItemChave" type="Button" parent="BarraAcoes/BotoesGolpe" unique_id=1733468487]
+visible = false
+custom_minimum_size = Vector2(0, 112)
 layout_mode = 2
+size_flags_horizontal = 3
+text = "Item chave"
 
-[node name="BotaoFugir" type="Button" parent="." unique_id=216530067]
-layout_mode = 0
-offset_left = 1055.0
-offset_top = 7.0
-offset_right = 1122.0
-offset_bottom = 655.0
+[node name="BotaoFugir" type="Button" parent="BarraAcoes/BotoesGolpe" unique_id=216530067]
+custom_minimum_size = Vector2(0, 112)
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Desistir"
 
-[node name="BotaoItemEspecial" type="Button" parent="." unique_id=1889012989]
-layout_mode = 0
-offset_left = 979.0
-offset_top = 5.0
-offset_right = 1050.0
-offset_bottom = 653.0
-text = "Item
-Especial"
-
-[node name="BotaoItemChave" type="Button" parent="." unique_id=1733468487]
-layout_mode = 0
-offset_left = 922.0
-offset_top = 4.0
-offset_right = 978.0
-offset_bottom = 652.0
-text = "Item
-Chave"
-
-[connection signal="pressed" from="BotoesGolpe/Golpe0" to="." method="_on_golpe_0_pressed"]
-[connection signal="pressed" from="BotoesGolpe/Golpe1" to="." method="_on_golpe_1_pressed"]
-[connection signal="pressed" from="BotoesGolpe/Golpe2" to="." method="_on_golpe_2_pressed"]
-[connection signal="pressed" from="BotaoFugir" to="." method="_on_botao_fugir_pressed"]
-[connection signal="pressed" from="BotaoItemEspecial" to="." method="_on_botao_item_especial_pressed"]
-[connection signal="pressed" from="BotaoItemChave" to="." method="_on_botao_item_chave_pressed"]
+[connection signal="pressed" from="BarraAcoes/BotoesGolpe/Golpe0" to="." method="_on_golpe_0_pressed"]
+[connection signal="pressed" from="BarraAcoes/BotoesGolpe/Golpe1" to="." method="_on_golpe_1_pressed"]
+[connection signal="pressed" from="BarraAcoes/BotoesGolpe/Golpe2" to="." method="_on_golpe_2_pressed"]
+[connection signal="pressed" from="BarraAcoes/BotoesGolpe/BotaoItemEspecial" to="." method="_on_botao_item_especial_pressed"]
+[connection signal="pressed" from="BarraAcoes/BotoesGolpe/BotaoItemChave" to="." method="_on_botao_item_chave_pressed"]
+[connection signal="pressed" from="BarraAcoes/BotoesGolpe/BotaoFugir" to="." method="_on_botao_fugir_pressed"]

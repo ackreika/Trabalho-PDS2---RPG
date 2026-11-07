@@ -108,6 +108,12 @@ Professor* ProfessoresFabrica::criarProfessorGaal(int indiceBatalha) {
             Professor* p = montar("Viktor Bekert", "GAAL", 50, 5, TipoProfessor::COMUM);
             golpe(p, "Produto Vetorial Cortante", 13, -1);
             golpe(p, "Matriz Transposta Traicoeira", 11, 3);
+            sprites(p,
+                "res://imagens/DuczmalNeutro-removebg-preview.png",
+                "res://imagens/DuczmalBravo-removebg-preview.png",
+                "res://imagens/DuczmalBravo-removebg-preview.png",
+                "res://imagens/DuczmalPalmas-removebg-preview.png",
+                "res://imagens/DuczmalFeliz-removebg-preview.png");
             return p;
         }
         case 2: {
@@ -116,6 +122,12 @@ Professor* ProfessoresFabrica::criarProfessorGaal(int indiceBatalha) {
             golpe(p, "Metodo de Newton-Raphson", 22, 3);
             golpe(p, "Instabilidade Numerica", 18, -1);
             golpe(p, "Erro de Truncamento Fatal", 26, 2);
+            sprites(p,
+                "res://imagens/AlexandreSorrindo-removebg-preview.png",
+                "res://imagens/AlexandreIrritado-removebg-preview.png",
+                "res://imagens/AlexandreIrritado-removebg-preview.png",
+                "res://imagens/AlexandrePalmas-removebg-preview.png",
+                "res://imagens/AlexandreSorrindo-removebg-preview.png");
             return p;
         }
         default:
@@ -146,6 +158,12 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
             Professor* p = montar("Ivonete", "Fundamentos de Mecanica", 80, 7, TipoProfessor::MINIBOSS);
             golpe(p, "Torque Desequilibrado", 16, 3);
             golpe(p, "Momento Angular Conservado", 14, -1);
+            sprites(p,
+                "res://imagens/IvoneteDeBraços-removebg-preview.png",
+                "res://imagens/IvoneteSorrindo-removebg-preview.png",
+                "res://imagens/IvoneteConfusa-removebg-preview.png",
+                "res://imagens/IvoneteSorrindo-removebg-preview.png",
+                "res://imagens/IvoneteConfusa-removebg-preview.png");
             return p;
         }
         case 4: {
@@ -171,14 +189,27 @@ Professor* ProfessoresFabrica::criarProfessorPds(int indiceBatalha) {
             Professor* p = montar("Rezeck", "PDS II", 55, 6, TipoProfessor::COMUM);
             golpe(p, "Code Review Implacavel", 14, -1);
             golpe(p, "Refatoracao Forcada", 12, 3);
+            sprites(p,
+                "res://imagens/RezeckNeutro-removebg-preview.png",
+                "res://imagens/RezeckSorrindo-removebg-preview.png",
+                "res://imagens/RezeckConfuso-removebg-preview.png",
+                "res://imagens/RezeckPalmas-removebg-preview.png",
+                "res://imagens/RezeckNeutro-removebg-preview.png");
             return p;
         }
         case 2: {
-            // Boss final: MANTEM a invulnerabilidade ate o jogador usar o item chave
+            // O boss final fica vulneravel ate chegar a metade da vida.
             Professor* p = montar("Fernando", "PDS II", 150, 12, TipoProfessor::BOSS);
+            p->ativarInvulnerabilidadeNaMetadeDaVida();
             golpe(p, "NullPointerException", 24, 3);
             golpe(p, "Merge Conflict Caotico", 28, 2);
             golpe(p, "Divida Tecnica Acumulada", 18, -1);
+            sprites(p,
+                "res://imagens/FernandoLado-removebg-preview.png",
+                "res://imagens/FernandoBravo-removebg-preview.png",
+                "res://imagens/FernandoEstranhando-removebg-preview.png",
+                "res://imagens/FernandoSorrindoLado-removebg-preview.png",
+                "res://imagens/FernandoSorrisinho-removebg-preview.png");
             return p;
         }
         default:

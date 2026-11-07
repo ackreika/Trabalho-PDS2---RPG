@@ -27,11 +27,8 @@
 #include <godot_cpp/classes/button.hpp>
 #include <godot_cpp/classes/label.hpp>
 #include <algorithm>
-<<<<<<< Updated upstream
-=======
 #include <cmath>
 #include <string>
->>>>>>> Stashed changes
 
 using namespace godot;
 
@@ -46,7 +43,6 @@ void GerenciadorInterface::_bind_methods()
 
     ClassDB::bind_method(D_METHOD("clicar_mundo_principal"), &GerenciadorInterface::clicar_mundo_principal);
     ClassDB::bind_method(D_METHOD("clicar_quests"), &GerenciadorInterface::clicar_quests);
-    ClassDB::bind_method(D_METHOD("clicar_equipamento"), &GerenciadorInterface::clicar_equipamento);
 
     // Método para trocar a imagem de fundo do menu de Configurações
     ClassDB::bind_method(D_METHOD("definir_imagem_fundo_config", "caminho_textura"), &GerenciadorInterface::definir_imagem_fundo_config);
@@ -265,11 +261,6 @@ void GerenciadorInterface::inicializar_componentes()
     Button* botao_jogar = has_node("ContainerBotoes/BotaoJogar") ? get_node<Button>("ContainerBotoes/BotaoJogar") : nullptr;
     Button* botao_config = has_node("ContainerBotoes/BotaoConfig") ? get_node<Button>("ContainerBotoes/BotaoConfig") : nullptr;
     Button* botao_sair = has_node("ContainerBotoes/BotaoSair") ? get_node<Button>("ContainerBotoes/BotaoSair") : nullptr;
-<<<<<<< Updated upstream
-    Button* botao_voltar = has_node("ContainerConfig/BotaoVoltar") ? get_node<Button>("ContainerConfig/BotaoVoltar") : nullptr;
-    
-    Button* botao_mundo = has_node("ContainerJogar/BotaoMundo") ? get_node<Button>("ContainerJogar/BotaoMundo") : nullptr;
-=======
 
     if (!botaoVoltarConfig && has_node("ContainerConfig/BotaoVoltar"))
         botaoVoltarConfig = get_node<Button>("ContainerConfig/BotaoVoltar");
@@ -278,9 +269,7 @@ void GerenciadorInterface::inicializar_componentes()
     if (!caixaResolucaoConfig && has_node("ContainerConfig/CaixaResolucao"))
         caixaResolucaoConfig = get_node<OptionButton>("ContainerConfig/CaixaResolucao");
 
->>>>>>> Stashed changes
     Button* botao_quests = has_node("ContainerJogar/BotaoQuests") ? get_node<Button>("ContainerJogar/BotaoQuests") : nullptr;
-    Button* botao_equipamento = has_node("ContainerJogar/BotaoEquipamento") ? get_node<Button>("ContainerJogar/BotaoEquipamento") : nullptr;
     Button* botao_voltar_jogar = has_node("ContainerJogar/BotaoVoltar") ? get_node<Button>("ContainerJogar/BotaoVoltar") : nullptr;
 
     if (caixaResolucaoConfig) {
@@ -301,53 +290,20 @@ void GerenciadorInterface::inicializar_componentes()
         botao_config->connect("pressed", Callable(this, "clicar_configuracoes"));
     if (botao_sair && !botao_sair->is_connected("pressed", Callable(this, "clicar_sair")))
         botao_sair->connect("pressed", Callable(this, "clicar_sair"));
-<<<<<<< Updated upstream
-    if (botao_voltar && !botao_voltar->is_connected("pressed", Callable(this, "clicar_voltar")))
-        botao_voltar->connect("pressed", Callable(this, "clicar_voltar"));
-    
-    if (botao_mundo && !botao_mundo->is_connected("pressed", Callable(this, "clicar_mundo_principal")))
-        botao_mundo->connect("pressed", Callable(this, "clicar_mundo_principal"));
-=======
     if (botaoVoltarConfig && !botaoVoltarConfig->is_connected("pressed", Callable(this, "clicar_voltar")))
         botaoVoltarConfig->connect("pressed", Callable(this, "clicar_voltar"));
 
     // BotaoMundo é conectado pelo cena_principal.gd, que abre o seletor de áreas.
->>>>>>> Stashed changes
     if (botao_quests && !botao_quests->is_connected("pressed", Callable(this, "clicar_quests")))
         botao_quests->connect("pressed", Callable(this, "clicar_quests"));
-    if (botao_equipamento && !botao_equipamento->is_connected("pressed", Callable(this, "clicar_equipamento")))
-        botao_equipamento->connect("pressed", Callable(this, "clicar_equipamento"));
     if (botao_voltar_jogar && !botao_voltar_jogar->is_connected("pressed", Callable(this, "clicar_voltar")))
         botao_voltar_jogar->connect("pressed", Callable(this, "clicar_voltar"));
 
     if (sliderVolumeConfig && !sliderVolumeConfig->is_connected("value_changed", Callable(this, "mudar_volume")))
         sliderVolumeConfig->connect("value_changed", Callable(this, "mudar_volume"));
 
-<<<<<<< Updated upstream
-    if (has_node("ContainerBotoes")) {
-        Control* container_botoes = get_node<Control>("ContainerBotoes");
-        Button* botao_movimentos = has_node("ContainerBotoes/BotaoMovimentos")
-                                       ? get_node<Button>("ContainerBotoes/BotaoMovimentos")
-                                       : nullptr;
-        if (!botao_movimentos && container_botoes) {
-            botao_movimentos = memnew(Button);
-            botao_movimentos->set_name("BotaoMovimentos");
-            botao_movimentos->set_text("Movimentos");
-            botao_movimentos->add_theme_font_size_override("font_size", 40);
-            container_botoes->add_child(botao_movimentos);
-        }
-        if (botao_movimentos) {
-            Callable acao_movimentos(this, "clicar_movimentos");
-            if (!botao_movimentos->is_connected("pressed", acao_movimentos)) {
-                botao_movimentos->connect("pressed", acao_movimentos);
-            }
-        }
-    }
-
-=======
     estilizar_menu_configuracoes();
     criar_painel_areas();
->>>>>>> Stashed changes
     criar_painel_movimentos();
 }
 
@@ -834,8 +790,6 @@ void GerenciadorInterface::atualizar_painel_movimentos()
     if (!painelMovimentos) return;
 
     const auto& catalogo = Movimento::getCatalogoMovimentos();
-<<<<<<< Updated upstream
-=======
     if (catalogo.empty()) {
         UtilityFunctions::push_error(String::utf8("Não foi possível atualizar os movimentos: catálogo vazio."));
         for (Button* btn : botoesSlot) {
@@ -843,19 +797,15 @@ void GerenciadorInterface::atualizar_painel_movimentos()
         }
         return;
     }
->>>>>>> Stashed changes
 
     for (int i = 0; i < 3; i++) {
         if (!botoesSlot[i]) continue;
         int idEquipado = Herois::getMovimentoEscolhido(i);
-<<<<<<< Updated upstream
-=======
         if (idEquipado < 0 || idEquipado >= static_cast<int>(catalogo.size())) {
             UtilityFunctions::push_warning(String::utf8("Movimento equipado inválido; restaurando o primeiro movimento do catálogo."));
             Herois::definirMovimentoEscolhido(i, 0);
             idEquipado = 0;
         }
->>>>>>> Stashed changes
         const Movimento& m = catalogo[idEquipado];
         bool selecionado = (i == slotMovimentoSelecionado);
 
@@ -877,12 +827,7 @@ void GerenciadorInterface::atualizar_painel_movimentos()
 
     for (int id = 0; id < static_cast<int>(botoesCatalogo.size()) && id < static_cast<int>(catalogo.size()); id++) {
         Button* btn = botoesCatalogo[id];
-<<<<<<< Updated upstream
-        const Movimento& m = catalogo[id];
-        int slotOndeEsta = Herois::encontrarSlotDoMovimento(id);
-=======
         if (!btn) continue;
->>>>>>> Stashed changes
 
         const Movimento& m = catalogo[id];
         bool desbloqueado = Herois::movimentoEstaDesbloqueado(id);
@@ -947,7 +892,7 @@ void GerenciadorInterface::clicar_fechar_movimentos()
     if (painelMovimentos) {
         painelMovimentos->set_visible(false);
     }
-    irPara(GerenciadorMenu::EstadoMenu::MENU_INICIAL);
+    irPara(GerenciadorMenu::EstadoMenu::MENU_JOGAR);
     atualizar_telas();
 }
 
@@ -961,8 +906,6 @@ void GerenciadorInterface::selecionar_slot_movimento(int slot)
 
 void GerenciadorInterface::escolher_movimento_catalogo(int idCatalogo)
 {
-<<<<<<< Updated upstream
-=======
     if (slotMovimentoSelecionado < 0 || slotMovimentoSelecionado >= 3 ||
         idCatalogo < 0 || idCatalogo >= Movimento::getQuantidadeCatalogo()) {
         UtilityFunctions::push_warning(String::utf8("Seleção de movimento fora da faixa; ação ignorada."));
@@ -971,7 +914,6 @@ void GerenciadorInterface::escolher_movimento_catalogo(int idCatalogo)
     if (!Herois::movimentoEstaDesbloqueado(idCatalogo)) {
         return;
     }
->>>>>>> Stashed changes
     Herois::definirMovimentoEscolhido(slotMovimentoSelecionado, idCatalogo);
     slotMovimentoSelecionado = (slotMovimentoSelecionado + 1) % 3;
     atualizar_painel_movimentos();
@@ -1022,17 +964,7 @@ void GerenciadorInterface::clicar_jogar()
 
 void GerenciadorInterface::clicar_mundo_principal()
 {
-<<<<<<< Updated upstream
-    UtilityFunctions::print(">> Entrou no Mundo Principal!");
-    iniciarOuRetomarPartida(); 
-    Node* global = has_node("/root/Global") ? get_node<Node>("/root/Global") : nullptr;
-    if (global) {
-        global->call("iniciar_primeira_batalha");
-    }
-    atualizar_telas();
-=======
     abrir_painel_areas();
->>>>>>> Stashed changes
 }
 
 void GerenciadorInterface::clicar_quests()
@@ -1040,16 +972,7 @@ void GerenciadorInterface::clicar_quests()
     UtilityFunctions::print(">> Abrindo menu de Quests...");
 }
 
-<<<<<<< Updated upstream
-void GerenciadorInterface::clicar_equipamento() 
-{
-    UtilityFunctions::print(">> Abrindo Inventário/Equipamentos...");
-}
-
-void GerenciadorInterface::clicar_configuracoes() 
-=======
 void GerenciadorInterface::clicar_configuracoes()
->>>>>>> Stashed changes
 {
     if (painelConfig == nullptr) {
         estilizar_menu_configuracoes();
@@ -1075,6 +998,10 @@ void GerenciadorInterface::clicar_sair()
 
 void GerenciadorInterface::mudar_volume(float valor)
 {
+    if (!std::isfinite(valor)) {
+        UtilityFunctions::push_warning("Valor de volume inválido ignorado.");
+        return;
+    }
     definirVolume(valor);
     atualizar_texto_volume();
     UtilityFunctions::print("Volume ajustado para: ", volume);
@@ -1082,6 +1009,10 @@ void GerenciadorInterface::mudar_volume(float valor)
 
 void GerenciadorInterface::mudar_resolucao(int indice)
 {
+    if (indice < 0 || indice > 7) {
+        UtilityFunctions::push_warning("Índice de resolução fora da faixa; configuração mantida.");
+        return;
+    }
     definirIndiceResolucao(indice);
     Window* janela = get_window();
     if (!janela) return;
@@ -1109,15 +1040,6 @@ void GerenciadorInterface::mudar_resolucao(int indice)
 }
 
 GerenciadorMenu::EstadoMenu GerenciadorInterface::getEstadoAtual() const { return estadoAtual; }
-<<<<<<< Updated upstream
-void GerenciadorInterface::irPara(GerenciadorMenu::EstadoMenu novoEstado) { estadoAtual = novoEstado; }
-void GerenciadorInterface::voltar() { estadoAtual = GerenciadorMenu::EstadoMenu::MENU_INICIAL; }
-float GerenciadorInterface::getVolume() const { return volume; }
-void GerenciadorInterface::definirVolume(float novoVolume) { volume = std::max(0.0f, std::min(100.0f, novoVolume)); }
-int GerenciadorInterface::getIndiceResolucao() const { return indiceResolucao; }
-void GerenciadorInterface::definirIndiceResolucao(int indice) { indiceResolucao = indice; }
-void GerenciadorInterface::iniciarOuRetomarPartida() { estadoAtual = GerenciadorMenu::EstadoMenu::EM_BATALHA; }
-=======
 
 void GerenciadorInterface::irPara(GerenciadorMenu::EstadoMenu novoEstado)
 {
@@ -1156,4 +1078,3 @@ void GerenciadorInterface::definirIndiceResolucao(int indice)
 }
 
 void GerenciadorInterface::iniciarOuRetomarPartida() { estadoAtual = GerenciadorMenu::EstadoMenu::EM_BATALHA; }
->>>>>>> Stashed changes

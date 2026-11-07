@@ -3,6 +3,10 @@
 #include <vector>
 #include <map>
 #include "Movimento.hpp"
+#include "Herois.hpp"
+#include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/dictionary.hpp>
 
 /** @brief Uma pergunta de quiz, com alternativas e o índice da correta. */
 struct Pergunta {
@@ -16,9 +20,14 @@ struct Pergunta {
  * perguntas por área/disciplina e aplica upgrade de poder no movimento
  * escolhido quando o jogador acerta.
  */
-class GerenciadorQuiz {
+class GerenciadorQuiz : public godot::RefCounted {
+    GDCLASS(GerenciadorQuiz, godot::RefCounted)
+
+protected:
+    static void _bind_methods();
+
 private:
-    std::map<int, std::vector<Pergunta>> bancoPerguntas; ///< idArea -> perguntas (0=Cálculo, 1=Física, 2=GAAL, 3=PDS)
+    std::map<int, std::vector<Pergunta>> bancoPerguntas; ///< idArea -> perguntas (0=Cálculo, 1=GAAL, 2=Física, 3=PDS)
 
 public:
     /** @brief Cria o gerenciador já povoado com perguntas de exemplo (ver .cpp). */
@@ -45,4 +54,8 @@ public:
      * @param incrementoDano Quanto de dano adicionar ao movimento em caso de acerto.
      */
     void aplicarResultado(Movimento* movimento, bool acertou, int incrementoDano = 3) const;
+
+    godot::Dictionary sortear_pergunta(int idArea) const;
+    bool validar_resposta(const godot::Dictionary &pergunta, int indiceEscolhido) const;
+    void aplicar_resultado(Herois *heroi, int indiceMovimento, bool acertou, int incrementoDano = 3) const;
 };

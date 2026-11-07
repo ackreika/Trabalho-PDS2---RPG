@@ -1,8 +1,5 @@
 CXX = g++
-<<<<<<< Updated upstream
-=======
 # Caminhos corrigidos: removido o 'src/' antes do godot-cpp
->>>>>>> Stashed changes
 CXXFLAGS = -std=c++17 -Wall -I include/ -I godot-cpp/gdextension -I godot-cpp/include -I godot-cpp/gen/include -fprofile-arcs -ftest-coverage
 
 SRC_DIR = src
@@ -11,11 +8,7 @@ OBJ_DIR = obj
 BIN_DIR = bin
 DLL_DIR = build
 
-<<<<<<< Updated upstream
-# ARQUIVO DE BIBLIOTECA GERADO PELO SCONS
-=======
 # Caminho corrigido: removido o 'src/' antes do godot-cpp
->>>>>>> Stashed changes
 GODOT_LIB = godot-cpp/bin/libgodot-cpp.windows.template_debug.x86_64.a
 
 # NOME EXATO DA DLL QUE O GODOT ESPERA
@@ -51,11 +44,7 @@ TEST_OBJS = $(patsubst $(TEST_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(TEST_FILES_VALIDOS))
 
 EXEC_TESTE = $(BIN_DIR)/test_suite
 
-<<<<<<< Updated upstream
-# Cria diretórios nativamente no Windows
-=======
 # Cria diretórios nativamente no Windows (Corrigido)
->>>>>>> Stashed changes
 $(shell if not exist $(OBJ_DIR) mkdir $(OBJ_DIR))
 $(shell if not exist $(BIN_DIR) mkdir $(BIN_DIR))
 $(shell if not exist $(DLL_DIR) mkdir $(DLL_DIR))

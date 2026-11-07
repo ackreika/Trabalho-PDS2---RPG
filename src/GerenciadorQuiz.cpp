@@ -1,5 +1,9 @@
 #include "GerenciadorQuiz.hpp"
 #include <cstdlib>
+#include <godot_cpp/variant/array.hpp>
+#include <godot_cpp/variant/string.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
+#include <algorithm>
 
 GerenciadorQuiz::GerenciadorQuiz() {
     // Perguntas de exemplo pra área 0 (Cálculo). As demais áreas seguem o mesmo
@@ -14,8 +18,6 @@ GerenciadorQuiz::GerenciadorQuiz() {
         {"c", "c*x + C", "0", "x"},
         1 // "c*x + C"
     });
-<<<<<<< Updated upstream
-=======
     adicionarPergunta(1, Pergunta{"Qual lei relaciona tensao, corrente e resistencia?", {"Lei de Ohm", "Lei de Gauss", "Lei de Hooke", "Lei de Snell"}, 0});
     adicionarPergunta(2, Pergunta{"Qual propriedade de uma matriz identidade?", {"Todos os elementos sao zero", "Multiplicar por ela preserva o vetor", "Ela sempre tem determinante zero", "Ela nao possui diagonal"}, 1});
     adicionarPergunta(3, Pergunta{"Em C++, para que serve um ponteiro?", {"Guardar uma referencia de memoria", "Ordenar um vetor automaticamente", "Criar uma classe abstrata", "Imprimir uma string"}, 0});
@@ -58,10 +60,15 @@ void GerenciadorQuiz::aplicar_resultado(Herois *heroi, int indiceMovimento, bool
         return;
     }
     heroi->aumentar_poder_movimento(indiceMovimento, incrementoDano);
->>>>>>> Stashed changes
 }
 
 void GerenciadorQuiz::adicionarPergunta(int idArea, Pergunta pergunta) {
+    if (idArea < 0 || idArea >= 4 || pergunta.enunciado.empty() || pergunta.alternativas.size() != 4 ||
+        pergunta.indiceCorreto < 0 || pergunta.indiceCorreto >= static_cast<int>(pergunta.alternativas.size()) ||
+        std::any_of(pergunta.alternativas.begin(), pergunta.alternativas.end(), [](const std::string &opcao) { return opcao.empty(); })) {
+        godot::UtilityFunctions::push_warning("Pergunta de quiz inválida ignorada.");
+        return;
+    }
     bancoPerguntas[idArea].push_back(pergunta);
 }
 
@@ -71,17 +78,20 @@ bool GerenciadorQuiz::sortearPergunta(int idArea, Pergunta& saida) const {
         return false; // nenhuma pergunta cadastrada pra essa área
     }
     const auto& perguntas = it->second;
-    int indice = std::rand() % perguntas.size();
+    const size_t indice = static_cast<size_t>(godot::UtilityFunctions::randi_range(0, static_cast<int64_t>(perguntas.size()) - 1));
     saida = perguntas[indice];
     return true;
 }
 
 bool GerenciadorQuiz::validarResposta(const Pergunta& pergunta, int indiceEscolhido) const {
-    return indiceEscolhido == pergunta.indiceCorreto;
+    return pergunta.alternativas.size() == 4 && pergunta.indiceCorreto >= 0 &&
+        pergunta.indiceCorreto < static_cast<int>(pergunta.alternativas.size()) &&
+        indiceEscolhido >= 0 && indiceEscolhido < static_cast<int>(pergunta.alternativas.size()) &&
+        indiceEscolhido == pergunta.indiceCorreto;
 }
 
 void GerenciadorQuiz::aplicarResultado(Movimento* movimento, bool acertou, int incrementoDano) const {
-    if (acertou && movimento != nullptr) {
+    if (acertou && movimento != nullptr && incrementoDano > 0) {
         movimento->aumentarPoder(incrementoDano);
     }
     // errar não concede bônus — não faz nada

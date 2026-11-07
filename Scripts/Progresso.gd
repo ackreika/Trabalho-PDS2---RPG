@@ -1,136 +1,99 @@
 extends Node
-# Autoload "Progresso": pontos, upgrades e itens desbloqueados. Tudo salvo em disco.
 
-const ARQUIVO := "user://progresso.cfg"
-
-# ---------- Balanceamento: mexa só aqui ----------
+const ARQUIVO := "user://progresso.txt"
+const BONUS_VIDA_POR_NIVEL := 10
+const BONUS_DANO_POR_NIVEL := 2
 const PONTOS_COMUM := 10
 const PONTOS_MINIBOSS := 25
 const PONTOS_BOSS := 50
 const PONTOS_BATALHA_FALSA := 5
 
-const BONUS_VIDA_POR_NIVEL := 10
-const BONUS_DANO_POR_NIVEL := 2
-
-const CUSTO_BASE := 20
-const CUSTO_ACRESCIMO_POR_NIVEL := 10
-
-var pontos: int = 0
-var nivel_vida: int = 0
-var nivel_dano: int = 0
-
-var professores_derrotados: Array = []   # chaves "area_indice" já vencidas
-var itens_desbloqueados: Array = []      # IDs dos itens já ganhos
-var item_especial_equipado: String = "" # item ativo que começa cada run
+var _cpp: ProgressoJogador
+var nivel_vida: int:
+	get: return get_nivel_vida()
+var nivel_dano: int:
+	get: return get_nivel_dano()
+var item_especial_equipado: String:
+	get: return _cpp.get_item_especial_equipado() if _cpp else ""
 
 func _ready() -> void:
-	carregar()
+	if ClassDB.class_exists("ProgressoJogador"):
+		_cpp = ProgressoJogador.new()
+		_cpp.carregar(ARQUIVO)
+	else:
+		push_error("A extensão C++ não registrou ProgressoJogador; progresso persistente está indisponível.")
 
-# ---------- Ganho de pontos ----------
+func get_pontos() -> int:
+	return _cpp.get_pontos() if _cpp else 0
 
-func pontos_por_vitoria(professor: Professor) -> int:
-	if professor.is_batalha_falsa():
-		return PONTOS_BATALHA_FALSA
-	match professor.get_tipo(): # 0 = comum, 1 = miniboss, 2 = boss
-		1:
-			return PONTOS_MINIBOSS
-		2:
-			return PONTOS_BOSS
-		_:
-			return PONTOS_COMUM
+func get_nivel_vida() -> int:
+	return _cpp.get_nivel_vida() if _cpp else 0
 
-func registrar_vitoria(professor: Professor) -> int:
-	var ganhos: int = pontos_por_vitoria(professor)
-	pontos += ganhos
-	salvar()
-	return ganhos
-
-# ---------- Itens ----------
-
-## Chame após uma vitória. Devolve o ID do item ganho agora, ou "" se esse
-## professor já tinha sido vencido antes (ou se ele não dá item).
-## Devolve os IDs ganhos agora (lista vazia se o professor já tinha sido vencido).
-func desbloquear_por_vitoria(area: int, indice: int) -> Array:
-	var chave := "%d_%d" % [area, indice]
-	var ganhos: Array = []
-	if chave in professores_derrotados:
-		return ganhos
-	professores_derrotados.append(chave)
-	for item in Itens.RECOMPENSAS.get(chave, []):
-		if item in itens_desbloqueados:
-			continue
-		itens_desbloqueados.append(item)
-		ganhos.append(item)
-		if item in Itens.ESPECIAIS and item_especial_equipado == "":
-			item_especial_equipado = item
-	salvar()
-	return ganhos
-
-## Escolhe qual item ativo começa as próximas runs. Retorna false se não for válido.
-func equipar_item_especial(id: String) -> bool:
-	if not (id in itens_desbloqueados) or not (id in Itens.ESPECIAIS):
-		return false
-	item_especial_equipado = id
-	salvar()
-	return true
-
-# ---------- Loja de upgrades ----------
+func get_nivel_dano() -> int:
+	return _cpp.get_nivel_dano() if _cpp else 0
 
 func custo_vida() -> int:
-	return CUSTO_BASE + CUSTO_ACRESCIMO_POR_NIVEL * nivel_vida
+	return _cpp.custo_vida() if _cpp else 0
 
 func custo_dano() -> int:
-	return CUSTO_BASE + CUSTO_ACRESCIMO_POR_NIVEL * nivel_dano
+	return _cpp.custo_dano() if _cpp else 0
 
 func comprar_vida() -> bool:
-	var custo: int = custo_vida()
-	if pontos < custo:
+	if not _cpp or not _cpp.comprar_vida():
 		return false
-	pontos -= custo
-	nivel_vida += 1
-	salvar()
+	_salvar_progresso()
 	return true
 
 func comprar_dano() -> bool:
-	var custo: int = custo_dano()
-	if pontos < custo:
+	if not _cpp or not _cpp.comprar_dano():
 		return false
-	pontos -= custo
-	nivel_dano += 1
-	salvar()
+	_salvar_progresso()
 	return true
 
-## Aplica upgrades e itens desbloqueados num herói recém-criado (chame logo
-## depois do heroi.inicializar(...), no começo de cada run).
+func equipar_item_especial(id: String) -> bool:
+	if not _cpp or id.strip_edges().is_empty() or not _cpp.equipar_item_especial_desbloqueado(id):
+		return false
+	_salvar_progresso()
+	return true
+
 func aplicar_ao_heroi(heroi: Herois) -> void:
-	heroi.aplicar_bonus_permanente(
-		nivel_vida * BONUS_VIDA_POR_NIVEL,
-		nivel_dano * BONUS_DANO_POR_NIVEL)
-	for id in itens_desbloqueados:
-		if id in Itens.PASSIVOS:
-			heroi.dar_item_passivo(id)
-	if item_especial_equipado != "":
-		heroi.dar_item_especial(item_especial_equipado)
+	if _cpp:
+		_cpp.aplicar_ao_heroi(heroi)
 
-# ---------- Persistência ----------
+func registrar_vitoria(professor: Professor) -> int:
+	if not is_instance_valid(professor):
+		push_error("Vitória não registrada: referência de professor inválida.")
+		return 0
+	var ganhos := PONTOS_BATALHA_FALSA if professor.is_batalha_falsa() else PONTOS_COMUM
+	if not professor.is_batalha_falsa():
+		match professor.get_tipo():
+			1: ganhos = PONTOS_MINIBOSS
+			2: ganhos = PONTOS_BOSS
+			0: pass
+			_:
+				push_error("Vitória não registrada: tipo de professor desconhecido.")
+				return 0
+	if _cpp:
+		_cpp.adicionar_pontos(ganhos)
+		_salvar_progresso()
+	return ganhos
 
-func salvar() -> void:
-	var cfg := ConfigFile.new()
-	cfg.set_value("progresso", "pontos", pontos)
-	cfg.set_value("progresso", "nivel_vida", nivel_vida)
-	cfg.set_value("progresso", "nivel_dano", nivel_dano)
-	cfg.set_value("progresso", "professores_derrotados", professores_derrotados)
-	cfg.set_value("progresso", "itens_desbloqueados", itens_desbloqueados)
-	cfg.set_value("progresso", "item_especial_equipado", item_especial_equipado)
-	cfg.save(ARQUIVO)
+func desbloquear_por_vitoria(area: int, indice: int) -> Array:
+	if not _cpp or not ProfessoresFabrica.batalha_existe(area, indice):
+		return []
+	var novos: Array = _cpp.registrar_vitoria_professor(area, indice)
+	_salvar_progresso()
+	return novos
 
-func carregar() -> void:
-	var cfg := ConfigFile.new()
-	if cfg.load(ARQUIVO) != OK:
-		return
-	pontos = int(cfg.get_value("progresso", "pontos", 0))
-	nivel_vida = int(cfg.get_value("progresso", "nivel_vida", 0))
-	nivel_dano = int(cfg.get_value("progresso", "nivel_dano", 0))
-	professores_derrotados = Array(cfg.get_value("progresso", "professores_derrotados", []))
-	itens_desbloqueados = Array(cfg.get_value("progresso", "itens_desbloqueados", []))
-	item_especial_equipado = String(cfg.get_value("progresso", "item_especial_equipado", ""))
+func get_todos_itens() -> Array:
+	return _cpp.get_todos_itens() if _cpp else []
+
+func ja_venceu_professor(area: int, indice: int) -> bool:
+	return _cpp.ja_venceu_professor(area, indice) if _cpp and ProfessoresFabrica.batalha_existe(area, indice) else false
+
+func dropa_item_chave(area: int, indice: int) -> bool:
+	return Recompensas.dropa_item_chave(area, indice) if ProfessoresFabrica.batalha_existe(area, indice) else false
+
+func _salvar_progresso() -> void:
+	if _cpp and not _cpp.salvar(ARQUIVO):
+		push_error("O progresso mudou nesta sessão, mas não foi possível gravar o save.")
