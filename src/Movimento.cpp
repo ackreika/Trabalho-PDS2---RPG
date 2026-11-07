@@ -1,12 +1,23 @@
 #include "Movimento.hpp"
 
 Movimento::Movimento(std::string nome, int dano, int usosMaximos)
+<<<<<<< Updated upstream
     : nome(nome), disciplina("Geral"), dano(dano), cura(0),
       usosMaximos(usosMaximos), usosRestantes(usosMaximos), descricao("") {}
 
 Movimento::Movimento(std::string nome, std::string disciplina, int dano, int cura, int usosMaximos, std::string descricao)
     : nome(nome), disciplina(disciplina), dano(dano), cura(cura),
       usosMaximos(usosMaximos), usosRestantes(usosMaximos), descricao(descricao) {}
+=======
+    : nome(nome.empty() ? "Movimento" : nome), disciplina("Geral"), dano(std::max(0, dano)), cura(0),
+      usosMaximos(usosMaximos), usosRestantes(usosMaximos), descricao(""), vitoriasNecessarias(0) {}
+
+Movimento::Movimento(std::string nome, std::string disciplina, int dano, int cura, int usosMaximos,
+                     std::string descricao, int vitoriasNecessarias)
+    : nome(nome.empty() ? "Movimento" : nome), disciplina(disciplina.empty() ? "Geral" : disciplina),
+      dano(std::max(0, dano)), cura(std::max(0, cura)), usosMaximos(usosMaximos),
+      usosRestantes(usosMaximos), descricao(descricao), vitoriasNecessarias(std::max(0, vitoriasNecessarias)) {}
+>>>>>>> Stashed changes
 
 std::string Movimento::getNome() const { return nome; }
 std::string Movimento::getDisciplina() const { return disciplina; }
@@ -15,6 +26,11 @@ int Movimento::getCura() const { return cura; }
 int Movimento::getUsosRestantes() const { return usosRestantes; }
 int Movimento::getUsosMaximos() const { return usosMaximos; }
 std::string Movimento::getDescricao() const { return descricao; }
+int Movimento::getVitoriasNecessarias() const { return vitoriasNecessarias; }
+
+bool Movimento::estaDesbloqueado(int vitoriasJogador) const {
+    return vitoriasJogador >= vitoriasNecessarias;
+}
 
 std::string Movimento::getResumoEfeito() const {
     std::string resumo = "";
@@ -54,42 +70,42 @@ void Movimento::aumentarPoder(int incremento) {
 
 const std::vector<Movimento>& Movimento::getCatalogoMovimentos() {
     static const std::vector<Movimento> catalogo = {
-        // 0 - Cálculo
-        Movimento("Derivada Rapida", "Calculo", 15, 0, -1,
-                  "Taxa de variacao instantanea na paciencia do professor."),
-        // 1 - Cálculo
-        Movimento("Integral por Partes", "Calculo", 28, 0, 3,
-                  "Integrando as partes de defesa do professor."),
-        // 2 - Cálculo
-        Movimento("Limite Fundamental", "Calculo", 12, 5, -1,
-                  "Tende ao infinito causando dano leve e recuperando o folego."),
-        // 3 - Cálculo / Elétrica
-        Movimento("Serie de Fourier", "Calculo", 35, 0, 2,
-                  "Decompoe a questao inteira em senos e cossenos devastadores."),
-        // 4 - GAAL
+        // 0 - Cálculo (Inicial: 0 vitórias)
+        Movimento("Derivada Rápida", "Cálculo", 15, 0, -1,
+                  "Taxa de variação instantânea na paciência do professor.", 0),
+        // 1 - Cálculo (Inicial: 0 vitórias)
+        Movimento("Integral por Partes", "Cálculo", 28, 0, 3,
+                  "Integrando as partes de defesa do professor.", 0),
+        // 2 - Cálculo (Inicial: 0 vitórias)
+        Movimento("Limite Fundamental", "Cálculo", 12, 5, -1,
+                  "Tende ao infinito causando dano leve e recuperando o fôlego.", 0),
+        // 3 - Cálculo / Elétrica (Requer 1 vitória)
+        Movimento("Série de Fourier", "Cálculo", 35, 0, 2,
+                  "Decompõe a questão inteira em senos e cossenos devastadores.", 1),
+        // 4 - GAAL (Requer 2 vitórias)
         Movimento("Escalonamento de Gauss", "GAAL", 20, 0, 5,
-                  "Pivoteia a matriz e zera as linhas de defesa do professor."),
-        // 5 - GAAL / Numérica
-        Movimento("Autovalor Critico", "GAAL", 32, 0, 2,
-                  "Transformacao linear que diagonaliza a barra de vida inimiga."),
-        // 6 - Física / Engenharia Elétrica
-        Movimento("Curto-Circuito Trifasico", "Fisica / Eletrica", 38, 0, 2,
-                  "Sobrecarga direta no disjuntor do ICEx! Alto impacto eletrico."),
-        // 7 - Física / Eletromagnetismo
-        Movimento("Lei de Lenz", "Fisica / Eletrica", 16, 12, 4,
-                  "Forca contra-eletromotriz que se opoe a reprovacao: ataca e cura."),
-        // 8 - PDS II
-        Movimento("Alocacao Dinamica (new)", "PDS II", 30, 0, 3,
-                  "Aloca ponteiros na cabeca do professor e trava a correcao."),
-        // 9 - PDS II
+                  "Pivoteia a matriz e zera as linhas de defesa do professor.", 2),
+        // 5 - GAAL / Numérica (Requer 3 vitórias)
+        Movimento("Autovalor Crítico", "GAAL", 32, 0, 2,
+                  "Transformação linear que diagonaliza a barra de vida inimiga.", 3),
+        // 6 - Física / Engenharia Elétrica (Requer 4 vitórias)
+        Movimento("Curto-Circuito Trifásico", "Física / Elétrica", 38, 0, 2,
+                  "Sobrecarga direta no disjuntor do ICEx! Alto impacto elétrico.", 4),
+        // 7 - Física / Eletromagnetismo (Requer 5 vitórias)
+        Movimento("Lei de Lenz", "Física / Elétrica", 16, 12, 4,
+                  "Força contra-eletromotriz que se opõe à reprovação: ataca e cura.", 5),
+        // 8 - PDS II (Requer 6 vitórias)
+        Movimento("Alocação Dinâmica (new)", "PDS II", 30, 0, 3,
+                  "Aloca ponteiros na cabeça do professor e trava a correção.", 6),
+        // 9 - PDS II (Requer 7 vitórias)
         Movimento("Polimorfismo Puro", "PDS II", 22, 0, 4,
-                  "Sobrescreve o metodo da prova em tempo de execucao."),
-        // 10 - Suporte / Vivência UFMG
-        Movimento("Bandejao Completo do RU", "Vivencia UFMG", 0, 35, 2,
-                  "Arroz, feijao, proteina e refresco do RU: recupera 35 de HP."),
-        // 11 - Suporte / Vivência UFMG
-        Movimento("Cafe Duplo da Lanchonete", "Vivencia UFMG", 10, 25, 3,
-                  "Cafeina pura entre aulas: recupera 25 de HP e garante 10 de dano.")
+                  "Sobrescreve o método da prova em tempo de execução.", 7),
+        // 10 - Suporte / Vivência UFMG (Requer 2 vitórias)
+        Movimento("Bandejão Completo do RU", "Vivência UFMG", 0, 35, 2,
+                  "Arroz, feijão, proteína e refresco do RU: recupera 35 de HP.", 2),
+        // 11 - Suporte / Vivência UFMG (Requer 4 vitórias)
+        Movimento("Café Duplo da Lanchonete", "Vivência UFMG", 10, 25, 3,
+                  "Cafeína pura entre aulas: recupera 25 de HP e garante 10 de dano.", 4)
     };
     return catalogo;
 }

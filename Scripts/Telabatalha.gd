@@ -19,6 +19,7 @@ func _ready() -> void:
 	if Global.batalha_atual == null:
 		push_error("Entrou na tela de batalha sem Global.iniciar_primeira_batalha() ter sido chamado antes.")
 		return
+	Global.batalha_atual.posicionar_barras_vida(self)
 	atualizar_tela()
 	
 	# Define o sprite inicial do professor como PARADO (estado 3)
@@ -33,6 +34,7 @@ func atualizar_tela() -> void:
 	$LabelProfessorVida.text = "HP: %d / %d" % [professor.get_vida(), professor.get_vida_maxima()]
 	$LabelHeroiVida.text = "HP: %d / %d" % [heroi.get_vida(), heroi.get_vida_maxima()]
 
+<<<<<<< Updated upstream
 	for i in range(3):
 		var botao: Button = get_node("BotoesGolpe/Golpe%d" % i)
 		if i < heroi.get_quantidade_movimentos():
@@ -42,6 +44,9 @@ func atualizar_tela() -> void:
 			botao.text = "-"
 			botao.disabled = true
 
+=======
+	batalha.atualizar_botoes_acao(self)
+>>>>>>> Stashed changes
 	atualizar_botoes_item()
 
 func atualizar_botoes_item() -> void:

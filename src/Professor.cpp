@@ -82,8 +82,8 @@ void Professor::inicializar(String nomeNovo, String materiaNova, int vidaMaximaN
     invulneravel = (tipo == TipoProfessor::BOSS);
 }
 
-String Professor::get_nome() const { return String(nome.c_str()); }
-String Professor::get_materia() const { return String(materia.c_str()); }
+String Professor::get_nome() const { return String::utf8(nome.c_str()); }
+String Professor::get_materia() const { return String::utf8(materia.c_str()); }
 int Professor::get_vida() const { return vida; }
 int Professor::get_vida_maxima() const { return vidaMaxima; }
 bool Professor::esta_vivo() const { return estaVivo(); }
@@ -99,7 +99,7 @@ void Professor::definir_sprite(int estado, String caminho) {
 }
 
 String Professor::get_caminho_sprite(int estado) const {
-    return String(getCaminhoSprite(static_cast<EstadoVisual>(estado)).c_str());
+    return String::utf8(getCaminhoSprite(static_cast<EstadoVisual>(estado)).c_str());
 }
 
 void Professor::_bind_methods() {

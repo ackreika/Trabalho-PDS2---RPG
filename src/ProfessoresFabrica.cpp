@@ -211,7 +211,7 @@ int ProfessoresFabrica::get_quantidade_batalhas(int idArea) {
 
 String ProfessoresFabrica::get_nome_area(int idArea) {
     if (idArea < 0 || idArea >= QUANTIDADE_AREAS) return String("");
-    return String(NOMES_AREAS[idArea]);
+    return String::utf8(NOMES_AREAS[idArea]);
 }
 
 bool ProfessoresFabrica::batalha_existe(int idArea, int indiceBatalha) {

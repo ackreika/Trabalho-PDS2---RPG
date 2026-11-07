@@ -9,6 +9,7 @@ void GerenciadorMenu::_bind_methods() {
     ClassDB::bind_integer_constant(get_class_static(), "EstadoMenu", "MENU_INVENTARIO", MENU_INVENTARIO, true);
     ClassDB::bind_integer_constant(get_class_static(), "EstadoMenu", "EM_BATALHA", EM_BATALHA, true);
     ClassDB::bind_integer_constant(get_class_static(), "EstadoMenu", "MENU_MOVIMENTOS", MENU_MOVIMENTOS, true);
+    ClassDB::bind_integer_constant(get_class_static(), "EstadoMenu", "MENU_AREAS", MENU_AREAS, true);
 
     ClassDB::bind_method(D_METHOD("set_estado", "estado"), &GerenciadorMenu::set_estado);
     ClassDB::bind_method(D_METHOD("get_estado"), &GerenciadorMenu::get_estado);

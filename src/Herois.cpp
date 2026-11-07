@@ -24,6 +24,7 @@ bool idParaItem(const String& id, ItemId& saida) {
 
 // Por padrão, o estudante começa com os 3 primeiros movimentos do catálogo (0, 1 e 2)
 int Herois::idsMovimentosEscolhidos[3] = {0, 1, 2};
+int Herois::vitoriasAcumuladas = 0;
 
 Herois::Herois()
     : nome("Estudante"), nivel(1), vida(100), vidaMaxima(100), vidaMaximaBase(100),
@@ -74,6 +75,7 @@ Movimento* Herois::getMovimentoParaEditar(int indice) {
 void Herois::definirMovimentoEscolhido(int slot, int idCatalogo) {
     if (slot < 0 || slot >= 3) return;
     if (idCatalogo < 0 || idCatalogo >= Movimento::getQuantidadeCatalogo()) return;
+    if (!movimentoEstaDesbloqueado(idCatalogo)) return;
 
     // Se o movimento já estava em outro slot, faz a troca (swap) entre os slots
     int slotAnterior = encontrarSlotDoMovimento(idCatalogo);
@@ -81,6 +83,22 @@ void Herois::definirMovimentoEscolhido(int slot, int idCatalogo) {
         idsMovimentosEscolhidos[slotAnterior] = idsMovimentosEscolhidos[slot];
     }
     idsMovimentosEscolhidos[slot] = idCatalogo;
+}
+
+void Herois::definirVitoriasJogador(int vitorias) {
+    vitoriasAcumuladas = std::max(0, vitorias);
+}
+
+int Herois::getVitoriasJogador() {
+    return vitoriasAcumuladas;
+}
+
+bool Herois::movimentoEstaDesbloqueado(int idCatalogo) {
+    const auto& catalogo = Movimento::getCatalogoMovimentos();
+    if (idCatalogo < 0 || idCatalogo >= static_cast<int>(catalogo.size())) {
+        return false;
+    }
+    return catalogo[idCatalogo].estaDesbloqueado(vitoriasAcumuladas);
 }
 
 int Herois::getMovimentoEscolhido(int slot) {
@@ -217,7 +235,7 @@ void Herois::inicializar(String nomeNovo, int vidaMaximaNova, int defesaNova, in
     carregarMovimentosEscolhidos();
 }
 
-String Herois::get_nome() const { return String(nome.c_str()); }
+String Herois::get_nome() const { return String::utf8(nome.c_str()); }
 int Herois::get_vida() const { return vida; }
 int Herois::get_vida_maxima() const { return vidaMaxima; }
 int Herois::get_defesa() const { return defesa; }
@@ -255,7 +273,7 @@ String Herois::get_nome_movimento(int indice) const {
     } else {
         texto += " | " + std::to_string(m.getUsosRestantes()) + "/" + std::to_string(m.getUsosMaximos()) + ")";
     }
-    return String(texto.c_str());
+    return String::utf8(texto.c_str());
 }
 
 int Herois::get_dano_movimento(int indice) const {
@@ -303,12 +321,12 @@ Dictionary Herois::descrever_movimento_catalogo(int idCatalogo) {
     const Movimento& m = catalogo[idCatalogo];
     d["valido"] = true;
     d["id"] = idCatalogo;
-    d["nome"] = String(m.getNome().c_str());
-    d["disciplina"] = String(m.getDisciplina().c_str());
+    d["nome"] = String::utf8(m.getNome().c_str());
+    d["disciplina"] = String::utf8(m.getDisciplina().c_str());
     d["dano"] = m.getDano();
     d["cura"] = m.getCura();
     d["usos_maximos"] = m.getUsosMaximos();
-    d["descricao"] = String(m.getDescricao().c_str());
+    d["descricao"] = String::utf8(m.getDescricao().c_str());
     d["slot_equipado"] = encontrarSlotDoMovimento(idCatalogo);
     return d;
 }
@@ -326,7 +344,7 @@ void Herois::definir_sprite(int estado, String caminho) {
 }
 
 int Herois::get_quantidade_itens_passivos() const { return getQuantidadeItensPassivos(); }
-String Herois::get_nome_item_passivo(int indice) const { return String(getNomeItemPassivo(indice).c_str()); }
+String Herois::get_nome_item_passivo(int indice) const { return String::utf8(getNomeItemPassivo(indice).c_str()); }
 
 void Herois::aplicar_bonus_permanente(int bonusVida, int bonusDano) {
     vidaMaximaBase += bonusVida;
@@ -340,7 +358,7 @@ String Herois::dar_item_passivo(String id) {
     if (!idParaItem(id, itemId) || ehItemEspecial(itemId)) return String("");
     ItemPassivo item = criarItemPassivo(itemId);
     adicionarItemPassivo(item);
-    return String(item.nome.c_str());
+    return String::utf8(item.nome.c_str());
 }
 
 String Herois::dar_item_especial(String id) {
@@ -348,7 +366,7 @@ String Herois::dar_item_especial(String id) {
     if (!idParaItem(id, itemId) || !ehItemEspecial(itemId)) return String("");
     ItemEspecial item = criarItemEspecial(itemId);
     definirItemEspecial(item);
-    return String(item.nome.c_str());
+    return String::utf8(item.nome.c_str());
 }
 
 Dictionary Herois::descrever_item_passivo(String id) {
@@ -357,7 +375,7 @@ Dictionary Herois::descrever_item_passivo(String id) {
     if (!idParaItem(id, itemId) || ehItemEspecial(itemId)) { d["valido"] = false; return d; }
     ItemPassivo item = criarItemPassivo(itemId);
     d["valido"] = true;
-    d["nome"] = String(item.nome.c_str());
+    d["nome"] = String::utf8(item.nome.c_str());
     d["efeito"] = (item.tipo == TipoEfeito::BONUS_VIDA_MAXIMA) ? 1 : 0;
     d["multiplicador"] = item.multiplicador;
     return d;
@@ -369,21 +387,26 @@ Dictionary Herois::descrever_item_especial(String id) {
     if (!idParaItem(id, itemId) || !ehItemEspecial(itemId)) { d["valido"] = false; return d; }
     ItemEspecial item = criarItemEspecial(itemId);
     d["valido"] = true;
-    d["nome"] = String(item.nome.c_str());
+    d["nome"] = String::utf8(item.nome.c_str());
     d["multiplicador"] = item.multiplicadorDano;
     d["usos"] = item.usosMaximos;
     return d;
 }
 
+<<<<<<< Updated upstream
 bool Herois::possui_item_especial() const { return possuiItemEspecial(); }
 String Herois::get_nome_item_especial() const { return String(getNomeItemEspecial().c_str()); }
+=======
+bool Herois::possui_item_especial() const { return MochilaItens(*this).possuiItemEspecialEquipado(); }
+String Herois::get_nome_item_especial() const { return String::utf8(MochilaItens(*this).getNomeItemEspecialEquipado().c_str()); }
+>>>>>>> Stashed changes
 int Herois::get_usos_item_especial() const { return possuiItemEspecialAtivo ? itemEspecialAtivo.usosRestantes : 0; }
 
 void Herois::obter_item_chave() { obterItemChave(); }
 bool Herois::possui_item_chave() const { return possuiItemDeChave(); }
 
 String Herois::get_caminho_sprite(int estado) const {
-    return String(getCaminhoSprite(static_cast<EstadoVisual>(estado)).c_str());
+    return String::utf8(getCaminhoSprite(static_cast<EstadoVisual>(estado)).c_str());
 }
 
 void Herois::_bind_methods() {

@@ -44,7 +44,7 @@ offset_bottom = 120.0
 grow_horizontal = 2
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 64
-text = "Resenha games"
+text = "Fuja do ICEX"
 horizontal_alignment = 1
 
 [node name="Node2D" type="Node2D" parent="." unique_id=500788709]

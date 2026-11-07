@@ -1,5 +1,7 @@
 #pragma once
 #include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/classes/control.hpp>
+#include <godot_cpp/classes/button.hpp>
 #include <godot_cpp/variant/dictionary.hpp>
 #include <string>
 #include "Herois.hpp"
@@ -115,4 +117,14 @@ public:
      * @return Dictionary com estado_resultante = 3 (FUGIU).
      */
     Dictionary fugir();
+
+    /**
+     * @brief Reativa ou desativa os botões de golpe e o botão "Desistir" conforme o turno atual.
+     */
+    void atualizar_botoes_acao(Control* telaBatalha);
+
+    /**
+     * @brief Posiciona o HUD do Estudante no topo esquerdo e o HUD do Oponente na direita.
+     */
+    void posicionar_barras_vida(Control* telaBatalha);
 };

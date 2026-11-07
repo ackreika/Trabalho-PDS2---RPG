@@ -8,6 +8,7 @@
  */
 class GerenciadorRecompensas {
 public:
+<<<<<<< Updated upstream
     /**
      * @brief Gera a recompensa por derrotar um professor, se houver.
      * @param idArea Área/disciplina do professor derrotado.
@@ -17,3 +18,15 @@ public:
      */
     static bool gerarRecompensa(int idArea, TipoProfessor tipoDerrotado, ItemPassivo& resultadoSaida);
 };
+=======
+    static std::vector<ItemId> itensDoProfessor(int idArea, int indiceBatalha);
+    static bool dropaItemChave(int idArea, int indiceBatalha);
+    static bool temRecompensa(int idArea, int indiceBatalha);
+};
+
+}
+
+using namespace godot;
+
+#endif
+>>>>>>> Stashed changes
