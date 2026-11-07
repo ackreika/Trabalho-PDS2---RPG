@@ -33,6 +33,7 @@ private:
     int usosMaximos;   ///< negativo = ilimitado; positivo = quantidade de usos
     int usosRestantes;
     std::string descricao;
+    int vitoriasNecessarias; ///< quantidade de vitórias necessárias para desbloquear no menu
 
 public:
     /**
@@ -41,9 +42,10 @@ public:
     Movimento(std::string nome, int dano, int usosMaximos = -1);
 
     /**
-     * @brief Construtor completo para movimentos temáticos com disciplina, dano, cura e descrição.
+     * @brief Construtor completo para movimentos temáticos com disciplina, dano, cura, descrição e requisito de vitórias.
      */
-    Movimento(std::string nome, std::string disciplina, int dano, int cura, int usosMaximos, std::string descricao);
+    Movimento(std::string nome, std::string disciplina, int dano, int cura, int usosMaximos,
+              std::string descricao, int vitoriasNecessarias = 0);
 
     /** @brief Retorna o nome do movimento. */
     std::string getNome() const;
@@ -59,6 +61,10 @@ public:
     int getUsosMaximos() const;
     /** @brief Retorna a descrição temática do movimento. */
     std::string getDescricao() const;
+    /** @brief Retorna quantas vitórias são necessárias para desbloquear este movimento. */
+    int getVitoriasNecessarias() const;
+    /** @brief Retorna true se o jogador tiver vitórias suficientes para usar/equipar este movimento. */
+    bool estaDesbloqueado(int vitoriasJogador) const;
     /** @brief Retorna um resumo formatado (Dano, Cura e Usos) para exibir nos menus C++. */
     std::string getResumoEfeito() const;
 

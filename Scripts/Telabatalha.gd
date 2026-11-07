@@ -27,6 +27,7 @@ func _ready() -> void:
 	if not is_instance_valid(Global.batalha_atual):
 		push_error("Entrou na tela de batalha sem Global.iniciar_primeira_batalha() ter sido chamado antes.")
 		return
+	Global.batalha_atual.posicionar_barras_vida(self)
 	atualizar_tela()
 	_atualizar_fundo_batalha()
 	atualizar_sprite_professor(ESTADO_PARADO)
@@ -53,15 +54,7 @@ func atualizar_tela() -> void:
 	$HUDHeroi/Conteudo/BarraVida.max_value = heroi.get_vida_maxima()
 	$HUDHeroi/Conteudo/BarraVida.value = heroi.get_vida()
 
-	for i in range(3):
-		var botao: Button = get_node("BarraAcoes/BotoesGolpe/Golpe%d" % i)
-		if i < heroi.get_quantidade_movimentos():
-			botao.text = heroi.get_nome_movimento(i)
-			botao.disabled = false
-		else:
-			botao.text = "-"
-			botao.disabled = true
-
+	batalha.atualizar_botoes_acao(self)
 	atualizar_botoes_item()
 	_atualizar_rotulos_ataque()
 	_estilizar_botoes_combate()
@@ -234,10 +227,8 @@ func _reabilitar_botoes() -> void:
 	_fim_tratado = false
 
 func _atualizar_fundo_batalha() -> void:
-	if Global.id_area_atual == 0 and Global.indice_batalha_atual == 3:
-		fundo_batalha_node.texture = FUNDO_SALA_ICEX
-	else:
-		fundo_batalha_node.texture = FUNDO_BATALHA_PADRAO
+	if is_instance_valid(Global.batalha_atual):
+		Global.batalha_atual.alterar_fundo_batalha(Global.id_area_atual)
 
 func _animar_turno_professor(resultado: Dictionary, professor: Professor, vida_antes: int) -> void:
 	var posicao_original: Vector2 = professor_sprite_node.position

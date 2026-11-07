@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://swevwraqpc6c"]
 
-[ext_resource type="Texture2D" uid="uid://b8eu56lswhe7g" path="res://imagens/Israel.png" id="1_11bju"]
+[ext_resource type="Texture2D" uid="uid://cyet4yfgau52o" path="res://imagens/Icex_padrao.jpeg" id="1_11bju"]
 [ext_resource type="Script" uid="uid://ckr4fn0yhda83" path="res://cena_principal.gd" id="1_a34lh"]
 [ext_resource type="Texture2D" uid="uid://cyet4yfgau52o" path="res://imagens/Icex_padrao.jpeg" id="1_oacou"]
-[ext_resource type="Texture2D" uid="uid://cjleu1otjmoaw" path="res://imagens/maxpayne.jpg" id="3_nj3ej"]
+[ext_resource type="Texture2D" uid="uid://bti2kqe8tr7dq" path="res://imagens/Quadro_prob.jpeg" id="3_nj3ej"]
 
 [node name="Control" type="GerenciadorInterface" unique_id=1178082262]
 script = ExtResource("1_a34lh")
@@ -44,7 +44,7 @@ offset_bottom = 120.0
 grow_horizontal = 2
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 64
-text = "Resenha games"
+text = "Fuja do ICEX"
 horizontal_alignment = 1
 
 [node name="Node2D" type="Node2D" parent="." unique_id=500788709]

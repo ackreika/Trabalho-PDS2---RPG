@@ -45,6 +45,8 @@ private:
 
     /** @brief Guarda os IDs dos 3 movimentos escolhidos pelo jogador no Menu de Movimentos C++. */
     static int idsMovimentosEscolhidos[3];
+    /** @brief Guarda o total de vitórias do jogador para liberar novos movimentos gradualmente. */
+    static int vitoriasAcumuladas;
 
 public:
     Herois();
@@ -69,6 +71,9 @@ public:
     static int getMovimentoEscolhido(int slot);
     static bool movimentoJaEquipadoEmOutroSlot(int idCatalogo, int slotIgnorado = -1);
     static int encontrarSlotDoMovimento(int idCatalogo);
+    static void definirVitoriasJogador(int vitorias);
+    static int getVitoriasJogador();
+    static bool movimentoEstaDesbloqueado(int idCatalogo);
     void carregarMovimentosEscolhidos();
 
     void adicionarItemPassivo(ItemPassivo item);

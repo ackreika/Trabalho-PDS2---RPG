@@ -46,6 +46,7 @@ void ProgressoJogador::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("get_nivel_vida"), &ProgressoJogador::get_nivel_vida);
     ClassDB::bind_method(D_METHOD("get_nivel_dano"), &ProgressoJogador::get_nivel_dano);
+    ClassDB::bind_method(D_METHOD("get_quantidade_vitorias"), &ProgressoJogador::get_quantidade_vitorias);
     ClassDB::bind_method(D_METHOD("get_item_especial_equipado"), &ProgressoJogador::get_item_especial_equipado);
     ClassDB::bind_method(D_METHOD("equipar_item_especial", "id"), &ProgressoJogador::equipar_item_especial);
     ClassDB::bind_method(D_METHOD("get_todos_itens"), &ProgressoJogador::get_todos_itens);
@@ -117,6 +118,7 @@ Array ProgressoJogador::registrar_vitoria_professor(int area, int indice) {
         professores_derrotados = std::move(novosVencidos);
         itens_desbloqueados = std::move(novosItens);
         item_especial_equipado = std::move(novoItemEquipado);
+        Herois::definirVitoriasJogador(static_cast<int>(professores_derrotados.size()));
     return novos;
 }
 
@@ -210,12 +212,12 @@ bool ProgressoJogador::salvar(const String &caminho) {
     }
 
     bool sucesso = true;
-    sucesso = file->store_line(String::num_int64(pontos)) && sucesso;
-    sucesso = file->store_line(String::num_int64(nivel_vida)) && sucesso;
-    sucesso = file->store_line(String::num_int64(nivel_dano)) && sucesso;
-    sucesso = file->store_line(item_especial_equipado) && sucesso;
-    sucesso = file->store_line(vencidos) && sucesso;
-    sucesso = file->store_line(itens) && sucesso;
+    file->store_line(String::num_int64(pontos));
+    file->store_line(String::num_int64(nivel_vida));
+    file->store_line(String::num_int64(nivel_dano));
+    file->store_line(item_especial_equipado);
+    file->store_line(vencidos);
+    file->store_line(itens);
     file->flush();
     sucesso = sucesso && file->get_error() == OK;
     if (!sucesso) UtilityFunctions::push_error("Falha ao gravar o arquivo de progresso:", caminho);
@@ -309,5 +311,6 @@ bool ProgressoJogador::carregar(const String &caminho) {
     item_especial_equipado = novoItemEquipado;
     professores_derrotados = std::move(novosVencidos);
     itens_desbloqueados = std::move(novosItens);
+    Herois::definirVitoriasJogador(static_cast<int>(professores_derrotados.size()));
     return true;
 }

@@ -34,6 +34,7 @@ public:
 
     int get_nivel_vida() const { return nivel_vida; }
     int get_nivel_dano() const { return nivel_dano; }
+    int get_quantidade_vitorias() const { return static_cast<int>(professores_derrotados.size()); }
     String get_item_especial_equipado() const { return item_especial_equipado; }
     void equipar_item_especial(const String &id) { equipar_item_especial_desbloqueado(id); }
     Array get_todos_itens() const;

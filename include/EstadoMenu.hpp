@@ -20,6 +20,7 @@ class GerenciadorMenu : public Node
         MENU_INVENTARIO,
         EM_BATALHA,
         MENU_MOVIMENTOS,     ///< submenu: Grade Curricular de Movimentos (Escolha dos 3 golpes)
+        MENU_AREAS,          ///< submenu: Escolha a área acadêmica (Cálculo, GAAL, Física, PDS)
     };
     
     GerenciadorMenu();

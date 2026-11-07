@@ -1,5 +1,6 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -I include/ -I src/godot-cpp/gdextension -I src/godot-cpp/include -I src/godot-cpp/gen/include -fprofile-arcs -ftest-coverage
+# Caminhos corrigidos: removido o 'src/' antes do godot-cpp
+CXXFLAGS = -std=c++17 -Wall -I include/ -I godot-cpp/gdextension -I godot-cpp/include -I godot-cpp/gen/include -fprofile-arcs -ftest-coverage
 
 SRC_DIR = src
 TEST_DIR = tests
@@ -7,8 +8,8 @@ OBJ_DIR = obj
 BIN_DIR = bin
 DLL_DIR = build
 
-# ARQUIVO DE BIBLIOTECA GERADO PELO SCONS
-GODOT_LIB = src/godot-cpp/bin/libgodot-cpp.windows.template_debug.x86_64.a
+# Caminho corrigido: removido o 'src/' antes do godot-cpp
+GODOT_LIB = godot-cpp/bin/libgodot-cpp.windows.template_debug.x86_64.a
 
 # NOME EXATO DA DLL QUE O GODOT ESPERA
 DLL_OUT = $(DLL_DIR)/libgame.windows.template_debug.x86_64.dll
@@ -43,8 +44,10 @@ TEST_OBJS = $(patsubst $(TEST_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(TEST_FILES_VALIDOS))
 
 EXEC_TESTE = $(BIN_DIR)/test_suite
 
-# Cria diretórios nativamente no Windows
-$(shell mkdir -p $(OBJ_DIR) $(BIN_DIR) $(DLL_DIR))
+# Cria diretórios nativamente no Windows (Corrigido)
+$(shell if not exist $(OBJ_DIR) mkdir $(OBJ_DIR))
+$(shell if not exist $(BIN_DIR) mkdir $(BIN_DIR))
+$(shell if not exist $(DLL_DIR) mkdir $(DLL_DIR))
 
 # Comando padrao do make vai rodar a compilação do jogo
 all: dll

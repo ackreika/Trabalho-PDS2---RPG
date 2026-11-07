@@ -34,8 +34,8 @@ godot::Dictionary GerenciadorQuiz::sortear_pergunta(int idArea) const {
     godot::Dictionary d;
     if (!sortearPergunta(idArea, sorteada)) return d;
     godot::Array alternativas;
-    for (const std::string &opcao : sorteada.alternativas) alternativas.append(godot::String(opcao.c_str()));
-    d["enunciado"] = godot::String(sorteada.enunciado.c_str());
+    for (const std::string &opcao : sorteada.alternativas) alternativas.append(godot::String::utf8(opcao.c_str()));
+    d["enunciado"] = godot::String::utf8(sorteada.enunciado.c_str());
     d["alternativas"] = alternativas;
     d["indice_correto"] = sorteada.indiceCorreto;
     return d;
