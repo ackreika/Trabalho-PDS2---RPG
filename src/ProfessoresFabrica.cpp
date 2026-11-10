@@ -5,9 +5,9 @@
 using namespace godot;
 
 namespace {
-const int QUANTIDADE_AREAS = 4;
-const int BATALHAS_POR_AREA[QUANTIDADE_AREAS] = {3, 2, 4, 2};
-const char* NOMES_AREAS[QUANTIDADE_AREAS] = {"Calculo", "GAAL", "Fisica", "PDS"};
+const int QUANTIDADE_AREAS = 5;
+const int BATALHAS_POR_AREA[QUANTIDADE_AREAS] = {3, 2, 4, 2, 1};
+const char* NOMES_AREAS[QUANTIDADE_AREAS] = {"Calculo", "GAAL", "Fisica", "PDS", "Segredo"};
 }
 
 void ProfessoresFabrica::_bind_methods() {
@@ -86,10 +86,10 @@ Professor* ProfessoresFabrica::criarProfessorCalculo(int indiceBatalha) {
             golpe(p, "Integral Impropria Divergente", 25, 2);
             golpe(p, "Convergencia Sombria", 15, -1);
             sprites(p,
-                "res://imagens/MarcosSerio-removebg-preview.png",
                 "res://imagens/MarcosSorrindo-removebg-preview.png",
                 "res://imagens/MarcosSorrindo-removebg-preview.png",
-                "res://imagens/MarcosDecepcionado-removebg-preview.png",
+                "res://imagens/MarcosSerio.png",
+                "res://imagens/MarcosSorrindo-removebg-preview.png",
                 "res://imagens/MarcosSorrindo-removebg-preview.png");
             return p;
         }
@@ -109,11 +109,11 @@ Professor* ProfessoresFabrica::criarProfessorGaal(int indiceBatalha) {
             golpe(p, "Produto Vetorial Cortante", 13, -1);
             golpe(p, "Matriz Transposta Traicoeira", 11, 3);
             sprites(p,
-                "res://imagens/DuczmalNeutro-removebg-preview.png",
-                "res://imagens/DuczmalBravo-removebg-preview.png",
-                "res://imagens/DuczmalBravo-removebg-preview.png",
-                "res://imagens/DuczmalPalmas-removebg-preview.png",
-                "res://imagens/DuczmalFeliz-removebg-preview.png");
+                "res://imagens/BekkertSorrindo-removebg-preview.png",
+                "res://imagens/BekkertBravo-removebg-preview.png",
+                "res://imagens/BekkertBravo-removebg-preview.png",
+                "res://imagens/BekkertPalmas-removebg-preview.png",
+                "res://imagens/BekkertSorrindo-removebg-preview.png");
             return p;
         }
         case 2: {
@@ -145,6 +145,12 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
             Professor* p = montar("Flavio", "Introducao a Fisica Mecanica", 50, 5, TipoProfessor::COMUM);
             golpe(p, "Segunda Lei de Newton", 12, -1);
             golpe(p, "Forca de Atrito Inesperada", 10, 3);
+            sprites(p,
+                "res://imagens/DuczmalNeutro-removebg-preview.png",
+                "res://imagens/DuczmalBravo-removebg-preview.png",
+                "res://imagens/DuczmalBravo-removebg-preview.png",
+                "res://imagens/DuczmalPalmas-removebg-preview.png",
+                "res://imagens/DuczmalFeliz-removebg-preview.png");
             return p;
         }
         case 2: {
@@ -152,6 +158,12 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
             Professor* p = montar("Outro Prof*", "Introducao a Fisica Mecanica", 30, 3, TipoProfessor::COMUM, true);
             golpe(p, "Giz Perdido", 5, -1);
             golpe(p, "Quadro Apagado Sem Querer", 5, 2);
+            sprites(p,
+                "res://imagens/PedroNormal-removebg-preview.png", // parado
+                "res://imagens/PedroNormal-removebg-preview.png", // atacando
+                "res://imagens/PedroBravo-removebg-preview.png",  // tomando dano
+                "res://imagens/PedroBravo-removebg-preview.png",  // vitoria
+                "res://imagens/PedroNormal-removebg-preview.png"); // derrota
             return p;
         }
         case 3: {
@@ -159,11 +171,11 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
             golpe(p, "Torque Desequilibrado", 16, 3);
             golpe(p, "Momento Angular Conservado", 14, -1);
             sprites(p,
-                "res://imagens/IvoneteDeBraços-removebg-preview.png",
+                "res://imagens/IvoneteSorrindo-removebg-preview.png",
                 "res://imagens/IvoneteSorrindo-removebg-preview.png",
                 "res://imagens/IvoneteConfusa-removebg-preview.png",
-                "res://imagens/IvoneteSorrindo-removebg-preview.png",
-                "res://imagens/IvoneteConfusa-removebg-preview.png");
+                "res://imagens/IvoneteDeBraços-removebg-preview.png",
+                "res://imagens/IvoneteDeBraços-removebg-preview.png");
             return p;
         }
         case 4: {
@@ -172,6 +184,12 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
             golpe(p, "Equacao de Bernoulli", 20, 3);
             golpe(p, "Avalanche de Slides", 24, 2);
             golpe(p, "Escoamento Turbulento", 16, -1);
+            sprites(p,
+                "res://imagens/SlideFeliz-removebg-preview.png",
+                "res://imagens/SlideTriste-removebg-preview.png",
+                "res://imagens/SlideTriste-removebg-preview.png",
+                "res://imagens/SlidePalmas-removebg-preview.png",
+                "res://imagens/SlideFeliz-removebg-preview.png");
             return p;
         }
         default:
@@ -191,7 +209,7 @@ Professor* ProfessoresFabrica::criarProfessorPds(int indiceBatalha) {
             golpe(p, "Refatoracao Forcada", 12, 3);
             sprites(p,
                 "res://imagens/RezeckNeutro-removebg-preview.png",
-                "res://imagens/RezeckSorrindo-removebg-preview.png",
+                "res://imagens/RezeckNeutro-removebg-preview.png",
                 "res://imagens/RezeckConfuso-removebg-preview.png",
                 "res://imagens/RezeckPalmas-removebg-preview.png",
                 "res://imagens/RezeckNeutro-removebg-preview.png");
@@ -205,16 +223,35 @@ Professor* ProfessoresFabrica::criarProfessorPds(int indiceBatalha) {
             golpe(p, "Merge Conflict Caotico", 28, 2);
             golpe(p, "Divida Tecnica Acumulada", 18, -1);
             sprites(p,
-                "res://imagens/FernandoLado-removebg-preview.png",
+                "res://imagens/FernandoSorrisinho-removebg-preview.png",
+                "res://imagens/FernandoSorrisinho-removebg-preview.png",
                 "res://imagens/FernandoBravo-removebg-preview.png",
-                "res://imagens/FernandoEstranhando-removebg-preview.png",
-                "res://imagens/FernandoSorrindoLado-removebg-preview.png",
-                "res://imagens/FernandoSorrisinho-removebg-preview.png");
+                "res://imagens/FernandoSorrindo-removebg-preview.png",
+                "res://imagens/FernandoEstranhando-removebg-preview.png");
             return p;
         }
         default:
             return criarProfessorDesconhecido();
     }
+}
+
+// Area 4: Batalha secreta, desbloqueada apos concluir a campanha principal.
+Professor* ProfessoresFabrica::criarProfessorSecreto(int indiceBatalha) {
+    if (indiceBatalha == 1) {
+        Professor* p = montar("Luciana", "Desafio Secreto", 190, 14, TipoProfessor::BOSS);
+        p->removerInvulnerabilidade();
+        golpe(p, "textinho", 20, -1);
+        golpe(p, "hassou tobi", 27, 3);
+        golpe(p, "Amp op subtrator", 23, 2);
+        sprites(p,
+            "res://imagens/LucianaNormal-removebg-preview.png", // parado
+            "res://imagens/LucianaNormal-removebg-preview.png", // atacando
+            "res://imagens/LucianaBrava-removebg-preview.png",  // tomando dano
+            "res://imagens/LucianaRindo-removebg-preview.png",  // vitoria
+            "res://imagens/LucianaNormal-removebg-preview.png"); // derrota
+        return p;
+    }
+    return criarProfessorDesconhecido();
 }
 
 // ---------------------------------------------------------------------------
@@ -227,6 +264,7 @@ Professor* ProfessoresFabrica::criar_professor(int idArea, int indiceBatalha) {
         case 1: return criarProfessorGaal(indiceBatalha);
         case 2: return criarProfessorFisica(indiceBatalha);
         case 3: return criarProfessorPds(indiceBatalha);
+        case 4: return criarProfessorSecreto(indiceBatalha);
         default: return criarProfessorDesconhecido();
     }
 }

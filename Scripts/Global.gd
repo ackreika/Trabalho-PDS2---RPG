@@ -20,13 +20,16 @@ var voltar_para_submenu: bool = false
 
 ## Monta o herói (se ainda não existir) e a primeira batalha da área/índice atuais.
 ## Chame isso quando o jogador escolher uma área no menu.
-## id_area: 0=Calculo, 1=GAAL, 2=Fisica, 3=PDS (padrão 0, como antes).
+## id_area: 0=Calculo, 1=GAAL, 2=Fisica, 3=PDS, 4=desafio secreto.
 func iniciar_primeira_batalha(id_area: int = 0) -> bool:
 	if not ClassDB.class_exists("GerenciadorSemestre") or not ClassDB.class_exists("ProfessoresFabrica") or not ClassDB.class_exists("Herois") or not ClassDB.class_exists("Batalha"):
 		push_error("Não foi possível iniciar a batalha: extensão C++ incompleta ou não carregada.")
 		return false
 	if id_area < 0 or id_area >= ProfessoresFabrica.get_quantidade_areas():
 		push_error("Não foi possível iniciar a batalha: área selecionada inválida.")
+		return false
+	if not area_desbloqueada(id_area):
+		push_warning("Esta área ainda está bloqueada.")
 		return false
 	encerrar_run()  # limpa o herói e o professor da run anterior
 	_semestre = GerenciadorSemestre.new()

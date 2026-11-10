@@ -33,7 +33,7 @@ class GerenciadorInterface : public CanvasLayer {
     GDCLASS(GerenciadorInterface, CanvasLayer)
 
 private:
-    static const int TOTAL_AREAS = 4;
+    static const int TOTAL_AREAS = 5;
 
     GerenciadorMenu::EstadoMenu estadoAtual;
     float volume;
