@@ -9,7 +9,7 @@ using namespace godot;
  * @brief Fábrica centralizada de professores (inimigos) do jogo, exposta ao GDScript.
  *
  * Quantidade de batalhas por área:
- *   área 0 = Cálculo -> 3 | área 1 = GAAL -> 2 | área 2 = Física -> 4 | área 3 = PDS -> 2
+ *   área 0 = Cálculo -> 3 | área 1 = GAAL -> 2 | área 2 = Física -> 4 | área 3 = PDS -> 2 | área 4 = Segredo -> 1
  *
  * Os bosses de área (Colina Sombria, Alexandre, Slide Man) nascem já vulneráveis;
  * só o Fernando (boss final) continua invulnerável até o jogador usar o item chave.
@@ -26,6 +26,7 @@ private:
     static Professor* criarProfessorGaal(int indiceBatalha);
     static Professor* criarProfessorFisica(int indiceBatalha);
     static Professor* criarProfessorPds(int indiceBatalha);
+    static Professor* criarProfessorSecreto(int indiceBatalha);
     static Professor* criarProfessorDesconhecido();
 
     /** @brief Cria o professor já com status básicos (quem chama adiciona golpes e sprites). */

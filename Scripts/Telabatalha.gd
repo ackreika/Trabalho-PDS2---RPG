@@ -208,7 +208,15 @@ func _verificar_fim_de_batalha(estado: int) -> void:
 				_voltar_ao_menu()
 		2:
 			$CaixaMensagem/LabelMensagem.text += "\nVoce foi derrotado... Voltando ao menu."
-			atualizar_sprite_professor(ESTADO_VITORIA)
+			var professor_vitorioso: Professor = Global.batalha_atual.get_professor()
+			if professor_vitorioso and professor_vitorioso.get_nome() == "Colina Sombria":
+				atualizar_sprite_professor(ESTADO_TOMANDO_DANO)
+			elif professor_vitorioso and professor_vitorioso.get_nome() == "Ivonete":
+				atualizar_sprite_professor(ESTADO_DERROTA)
+			elif professor_vitorioso and professor_vitorioso.get_nome() == "Fernando":
+				atualizar_sprite_professor(ESTADO_DERROTA)
+			else:
+				atualizar_sprite_professor(ESTADO_PARADO)
 			_desabilitar_botoes()
 			await get_tree().create_timer(2.5).timeout
 			_voltar_ao_menu()
@@ -258,7 +266,7 @@ func _animar_turno_professor(resultado: Dictionary, professor: Professor, vida_a
 	if professor.esta_vivo():
 		atualizar_sprite_professor(ESTADO_PARADO)
 	else:
-		atualizar_sprite_professor(ESTADO_DERROTA)
+		atualizar_sprite_professor(ESTADO_VITORIA)
 
 func _fala_apos_ataque(nome: String, dano_recebido: int, acertou_o_professor: bool, invulneravel: bool) -> String:
 	if invulneravel and not acertou_o_professor:

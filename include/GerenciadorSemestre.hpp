@@ -8,7 +8,8 @@
  * qual área o jogador está, em qual das 4 batalhas daquela área, e quando a
  * run inteira foi vencida ("Fuga do ICEx").
  *
- * idArea: 0=Cálculo, 1=GAAL, 2=Física, 3=PDS (nessa ordem fixa)
+ * idArea: 0=Cálculo, 1=GAAL, 2=Física, 3=PDS, 4=desafio secreto.
+ * A área secreta é opcional e começa em uma run separada após a campanha.
  */
 class GerenciadorSemestre : public godot::RefCounted {
     GDCLASS(GerenciadorSemestre, godot::RefCounted)
@@ -25,7 +26,7 @@ public:
     GerenciadorSemestre();
     void iniciar(int idArea = 0);
 
-    /** @brief Retorna o índice da área atual (0 a 3). */
+    /** @brief Retorna o índice da área atual (0 a 4). */
     int getIdAreaAtual() const;
     /** @brief Retorna o índice da batalha atual dentro da área (1 a 4). */
     int getIndiceBatalhaAtual() const;
@@ -35,8 +36,8 @@ public:
 
     /**
      * @brief Avança a progressão após uma VITORIA na Batalha.
-     * Avança pra próxima luta, ou pra próxima área se o boss (índice 4)
-     * acabou de ser vencido. Não faz nada se o jogo já foi vencido.
+     * Avança pra próxima luta/área. Ao terminar PDS, encerra a campanha; a
+     * área secreta é iniciada pelo menu. Não avança após concluir uma run.
      */
     void avancarBatalha();
 

@@ -51,6 +51,13 @@ void GerenciadorSemestre::avancarBatalha() {
     }
 
     if (indiceBatalhaAtual >= totalBatalhas) {
+        // A campanha principal termina em PDS. A área secreta é iniciada
+        // separadamente pelo menu e não entra automaticamente na campanha.
+        if (idAreaAtual == 3) {
+            idAreaAtual = ProfessoresFabrica::get_quantidade_areas();
+            indiceBatalhaAtual = 1;
+            return;
+        }
         indiceBatalhaAtual = 1;
         idAreaAtual++; // venceu o boss da área — avança pra próxima disciplina
     } else {

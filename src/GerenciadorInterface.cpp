@@ -809,15 +809,22 @@ void GerenciadorInterface::atualizar_estado_area(int id_area, bool desbloqueada)
         "Cálculo",
         "GAAL / Análise Numérica",
         "Física",
-        "PDS"
+        "PDS",
+        "Luciana (secreta)"
     };
 
     const char* descricoes[TOTAL_AREAS] = {
         "ÁREA 1  ·  Ciclo Básico de Matemática",
         "ÁREA 2  ·  Vetores, Matrizes e Métodos Numéricos",
         "ÁREA 3  ·  Mecânica e Eletromagnetismo",
-        "ÁREA 4  ·  Programação e Desenvolvimento de Software II"
+        "ÁREA 4  ·  Programação e Desenvolvimento de Software II",
+        "PÓS-JOGO  ·  Um desafio secreto aguarda no ICEx"
     };
+
+    // A área secreta fica oculta até a vitória de Fernando estar salva.
+    if (id_area == 4 && cardsAreas[id_area]) {
+        cardsAreas[id_area]->set_visible(desbloqueada);
+    }
 
     if (labelsAreas[id_area]) {
         std::string status = desbloqueada ? "Disponível" : "Bloqueada — vença o chefe da área anterior";

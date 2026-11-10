@@ -397,6 +397,9 @@ void Batalha::alterar_fundo_batalha(int area_atual) {
         case 3: // Área 4 (PDS)
             caminho_da_imagem = String::utf8("res://imagens/Dcc_padrao.jpeg");
             break;
+        case 4: // Desafio secreto da Luciana
+            caminho_da_imagem = String::utf8("res://imagens/Auditorio_icex.jpeg");
+            break;
         default:
             caminho_da_imagem = String::utf8("res://imagens/Sala_icex.jpeg");
             break;

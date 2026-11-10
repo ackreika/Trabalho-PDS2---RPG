@@ -3,7 +3,7 @@ extends GerenciadorInterface
 const CENA_BATALHA := "res://Batalha.tscn"
 
 ## Índice = id da área no Global (0=Cálculo, 1=GAAL, 2=Física, 3=PDS).
-const NOMES_AREAS := ["Cálculo", "GAAL / Análise Numérica", "Física", "PDS"]
+const NOMES_AREAS := ["Cálculo", "GAAL / Análise Numérica", "Física", "PDS", "Luciana (secreta)"]
 
 
 func _ready() -> void:
