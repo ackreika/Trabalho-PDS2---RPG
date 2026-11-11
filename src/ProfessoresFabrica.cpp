@@ -60,11 +60,11 @@ Professor* ProfessoresFabrica::criarProfessorCalculo(int indiceBatalha) {
             golpe(p, "Prova Marcada de Ultima Hora", 10, -1);
             golpe(p, "Limite Mal Explicado", 8, 3);
             sprites(p,
-                "res://imagens/SubstitutoNormal-removebg-preview.png",    // parado
-                "res://imagens/SubstitutoSorrindo-removebg-preview.png",  // atacando
-                "res://imagens/SubstitutoConfuso-removebg-preview.png",   // tomando dano
-                "res://imagens/SubstitutoConfuso-removebg-preview.png",   // vitoria
-                "res://imagens/SubstitutoNormal-removebg-preview.png");   // derrota
+                "res://assets/imagens/SubstitutoNormal-removebg-preview.png",    // parado
+                "res://assets/imagens/SubstitutoSorrindo-removebg-preview.png",  // atacando
+                "res://assets/imagens/SubstitutoConfuso-removebg-preview.png",   // tomando dano
+                "res://assets/imagens/SubstitutoConfuso-removebg-preview.png",   // vitoria
+                "res://assets/imagens/SubstitutoNormal-removebg-preview.png");   // derrota
             return p;
         }
         case 2: {
@@ -72,11 +72,11 @@ Professor* ProfessoresFabrica::criarProfessorCalculo(int indiceBatalha) {
             golpe(p, "Regra da Cadeia Relampago", 12, -1);
             golpe(p, "Derivada Implicita Confusa", 10, 3);
             sprites(p,
-                "res://imagens/Javier_Normal-removebg-preview.png",
-                "res://imagens/Javier_Irritado-removebg-preview.png",
-                "res://imagens/Javier_Irritado-removebg-preview.png",
-                "res://imagens/Javier_Normal-removebg-preview.png",
-                "res://imagens/Javier_Sorrindo-removebg-preview.png");
+                "res://assets/imagens/Javier_Normal-removebg-preview.png",
+                "res://assets/imagens/Javier_Irritado-removebg-preview.png",
+                "res://assets/imagens/Javier_Irritado-removebg-preview.png",
+                "res://assets/imagens/Javier_Normal-removebg-preview.png",
+                "res://assets/imagens/Javier_Sorrindo-removebg-preview.png");
             return p;
         }
         case 3: {
@@ -86,11 +86,11 @@ Professor* ProfessoresFabrica::criarProfessorCalculo(int indiceBatalha) {
             golpe(p, "Integral Impropria Divergente", 25, 2);
             golpe(p, "Convergencia Sombria", 15, -1);
             sprites(p,
-                "res://imagens/MarcosSorrindo-removebg-preview.png",
-                "res://imagens/MarcosSorrindo-removebg-preview.png",
-                "res://imagens/MarcosSerio.png",
-                "res://imagens/MarcosSorrindo-removebg-preview.png",
-                "res://imagens/MarcosSorrindo-removebg-preview.png");
+                "res://assets/imagens/MarcosSorrindo-removebg-preview.png",
+                "res://assets/imagens/MarcosSorrindo-removebg-preview.png",
+                "res://assets/imagens/MarcosSerio.png",
+                "res://assets/imagens/MarcosSorrindo-removebg-preview.png",
+                "res://assets/imagens/MarcosSorrindo-removebg-preview.png");
             return p;
         }
         default:
@@ -109,11 +109,11 @@ Professor* ProfessoresFabrica::criarProfessorGaal(int indiceBatalha) {
             golpe(p, "Produto Vetorial Cortante", 13, -1);
             golpe(p, "Matriz Transposta Traicoeira", 11, 3);
             sprites(p,
-                "res://imagens/BekkertSorrindo-removebg-preview.png",
-                "res://imagens/BekkertBravo-removebg-preview.png",
-                "res://imagens/BekkertBravo-removebg-preview.png",
-                "res://imagens/BekkertPalmas-removebg-preview.png",
-                "res://imagens/BekkertSorrindo-removebg-preview.png");
+                "res://assets/imagens/BekkertSorrindo-removebg-preview.png",
+                "res://assets/imagens/BekkertBravo-removebg-preview.png",
+                "res://assets/imagens/BekkertBravo-removebg-preview.png",
+                "res://assets/imagens/BekkertPalmas-removebg-preview.png",
+                "res://assets/imagens/BekkertSorrindo-removebg-preview.png");
             return p;
         }
         case 2: {
@@ -123,11 +123,11 @@ Professor* ProfessoresFabrica::criarProfessorGaal(int indiceBatalha) {
             golpe(p, "Instabilidade Numerica", 18, -1);
             golpe(p, "Erro de Truncamento Fatal", 26, 2);
             sprites(p,
-                "res://imagens/AlexandreSorrindo-removebg-preview.png",
-                "res://imagens/AlexandreIrritado-removebg-preview.png",
-                "res://imagens/AlexandreIrritado-removebg-preview.png",
-                "res://imagens/AlexandrePalmas-removebg-preview.png",
-                "res://imagens/AlexandreSorrindo-removebg-preview.png");
+                "res://assets/imagens/AlexandreSorrindo-removebg-preview.png",
+                "res://assets/imagens/AlexandreIrritado-removebg-preview.png",
+                "res://assets/imagens/AlexandreIrritado-removebg-preview.png",
+                "res://assets/imagens/AlexandrePalmas-removebg-preview.png",
+                "res://assets/imagens/AlexandreSorrindo-removebg-preview.png");
             return p;
         }
         default:
@@ -146,11 +146,11 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
             golpe(p, "Segunda Lei de Newton", 12, -1);
             golpe(p, "Forca de Atrito Inesperada", 10, 3);
             sprites(p,
-                "res://imagens/DuczmalNeutro-removebg-preview.png",
-                "res://imagens/DuczmalBravo-removebg-preview.png",
-                "res://imagens/DuczmalBravo-removebg-preview.png",
-                "res://imagens/DuczmalPalmas-removebg-preview.png",
-                "res://imagens/DuczmalFeliz-removebg-preview.png");
+                "res://assets/imagens/DuczmalNeutro-removebg-preview.png",
+                "res://assets/imagens/DuczmalBravo-removebg-preview.png",
+                "res://assets/imagens/DuczmalBravo-removebg-preview.png",
+                "res://assets/imagens/DuczmalPalmas-removebg-preview.png",
+                "res://assets/imagens/DuczmalFeliz-removebg-preview.png");
             return p;
         }
         case 2: {
@@ -159,11 +159,11 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
             golpe(p, "Giz Perdido", 5, -1);
             golpe(p, "Quadro Apagado Sem Querer", 5, 2);
             sprites(p,
-                "res://imagens/PedroNormal-removebg-preview.png", // parado
-                "res://imagens/PedroNormal-removebg-preview.png", // atacando
-                "res://imagens/PedroBravo-removebg-preview.png",  // tomando dano
-                "res://imagens/PedroBravo-removebg-preview.png",  // vitoria
-                "res://imagens/PedroNormal-removebg-preview.png"); // derrota
+                "res://assets/imagens/PedroNormal-removebg-preview.png", // parado
+                "res://assets/imagens/PedroNormal-removebg-preview.png", // atacando
+                "res://assets/imagens/PedroBravo-removebg-preview.png",  // tomando dano
+                "res://assets/imagens/PedroBravo-removebg-preview.png",  // vitoria
+                "res://assets/imagens/PedroNormal-removebg-preview.png"); // derrota
             return p;
         }
         case 3: {
@@ -171,11 +171,11 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
             golpe(p, "Torque Desequilibrado", 16, 3);
             golpe(p, "Momento Angular Conservado", 14, -1);
             sprites(p,
-                "res://imagens/IvoneteSorrindo-removebg-preview.png",
-                "res://imagens/IvoneteSorrindo-removebg-preview.png",
-                "res://imagens/IvoneteConfusa-removebg-preview.png",
-                "res://imagens/IvoneteDeBraços-removebg-preview.png",
-                "res://imagens/IvoneteDeBraços-removebg-preview.png");
+                "res://assets/imagens/IvoneteSorrindo-removebg-preview.png",
+                "res://assets/imagens/IvoneteSorrindo-removebg-preview.png",
+                "res://assets/imagens/IvoneteConfusa-removebg-preview.png",
+                "res://assets/imagens/IvoneteDeBraços-removebg-preview.png",
+                "res://assets/imagens/IvoneteDeBraços-removebg-preview.png");
             return p;
         }
         case 4: {
@@ -185,11 +185,11 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
             golpe(p, "Avalanche de Slides", 24, 2);
             golpe(p, "Escoamento Turbulento", 16, -1);
             sprites(p,
-                "res://imagens/SlideFeliz-removebg-preview.png",
-                "res://imagens/SlideTriste-removebg-preview.png",
-                "res://imagens/SlideTriste-removebg-preview.png",
-                "res://imagens/SlidePalmas-removebg-preview.png",
-                "res://imagens/SlideFeliz-removebg-preview.png");
+                "res://assets/imagens/SlideFeliz-removebg-preview.png",
+                "res://assets/imagens/SlideTriste-removebg-preview.png",
+                "res://assets/imagens/SlideTriste-removebg-preview.png",
+                "res://assets/imagens/SlidePalmas-removebg-preview.png",
+                "res://assets/imagens/SlideFeliz-removebg-preview.png");
             return p;
         }
         default:
@@ -208,11 +208,11 @@ Professor* ProfessoresFabrica::criarProfessorPds(int indiceBatalha) {
             golpe(p, "Code Review Implacavel", 14, -1);
             golpe(p, "Refatoracao Forcada", 12, 3);
             sprites(p,
-                "res://imagens/RezeckNeutro-removebg-preview.png",
-                "res://imagens/RezeckNeutro-removebg-preview.png",
-                "res://imagens/RezeckConfuso-removebg-preview.png",
-                "res://imagens/RezeckPalmas-removebg-preview.png",
-                "res://imagens/RezeckNeutro-removebg-preview.png");
+                "res://assets/imagens/RezeckNeutro-removebg-preview.png",
+                "res://assets/imagens/RezeckNeutro-removebg-preview.png",
+                "res://assets/imagens/RezeckConfuso-removebg-preview.png",
+                "res://assets/imagens/RezeckPalmas-removebg-preview.png",
+                "res://assets/imagens/RezeckNeutro-removebg-preview.png");
             return p;
         }
         case 2: {
@@ -223,11 +223,11 @@ Professor* ProfessoresFabrica::criarProfessorPds(int indiceBatalha) {
             golpe(p, "Merge Conflict Caotico", 28, 2);
             golpe(p, "Divida Tecnica Acumulada", 18, -1);
             sprites(p,
-                "res://imagens/FernandoSorrisinho-removebg-preview.png",
-                "res://imagens/FernandoSorrisinho-removebg-preview.png",
-                "res://imagens/FernandoBravo-removebg-preview.png",
-                "res://imagens/FernandoSorrindo-removebg-preview.png",
-                "res://imagens/FernandoEstranhando-removebg-preview.png");
+                "res://assets/imagens/FernandoSorrisinho-removebg-preview.png",
+                "res://assets/imagens/FernandoSorrisinho-removebg-preview.png",
+                "res://assets/imagens/FernandoBravo-removebg-preview.png",
+                "res://assets/imagens/FernandoSorrindo-removebg-preview.png",
+                "res://assets/imagens/FernandoEstranhando-removebg-preview.png");
             return p;
         }
         default:
@@ -244,11 +244,11 @@ Professor* ProfessoresFabrica::criarProfessorSecreto(int indiceBatalha) {
         golpe(p, "hassou tobi", 27, 3);
         golpe(p, "Amp op subtrator", 23, 2);
         sprites(p,
-            "res://imagens/LucianaNormal-removebg-preview.png", // parado
-            "res://imagens/LucianaNormal-removebg-preview.png", // atacando
-            "res://imagens/LucianaBrava-removebg-preview.png",  // tomando dano
-            "res://imagens/LucianaRindo-removebg-preview.png",  // vitoria
-            "res://imagens/LucianaNormal-removebg-preview.png"); // derrota
+            "res://assets/imagens/LucianaNormal-removebg-preview.png", // parado
+            "res://assets/imagens/LucianaNormal-removebg-preview.png", // atacando
+            "res://assets/imagens/LucianaBrava-removebg-preview.png",  // tomando dano
+            "res://assets/imagens/LucianaRindo-removebg-preview.png",  // vitoria
+            "res://assets/imagens/LucianaNormal-removebg-preview.png"); // derrota
         return p;
     }
     return criarProfessorDesconhecido();

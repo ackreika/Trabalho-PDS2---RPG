@@ -5,9 +5,9 @@ extends Control
 @onready var professor_sprite_node: TextureRect = $ProfessorSprite
 @onready var fundo_batalha_node: TextureRect = $Fundo
 
-const FUNDO_BATALHA_PADRAO: Texture2D = preload("res://imagens/Israel.png")
-const FUNDO_SALA_ICEX: Texture2D = preload("res://imagens/Sala_icex.jpeg")
-const SHADER_FUNDO_MADEIRA: Shader = preload("res://Shaders/FundoMadeira.gdshader")
+const FUNDO_BATALHA_PADRAO: Texture2D = preload("res://assets/imagens/Israel.png")
+const FUNDO_SALA_ICEX: Texture2D = preload("res://assets/imagens/Sala_icex.jpeg")
+const SHADER_FUNDO_MADEIRA: Shader = preload("res://assets/shaders/FundoMadeira.gdshader")
 
 var _ocupado := false       # true enquanto um turno está sendo processado
 var _fim_tratado := false   # true quando o fim da batalha atual já foi processado
@@ -20,7 +20,7 @@ const ESTADO_DERROTA = 2
 const ESTADO_PARADO = 3
 const ESTADO_ATACANDO = 4
 
-const CENA_MENU := "res://CenaPrincipal.tscn"
+const CENA_MENU := "res://cenas/CenaPrincipal.tscn"
 
 func _ready() -> void:
 	_chamar_musica("tocar_intro")
