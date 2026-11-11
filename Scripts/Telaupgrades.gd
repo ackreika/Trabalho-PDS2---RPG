@@ -1,6 +1,6 @@
 extends Control
 
-const CENA_MENU := "res://CenaPrincipal.tscn"
+const CENA_MENU := "res://cenas/CenaPrincipal.tscn"
 
 @onready var painel: PanelContainer = $Painel
 @onready var titulo: Label = $Painel/Conteudo/Coluna/LabelTitulo

@@ -71,9 +71,9 @@ GerenciadorInterface::GerenciadorInterface()
     : estadoAtual(GerenciadorMenu::EstadoMenu::MENU_INICIAL),
       volume(100.0f),
       indiceResolucao(0),
-      caminhoFundoConfig(String::utf8("res://imagens/Icex_padrao.jpeg")),
-      caminhoFundoSubmenu(String::utf8("res://imagens/Quadro_prob.jpeg")),
-      caminhoFonteGlobal(String::utf8("res://fontes/PixelArt.ttf")),
+      caminhoFundoConfig(String::utf8("res://assets/imagens/Icex_padrao.jpeg")),
+      caminhoFundoSubmenu(String::utf8("res://assets/imagens/Quadro_prob.jpeg")),
+      caminhoFonteGlobal(String::utf8("res://assets/fontes/PixelArt.ttf")),
       painelConfig(nullptr),
       labelVolumeConfig(nullptr),
       labelResolucaoConfig(nullptr),
@@ -280,7 +280,7 @@ Ref<Font> GerenciadorInterface::carregar_fonte_pixel_art() const
         }
     }
 
-    // Caso o arquivo res://fontes/PixelArt.ttf ainda não exista no projeto,
+    // Caso o arquivo res://assets/fontes/PixelArt.ttf ainda não exista no projeto,
     // constrói uma fonte de sistema monoespaçada sem antialiasing para simular pixel art.
     Ref<SystemFont> fonteSistema;
     fonteSistema.instantiate();

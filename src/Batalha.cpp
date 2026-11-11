@@ -386,22 +386,22 @@ void Batalha::alterar_fundo_batalha(int area_atual) {
     String caminho_da_imagem;
     switch (area_atual) {
         case 0: // Área 1 (Cálculo)
-            caminho_da_imagem = String::utf8("res://imagens/Sala_icex.jpeg");
+            caminho_da_imagem = String::utf8("res://assets/imagens/Sala_icex.jpeg");
             break;
         case 1: // Área 2 (GAAL / Análise Numérica)
-            caminho_da_imagem = String::utf8("res://imagens/Auditorio_icex.jpeg");
+            caminho_da_imagem = String::utf8("res://assets/imagens/Auditorio_icex.jpeg");
             break;
         case 2: // Área 3 (Física / Mecânica)
-            caminho_da_imagem = String::utf8("res://imagens/Sala_icex.jpeg");
+            caminho_da_imagem = String::utf8("res://assets/imagens/Sala_icex.jpeg");
             break;
         case 3: // Área 4 (PDS)
-            caminho_da_imagem = String::utf8("res://imagens/Dcc_padrao.jpeg");
+            caminho_da_imagem = String::utf8("res://assets/imagens/Dcc_padrao.jpeg");
             break;
         case 4: // Desafio secreto da Luciana
-            caminho_da_imagem = String::utf8("res://imagens/Auditorio_icex.jpeg");
+            caminho_da_imagem = String::utf8("res://assets/imagens/Auditorio_icex.jpeg");
             break;
         default:
-            caminho_da_imagem = String::utf8("res://imagens/Sala_icex.jpeg");
+            caminho_da_imagem = String::utf8("res://assets/imagens/Sala_icex.jpeg");
             break;
     }
 

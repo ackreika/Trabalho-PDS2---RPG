@@ -37,7 +37,7 @@ cmake-build-*/
 *.gcda
 *.gcov
 
-# Doxygen
-Doxyfile
-html/
-latex/
+# Doxygen / Documentação gerada
+docs/Doxyfile
+docs/html/
+docs/latex/

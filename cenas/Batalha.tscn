@@ -1,0 +1,192 @@
+[gd_scene format=3 uid="uid://de7eoto2cxd2c"]
+
+[ext_resource type="Script" uid="uid://bj2h8r0t0y7od" path="res://scripts/Telabatalha.gd" id="1_7tfhx"]
+[ext_resource type="Texture2D" uid="uid://cssfxlvas7q4" path="res://assets/imagens/Sala_icex.jpeg" id="2_6nkgd"]
+[ext_resource type="Texture2D" uid="uid://wd4g7nd0vifu" path="res://assets/imagens/SubstitutoNormal-removebg-preview.png" id="3_ubxm8"]
+
+[node name="Control" type="Control" unique_id=2016982446]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7tfhx")
+
+[node name="Fundo" type="TextureRect" parent="." unique_id=451920585]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_6nkgd")
+expand_mode = 1
+
+[node name="ProfessorSprite" type="TextureRect" parent="." unique_id=2031264722]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.38
+anchor_top = 0.04
+anchor_right = 0.98
+anchor_bottom = 0.76
+offset_left = -20.76001
+offset_top = 11.08
+offset_right = 28.23999
+offset_bottom = 56.079956
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("3_ubxm8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HUDProfessor" type="PanelContainer" parent="." unique_id=343537862]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.64
+anchor_top = 0.56
+anchor_right = 0.975
+anchor_bottom = 0.7
+
+[node name="Conteudo" type="VBoxContainer" parent="HUDProfessor" unique_id=910838709]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="LabelProfessorNome" type="Label" parent="HUDProfessor/Conteudo" unique_id=367079397]
+layout_mode = 2
+text = "PROFESSOR"
+
+[node name="BarraVida" type="ProgressBar" parent="HUDProfessor/Conteudo" unique_id=131095495]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+show_percentage = false
+
+[node name="LabelProfessorVida" type="Label" parent="HUDProfessor/Conteudo" unique_id=173290688]
+layout_mode = 2
+text = "HP 100 / 100"
+
+[node name="HUDHeroi" type="PanelContainer" parent="." unique_id=803974974]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.04
+anchor_right = 0.36
+anchor_bottom = 0.2
+
+[node name="Conteudo" type="VBoxContainer" parent="HUDHeroi" unique_id=355107860]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LabelHeroiNome" type="Label" parent="HUDHeroi/Conteudo" unique_id=167839914]
+layout_mode = 2
+text = "ESTUDANTE"
+
+[node name="BarraVida" type="ProgressBar" parent="HUDHeroi/Conteudo" unique_id=1963079341]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+show_percentage = false
+
+[node name="LabelHeroiVida" type="Label" parent="HUDHeroi/Conteudo" unique_id=1982106232]
+layout_mode = 2
+text = "HP 100 / 100"
+
+[node name="CaixaMensagem" type="PanelContainer" parent="." unique_id=2093450556]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.025
+anchor_top = 0.44
+anchor_right = 0.61
+anchor_bottom = 0.7
+
+[node name="LabelMensagem" type="Label" parent="CaixaMensagem" unique_id=935822678]
+layout_mode = 2
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="BarraAcoes" type="Control" parent="." unique_id=951962601]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+offset_top = -184.0
+offset_right = -22.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MolduraMadeira" type="Panel" parent="BarraAcoes" unique_id=2128525104]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FundoMadeira" type="ColorRect" parent="BarraAcoes" unique_id=836355770]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = 13.0
+offset_right = -13.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BotoesGolpe" type="HBoxContainer" parent="BarraAcoes" unique_id=453859547]
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = 12.0
+offset_right = -18.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Golpe0" type="Button" parent="BarraAcoes/BotoesGolpe" unique_id=1519484692]
+custom_minimum_size = Vector2(0, 112)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Golpe1" type="Button" parent="BarraAcoes/BotoesGolpe" unique_id=902829780]
+custom_minimum_size = Vector2(0, 112)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Golpe2" type="Button" parent="BarraAcoes/BotoesGolpe" unique_id=1107944874]
+layout_mode = 2
+
+[node name="BotaoItemEspecial" type="Button" parent="BarraAcoes/BotoesGolpe" unique_id=1889012989]
+visible = false
+custom_minimum_size = Vector2(0, 112)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Item ativo"
+
+[node name="BotaoItemChave" type="Button" parent="BarraAcoes/BotoesGolpe" unique_id=1733468487]
+visible = false
+custom_minimum_size = Vector2(0, 112)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Item chave"
+
+[node name="BotaoFugir" type="Button" parent="BarraAcoes/BotoesGolpe" unique_id=216530067]
+custom_minimum_size = Vector2(0, 112)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Desistir"
+
+[connection signal="pressed" from="BarraAcoes/BotoesGolpe/Golpe0" to="." method="_on_golpe_0_pressed"]
+[connection signal="pressed" from="BarraAcoes/BotoesGolpe/Golpe1" to="." method="_on_golpe_1_pressed"]
+[connection signal="pressed" from="BarraAcoes/BotoesGolpe/Golpe2" to="." method="_on_golpe_2_pressed"]
+[connection signal="pressed" from="BarraAcoes/BotoesGolpe/BotaoItemEspecial" to="." method="_on_botao_item_especial_pressed"]
+[connection signal="pressed" from="BarraAcoes/BotoesGolpe/BotaoItemChave" to="." method="_on_botao_item_chave_pressed"]
+[connection signal="pressed" from="BarraAcoes/BotoesGolpe/BotaoFugir" to="." method="_on_botao_fugir_pressed"]
