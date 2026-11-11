@@ -57,10 +57,8 @@ public:
      */
     ~ProgressoJogador() override;
 
-    // =========================================================================
-    // Gestão de Pontos / Economia
-    // =========================================================================
 
+    // Gestão de Pontos / Economia
     /**
      * @brief Retorna o saldo atual de pontos do jogador.
      * @return Quantidade de pontos inteiros disponíveis.
@@ -80,10 +78,8 @@ public:
      */
     bool gastar_pontos(int qtd);
 
-    // =========================================================================
-    // Upgrades de Atributos Permanentes
-    // =========================================================================
 
+    // Upgrades de Atributos Permanentes
     /**
      * @brief Retorna o nível atual de upgrade de vida.
      */
@@ -118,10 +114,8 @@ public:
      */
     bool comprar_dano();
 
-    // =========================================================================
-    // Registro de Vitórias e Drops de Itens
-    // =========================================================================
 
+    // Registro de Vitórias e Drops de Itens
     /**
      * @brief Retorna o total de professores/batalhas já vencidas pelo jogador.
      */
@@ -143,10 +137,8 @@ public:
      */
     Array registrar_vitoria_professor(int area, int indice);
 
-    // =========================================================================
-    // Gestão de Itens Desbloqueados e Especiais
-    // =========================================================================
 
+    // Gestão de Itens Desbloqueados e Especiais
     /**
      * @brief Retorna uma lista com os IDs de todos os itens já conquistados pelo jogador.
      * @return Array contendo strings com os nomes dos itens.
@@ -172,20 +164,16 @@ public:
      */
     bool equipar_item_especial_desbloqueado(const String &id);
 
-    // =========================================================================
-    // Aplicação ao Herói em Batalha
-    // =========================================================================
 
+    // Aplicação ao Herói em Batalha
     /**
      * @brief Injeta os bônus permanentes e os itens adquiridos no objeto Herois antes da batalha.
      * @param heroi_obj Ponteiro genérico da Godot para o nó/instância da classe Herois.
      */
     void aplicar_ao_heroi(Object *heroi_obj);
 
-    // =========================================================================
-    // Persistência em Disco (Save / Load)
-    // =========================================================================
 
+    // Persistência em Disco (Save / Load)
     /**
      * @brief Serializa os dados de progresso do jogador em um arquivo de texto.
      * @param caminho Caminho do arquivo (ex: "user://progresso.txt").

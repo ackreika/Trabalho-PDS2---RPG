@@ -67,9 +67,8 @@ void avisarProgressoInvalido(const String &caminho) {
 
 } // namespace anônimo
 
-// =============================================================================
+
 // Registro de Métodos na Godot Engine (GDExtension)
-// =============================================================================
 
 void ProgressoJogador::_bind_methods() {
     // Gestão de Pontos
@@ -102,18 +101,13 @@ void ProgressoJogador::_bind_methods() {
     ClassDB::bind_method(D_METHOD("carregar", "caminho"), &ProgressoJogador::carregar);
 }
 
-// =============================================================================
 // Construtor e Destrutor
-// =============================================================================
-
 ProgressoJogador::ProgressoJogador() {}
 
 ProgressoJogador::~ProgressoJogador() {}
 
-// =============================================================================
-// Gestão de Pontos / Economia
-// =============================================================================
 
+// Gestão de Pontos / Economia
 int ProgressoJogador::get_pontos() const {
     return pontos;
 }
@@ -132,10 +126,8 @@ bool ProgressoJogador::gastar_pontos(int qtd) {
     return false;
 }
 
-// =============================================================================
-// Upgrades de Vida e Dano
-// =============================================================================
 
+// Upgrades de Vida e Dano
 int ProgressoJogador::custo_vida() const {
     // Fórmula de progressão de custo: base de 20 pontos + 10 por nível já comprado
     return 20 + 10 * nivel_vida;
@@ -170,10 +162,8 @@ bool ProgressoJogador::comprar_dano() {
     return false;
 }
 
-// =============================================================================
-// Gestão de Vitórias e Recompensas
-// =============================================================================
 
+// Gestão de Vitórias e Recompensas
 bool ProgressoJogador::ja_venceu_professor(int area, int indice) const {
     if (!ProfessoresFabrica::batalha_existe(area, indice)) {
         return false;
@@ -230,10 +220,8 @@ Array ProgressoJogador::registrar_vitoria_professor(int area, int indice) {
     return novosItensDesbloqueados;
 }
 
-// =============================================================================
-// Gestão de Itens e Equipamentos
-// =============================================================================
 
+// Gestão de Itens e Equipamentos
 Array ProgressoJogador::get_todos_itens() const {
     Array lista;
     for (const String &id : itens_desbloqueados) {
@@ -290,7 +278,6 @@ void ProgressoJogador::aplicar_ao_heroi(Object *heroi_obj) {
 // Linha 5: Lista de professores derrotados ("area_indice,area_indice,...")
 // Linha 6: Lista de itens desbloqueados ("ITEM1,ITEM2,...")
 // =============================================================================
-
 bool ProgressoJogador::salvar(const String &caminho) {
     if (caminho.strip_edges().is_empty()) {
         UtilityFunctions::push_error("Não foi possível salvar: caminho do arquivo está vazio.");

@@ -65,10 +65,8 @@ const Recompensa* buscarRecompensa(int idArea, int indiceBatalha) {
 
 } // namespace anônimo
 
-// =============================================================================
-// Métodos Públicos do GerenciadorRecompensas
-// =============================================================================
 
+// Métodos Públicos do GerenciadorRecompensas
 std::vector<ItemId> GerenciadorRecompensas::itensDoProfessor(int idArea, int indiceBatalha) {
     const Recompensa *r = buscarRecompensa(idArea, indiceBatalha);
     return r ? r->itens : std::vector<ItemId>{};
