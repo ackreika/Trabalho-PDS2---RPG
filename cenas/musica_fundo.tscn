@@ -1,12 +1,18 @@
 [gd_scene format=3 uid="uid://8btqe7dmk4kl"]
 
-[ext_resource type="Script" uid="uid://b02fm8nd4f4te" path="res://scripts/musica_fundo.gd" id="1_2ooq4"]
-[ext_resource type="AudioStream" uid="uid://cmt0xc3qs1npi" path="res://assets/musicas/LoopFundo.ogg" id="1_6sxsq"]
-[ext_resource type="AudioStream" uid="uid://duaf1nt4usicr" path="res://assets/musicas/LoopBatalha.ogg" id="2_mttq6"]
-[ext_resource type="AudioStream" uid="uid://6cj433l1ornk" path="res://assets/musicas/LoopBatalhaBoss.ogg" id="3_mttq6"]
+[ext_resource type="Script" uid="uid://b02fm8nd4f4te" path="res://Scripts/musica_fundo.gd" id="1_2ooq4"]
+[ext_resource type="AudioStream" uid="uid://ef5rkwh8qj54" path="res://assets/musicas/LoopFundo.ogg" id="1_6sxsq"]
+[ext_resource type="AudioStream" uid="uid://wwcqgr1m6k3i" path="res://assets/musicas/LoopMenu.ogg" id="2_lhl2s"]
+[ext_resource type="AudioStream" uid="uid://bgrw2e0q1fied" path="res://assets/musicas/LoopBatalha.ogg" id="2_mttq6"]
+[ext_resource type="AudioStream" uid="uid://cn88mttymna8s" path="res://assets/musicas/LoopBatalhaBoss.ogg" id="3_mttq6"]
+[ext_resource type="AudioStream" uid="uid://c5sotmtmyld76" path="res://assets/musicas/LoopSuperBoss.ogg" id="6_ci5ck"]
 
 [node name="MusicaFundo" type="Node" unique_id=146511134]
 script = ExtResource("1_2ooq4")
+
+[node name="TocadorMenu" type="AudioStreamPlayer" parent="." unique_id=317141582]
+stream = ExtResource("2_lhl2s")
+volume_db = -36.491
 
 [node name="TocadorIntro" type="AudioStreamPlayer" parent="." unique_id=1579755269]
 stream = ExtResource("1_6sxsq")
@@ -16,3 +22,7 @@ stream = ExtResource("2_mttq6")
 
 [node name="TocadorBatalhaBoss" type="AudioStreamPlayer" parent="." unique_id=1604968052]
 stream = ExtResource("3_mttq6")
+
+[node name="TocadorSuperBoss" type="AudioStreamPlayer" parent="." unique_id=1185502042]
+stream = ExtResource("6_ci5ck")
+volume_db = -23.719

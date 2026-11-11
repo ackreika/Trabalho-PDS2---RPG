@@ -9,6 +9,7 @@ const PONTOS_BOSS := 50
 const PONTOS_BATALHA_FALSA := 5
 
 var _cpp: ProgressoJogador
+var _id_heroi_aplicado: int = 0
 var nivel_vida: int:
 	get: return get_nivel_vida()
 var nivel_dano: int:
@@ -57,8 +58,14 @@ func equipar_item_especial(id: String) -> bool:
 	return true
 
 func aplicar_ao_heroi(heroi: Herois) -> void:
-	if _cpp:
+	if not is_instance_valid(heroi):
+		return
+		
+	var id_atual = heroi.get_instance_id()
+	
+	if _cpp and id_atual != _id_heroi_aplicado:
 		_cpp.aplicar_ao_heroi(heroi)
+		_id_heroi_aplicado = id_atual
 
 func registrar_vitoria(professor: Professor) -> int:
 	if not is_instance_valid(professor):
@@ -81,6 +88,8 @@ func registrar_vitoria(professor: Professor) -> int:
 func desbloquear_por_vitoria(area: int, indice: int) -> Array:
 	if not _cpp or not ProfessoresFabrica.batalha_existe(area, indice):
 		return []
+	if ja_venceu_professor(area, indice):
+		return []
 	var novos: Array = _cpp.registrar_vitoria_professor(area, indice)
 	_salvar_progresso()
 	return novos
@@ -97,3 +106,9 @@ func dropa_item_chave(area: int, indice: int) -> bool:
 func _salvar_progresso() -> void:
 	if _cpp and not _cpp.salvar(ARQUIVO):
 		push_error("O progresso mudou nesta sessão, mas não foi possível gravar o save.")
+		
+func resetar_progresso() -> void:
+	if FileAccess.file_exists(ARQUIVO):
+		DirAccess.remove_absolute(ARQUIVO)
+	if ClassDB.class_exists("ProgressoJogador"):
+		_cpp = ProgressoJogador.new()
