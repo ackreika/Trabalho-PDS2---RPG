@@ -1,8 +1,3 @@
-# ==============================================================================
-# UNIVERSIDADE FEDERAL DE MINAS GERAIS (UFMG)
-# Disciplina: Programação e Desenvolvimento de Software 2 (PDS 2)
-# Projeto: RPG Acadêmico em C++ e Godot Engine 4 (GDExtension)
-# ==============================================================================
 # Este Makefile automatiza o ciclo completo de desenvolvimento:
 # 1. Compilação da biblioteca dinâmica (DLL) do backend C++ para a Godot Engine.
 # 2. Compilação e execução da suíte de testes unitários com Doctest.
@@ -50,7 +45,6 @@ GODOT_LIB = $(GODOT_CPP_DIR)/bin/libgodot-cpp.windows.template_debug.x86_64.a
 # ------------------------------------------------------------------------------
 # MAPEAMENTO DE ARQUIVOS-FONTE E OBJETOS
 # ------------------------------------------------------------------------------
-
 # 1. Todos os arquivos de implementação do jogo (usados para a DLL)
 SRC_FILES_ALL = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES_DLL = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES_ALL))
@@ -122,7 +116,6 @@ coverage: run_tests
 # ------------------------------------------------------------------------------
 # REGRAS DE COMPILAÇÃO DE OBJETOS (.cpp -> .o)
 # ------------------------------------------------------------------------------
-
 # Objeto padrão para a DLL do jogo
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@echo [COMPILANDO C++ (DLL)]: $<
