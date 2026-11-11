@@ -45,7 +45,6 @@ void GerenciadorInterface::_bind_methods()
     ClassDB::bind_method(D_METHOD("clicar_voltar"), &GerenciadorInterface::clicar_voltar);
     ClassDB::bind_method(D_METHOD("mudar_volume", "valor"), &GerenciadorInterface::mudar_volume);
     ClassDB::bind_method(D_METHOD("mudar_resolucao", "indice"), &GerenciadorInterface::mudar_resolucao);
-
     ClassDB::bind_method(D_METHOD("clicar_mundo_principal"), &GerenciadorInterface::clicar_mundo_principal);
     ClassDB::bind_method(D_METHOD("clicar_quests"), &GerenciadorInterface::clicar_quests);
 
@@ -662,6 +661,27 @@ void GerenciadorInterface::estilizar_menu_configuracoes()
         estilizar_botao(caixaResolucaoConfig, Color(0.141f, 0.306f, 0.451f, 1.0f), Color(0.224f, 0.498f, 0.690f, 1.0f), 16);
         boxResolucao->add_child(caixaResolucaoConfig);
     }
+    PanelContainer* cardReset = memnew(PanelContainer);
+    cardReset->add_theme_stylebox_override("panel", criar_estilo_card_interno(false));
+    coluna->add_child(cardReset);
+
+    VBoxContainer* boxReset = memnew(VBoxContainer);
+    boxReset->add_theme_constant_override("separation", 8);
+    cardReset->add_child(boxReset);
+
+    Label* labelReset = memnew(Label);
+    labelReset->set_text(String::utf8("DADOS DE SALVAMENTO\nLimpar todo o progresso do jogo salvo no disco"));
+    labelReset->add_theme_font_size_override("font_size", 19);
+    labelReset->add_theme_color_override("font_color", Color(0.863f, 0.910f, 0.969f, 1.0f));
+    boxReset->add_child(labelReset);
+
+    Button* botaoReset = memnew(Button);
+    botaoReset->set_name("BotaoResetarProgresso");
+    botaoReset->set_text(String::utf8("Resetar Progresso"));
+    botaoReset->set_custom_minimum_size(Vector2(0, 48));
+    estilizar_botao(botaoReset, Color(0.443f, 0.231f, 0.271f, 1.0f), Color(0.733f, 0.349f, 0.396f, 1.0f), 16);
+    botaoReset->connect("pressed", Callable(this, "_on_botao_resetar_progresso_pressed"));
+    boxReset->add_child(botaoReset);
 
     // Espaço pra empurrar o botão de voltar pro final do painel
     Control* espacador = memnew(Control);
@@ -810,7 +830,7 @@ void GerenciadorInterface::atualizar_estado_area(int id_area, bool desbloqueada)
         "GAAL / Análise Numérica",
         "Física",
         "PDS",
-        "Luciana (secreta)"
+        "King Von (secreto)"
     };
 
     const char* descricoes[TOTAL_AREAS] = {
@@ -1245,36 +1265,45 @@ void GerenciadorInterface::mudar_volume(float valor)
     UtilityFunctions::print("Volume ajustado para: ", volume);
 }
 
-void GerenciadorInterface::mudar_resolucao(int indice)
-{
-    if (indice < 0 || indice > 7) {
-        UtilityFunctions::push_warning("Índice de resolução fora da faixa; configuração mantida.");
-        return;
-    }
-    definirIndiceResolucao(indice);
-    Window* janela = get_window();
+void GerenciadorInterface::mudar_resolucao(int indice) {
+    // Pega a janela principal atual do jogo
+    Window *janela = get_tree()->get_root();
     if (!janela) return;
-
-    if (indice <= 5) {
-        janela->set_mode(Window::MODE_WINDOWED);
-
-        switch (indice) {
-            case 0: janela->set_size(Vector2i(640, 480)); break;
-            case 1: janela->set_size(Vector2i(1280, 720)); break;
-            case 2: janela->set_size(Vector2i(1280, 960)); break;
-            case 3: janela->set_size(Vector2i(1920, 1080)); break;
-            case 4: janela->set_size(Vector2i(1920, 1440)); break;
-            case 5: janela->set_size(Vector2i(2560, 1440)); break;
-        }
-    } else if (indice == 6) {
-        // Tela Cheia Exclusiva
-        janela->set_mode(Window::MODE_EXCLUSIVE_FULLSCREEN);
-    } else if (indice == 7) {
-        // Tela Cheia
-        janela->set_mode(Window::MODE_FULLSCREEN);
+    janela->set_flag(Window::FLAG_RESIZE_DISABLED, false);
+    switch (indice) {
+        case 0: // 640x480
+            janela->set_mode(Window::MODE_WINDOWED);
+            janela->set_size(Vector2i(640, 480));
+            break;
+        case 1: // 800x600
+            janela->set_mode(Window::MODE_WINDOWED);
+            janela->set_size(Vector2i(800, 600));
+            break;
+        case 2: // 1024x768
+            janela->set_mode(Window::MODE_WINDOWED);
+            janela->set_size(Vector2i(1024, 768));
+            break;
+        case 3: // 1280x720 (HD)
+            janela->set_mode(Window::MODE_WINDOWED);
+            janela->set_size(Vector2i(1280, 720));
+            break;
+        case 4: // 1366x768
+            janela->set_mode(Window::MODE_WINDOWED);
+            janela->set_size(Vector2i(1366, 768));
+            break;
+        case 5: // 1920x1080 (Full HD)
+            janela->set_mode(Window::MODE_WINDOWED);
+            janela->set_size(Vector2i(1920, 1080));
+            break;
+        case 6: // Tela Cheia Exclusiva
+            janela->set_mode(Window::MODE_EXCLUSIVE_FULLSCREEN);
+            break;
+        case 7: // Tela Cheia Sem Bordas (Borderless)
+            janela->set_mode(Window::MODE_FULLSCREEN);
+            break;
+        default:
+            break;
     }
-
-    UtilityFunctions::print("Resolução alterada. Índice: ", indice);
 }
 
 GerenciadorMenu::EstadoMenu GerenciadorInterface::getEstadoAtual() const { return estadoAtual; }

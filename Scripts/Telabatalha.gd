@@ -23,7 +23,11 @@ const ESTADO_ATACANDO = 4
 const CENA_MENU := "res://cenas/CenaPrincipal.tscn"
 
 func _ready() -> void:
-	_chamar_musica("tocar_intro")
+	var professor_inicial: Professor = Global.batalha_atual.get_professor() if is_instance_valid(Global.batalha_atual) else null
+	if is_instance_valid(professor_inicial) and (professor_inicial.get_tipo() == 3 or "King Von" in professor_inicial.get_nome()):
+		_chamar_musica("iniciar_musica_batalha", "super_boss")
+	else:
+		_chamar_musica("tocar_intro")
 	if not is_instance_valid(Global.batalha_atual):
 		push_error("Entrou na tela de batalha sem Global.iniciar_primeira_batalha() ter sido chamado antes.")
 		return
@@ -99,12 +103,32 @@ func _executar_turno(indice: int) -> void:
 		push_error("Ação cancelada: batalha inválida ou encerrada.")
 		return
 	_ocupado = true
-	_chamar_musica("iniciar_musica_batalha")
+
 	var professor: Professor = Global.batalha_atual.get_professor()
 	if not is_instance_valid(professor):
 		_ocupado = false
 		push_error("Ação cancelada: professor da batalha inválido.")
 		return
+	var tipo_musica := "comum"
+	var tipo_prof = professor.get_tipo()
+	var nome_prof = professor.get_nome()
+	
+	print("--- DEBUG BATALHA ---")
+	print("Nome do Professor: ", nome_prof)
+	print("Tipo numérico retornado pelo C++ (get_tipo): ", tipo_prof)
+	
+	if tipo_prof == 3 or "Luciana" in nome_prof:
+		tipo_musica = "super_boss"
+		print(">> Decisão: É SUPER BOSS!")
+	elif tipo_prof == 2:
+		tipo_musica = "boss"
+		print(">> Decisão: É Boss normal.")
+	else:
+		tipo_musica = "comum"
+		print(">> Decisão: É batalha comum.")
+			
+	_chamar_musica("iniciar_musica_batalha", tipo_musica)
+
 	var invulneravel_antes: bool = professor.is_invulneravel()
 	var vida_professor_antes: int = professor.get_vida()
 	var resultado: Dictionary = Global.batalha_atual.executar_acao(indice)
@@ -188,20 +212,35 @@ func _verificar_fim_de_batalha(estado: int) -> void:
 			await _oferecer_quiz(heroi)
 			
 			await get_tree().create_timer(2.0).timeout
-			
+					
 			var tem_proxima = Global.avancar_para_proxima_batalha()
-			
 			if tem_proxima:
+				# --- SUCESSO: TEM PRÓXIMA BATALHA ---
 				_reabilitar_botoes()
 				atualizar_tela()
 				_atualizar_fundo_batalha()
 				atualizar_sprite_professor(ESTADO_PARADO)
+				
+				var novo_prof: Professor = Global.batalha_atual.get_professor()
+				var tipo_musica_prox = "comum"
+				if is_instance_valid(novo_prof):
+					if novo_prof.get_tipo() == 3 or "King Von" in novo_prof.get_nome():
+						tipo_musica_prox = "super_boss"
+					elif novo_prof.get_tipo() == 2:
+						tipo_musica_prox = "boss"
+				
+				_chamar_musica("iniciar_musica_batalha", tipo_musica_prox)
 				$CaixaMensagem/LabelMensagem.text = "Um novo professor entrou na arena. Escolha sua proxima tecnica!"
+				# (O CÓDIGO PARA AQUI SE TIVER PRÓXIMA)
+				
 			elif Global.semestre_concluido():
+				# --- SUCESSO FINAL: ZEROU A ÁREA ---
 				$CaixaMensagem/LabelMensagem.text = "%s\nParabens! Voce concluiu esta fase! Sua jornada foi brilhante!" % fala_vitoria
 				await get_tree().create_timer(3.0).timeout
 				_voltar_ao_menu()
+				
 			else:
+				# --- FALHA: DEU ERRO DE VERDADE ---
 				push_error("A próxima batalha não pôde ser iniciada; o semestre não foi marcado como concluído.")
 				$CaixaMensagem/LabelMensagem.text = "Ocorreu um erro ao iniciar a próxima batalha. Voltando ao menu."
 				await get_tree().create_timer(2.5).timeout
@@ -541,9 +580,12 @@ func _voltar_ao_menu() -> void:
 	Global.encerrar_run()
 	get_tree().change_scene_to_file(CENA_MENU)
 
-func _chamar_musica(metodo: String) -> void:
+func _chamar_musica(metodo: String, arg = null) -> void:
 	var musica := get_node_or_null("/root/MusicaFundo")
 	if musica == null or not musica.has_method(metodo):
 		push_warning("Controles de música indisponíveis; continuidade da batalha preservada.")
 		return
-	musica.call(metodo)
+	if arg != null:
+		musica.call(metodo, arg)
+	else:
+		musica.call(metodo)
