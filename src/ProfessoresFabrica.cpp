@@ -117,7 +117,7 @@ Professor* ProfessoresFabrica::criarProfessorGaal(int indiceBatalha) {
             return p;
         }
         case 2: {
-            Professor* p = montar("Alexandre", "Analise Numerica", 125, 10, TipoProfessor::BOSS);
+            Professor* p = montar("XandeNumerus", "Analise Numerica", 125, 10, TipoProfessor::BOSS);
             p->removerInvulnerabilidade();
             golpe(p, "Metodo de Newton-Raphson", 19, 3);
             golpe(p, "Instabilidade Numerica", 15, -1);
@@ -155,7 +155,7 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
         }
         case 2: {
             // Batalha falsa (US05): sem dano real
-            Professor* p = montar("Outro Prof*", "Introducao a Fisica Mecanica", 30, 3, TipoProfessor::COMUM, true);
+            Professor* p = montar("America", "Introducao a Fisica Mecanica", 30, 3, TipoProfessor::COMUM, true);
             golpe(p, "Giz Perdido", 5, -1);
             golpe(p, "Quadro Apagado Sem Querer", 5, 2);
             sprites(p,
@@ -204,7 +204,7 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
 Professor* ProfessoresFabrica::criarProfessorPds(int indiceBatalha) {
     switch (indiceBatalha) {
         case 1: {
-            Professor* p = montar("Rezeck", "PDS II", 125, 7, TipoProfessor::COMUM);
+            Professor* p = montar("Rezende", "PDS II", 125, 7, TipoProfessor::COMUM);
             golpe(p, "Code Review Implacavel", 16, -1);
             golpe(p, "Refatoracao Forcada", 14, 3);
             sprites(p,
@@ -238,7 +238,7 @@ Professor* ProfessoresFabrica::criarProfessorPds(int indiceBatalha) {
 // Area 4: Batalha secreta, desbloqueada apos concluir a campanha principal.
 Professor* ProfessoresFabrica::criarProfessorSecreto(int indiceBatalha) {
     if (indiceBatalha == 1) {
-        Professor* p = montar("King Von", "Desafio Secreto", 500, 14, TipoProfessor::SUPERBOSS);
+        Professor* p = montar("Luci", "Desafio Secreto", 500, 14, TipoProfessor::SUPERBOSS);
         p->removerInvulnerabilidade();
         golpe(p, "textinho", 25, -1);
         golpe(p, "hassou tobi", 10, 2);
