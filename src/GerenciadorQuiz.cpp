@@ -80,6 +80,7 @@ void GerenciadorQuiz::adicionarPergunta(int idArea, Pergunta pergunta) {
         return;
     }
     bancoPerguntas[idArea].push_back(pergunta);
+    restantes[idArea].push_back(bancoPerguntas[idArea].size() - 1); // nova pergunta entra na rodada
 }
 
 bool GerenciadorQuiz::sortearPergunta(int idArea, Pergunta& saida) const {
@@ -88,7 +89,25 @@ bool GerenciadorQuiz::sortearPergunta(int idArea, Pergunta& saida) const {
         return false; // nenhuma pergunta cadastrada pra essa área
     }
     const auto& perguntas = it->second;
-    const size_t indice = static_cast<size_t>(godot::UtilityFunctions::randi_range(0, static_cast<int64_t>(perguntas.size()) - 1));
+    std::vector<size_t>& pool = restantes[idArea];
+
+    // Rodada acabou: reabastece com todas as perguntas da área
+    if (pool.empty()) {
+        for (size_t i = 0; i < perguntas.size(); i++) pool.push_back(i);
+    }
+
+    size_t pos = static_cast<size_t>(godot::UtilityFunctions::randi_range(0, static_cast<int64_t>(pool.size()) - 1));
+
+    // Evita repetir a última pergunta logo na virada de rodada
+    auto ult = ultimoSorteado.find(idArea);
+    if (pool.size() > 1 && ult != ultimoSorteado.end() && static_cast<int>(pool[pos]) == ult->second) {
+        pos = (pos + 1) % pool.size();
+    }
+
+    const size_t indice = pool[pos];
+    pool.erase(pool.begin() + pos);
+    ultimoSorteado[idArea] = static_cast<int>(indice);
+
     saida = perguntas[indice];
     return true;
 }
