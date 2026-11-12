@@ -23,7 +23,7 @@ using namespace godot;
 namespace {
 
 // Limite razoável para prevenir estouro em saves corrompidos
-constexpr int NIVEL_MAXIMO = 10000;
+constexpr int NIVEL_MAXIMO = 1000;
 
 /**
  * @brief Converte uma string da Godot para um inteiro não negativo com validação de limite.
