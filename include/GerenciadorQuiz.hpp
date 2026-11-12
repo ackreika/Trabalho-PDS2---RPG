@@ -28,6 +28,8 @@ protected:
 
 private:
     std::map<int, std::vector<Pergunta>> bancoPerguntas; ///< idArea -> perguntas (0=Cálculo, 1=GAAL, 2=Física, 3=PDS)
+    mutable std::map<int, std::vector<size_t>> restantes; ///< idArea -> índices ainda não sorteados na rodada atual
+    mutable std::map<int, int> ultimoSorteado;            ///< idArea -> último índice sorteado
 
 public:
     /** @brief Cria o gerenciador já povoado com perguntas de exemplo (ver .cpp). */

@@ -56,9 +56,9 @@ Professor* ProfessoresFabrica::criarProfessorDesconhecido() {
 Professor* ProfessoresFabrica::criarProfessorCalculo(int indiceBatalha) {
     switch (indiceBatalha) {
         case 1: {
-            Professor* p = montar("Substituto", "Calculo I", 45, 4, TipoProfessor::COMUM);
-            golpe(p, "Prova Marcada de Ultima Hora", 10, -1);
-            golpe(p, "Limite Mal Explicado", 8, 3);
+            Professor* p = montar("Substituto", "Calculo I", 50, 1, TipoProfessor::COMUM);
+            golpe(p, "Prova Marcada de Ultima Hora", 9, -1);
+            golpe(p, "Limite Mal Explicado", 7, 3);
             sprites(p,
                 "res://assets/imagens/SubstitutoNormal-removebg-preview.png",    // parado
                 "res://assets/imagens/SubstitutoSorrindo-removebg-preview.png",  // atacando
@@ -68,7 +68,7 @@ Professor* ProfessoresFabrica::criarProfessorCalculo(int indiceBatalha) {
             return p;
         }
         case 2: {
-            Professor* p = montar("Xavier", "Calculo I", 55, 5, TipoProfessor::COMUM);
+            Professor* p = montar("Xavier", "Calculo I", 75, 2, TipoProfessor::COMUM);
             golpe(p, "Regra da Cadeia Relampago", 12, -1);
             golpe(p, "Derivada Implicita Confusa", 10, 3);
             sprites(p,
@@ -80,11 +80,11 @@ Professor* ProfessoresFabrica::criarProfessorCalculo(int indiceBatalha) {
             return p;
         }
         case 3: {
-            Professor* p = montar("Colina Sombria", "Calculo II", 110, 9, TipoProfessor::BOSS);
+            Professor* p = montar("Colina Sombria", "Calculo II", 105, 3, TipoProfessor::BOSS);
             p->removerInvulnerabilidade(); // boss de area: vulneravel
-            golpe(p, "Serie de Taylor Infinita", 20, 3);
-            golpe(p, "Integral Impropria Divergente", 25, 2);
-            golpe(p, "Convergencia Sombria", 15, -1);
+            golpe(p, "Serie de Taylor Infinita", 15, 3);
+            golpe(p, "Integral Impropria Divergente", 12, 2);
+            golpe(p, "Convergencia Sombria", 9, -1);
             sprites(p,
                 "res://assets/imagens/MarcosSorrindo-removebg-preview.png",
                 "res://assets/imagens/MarcosSorrindo-removebg-preview.png",
@@ -105,8 +105,8 @@ Professor* ProfessoresFabrica::criarProfessorCalculo(int indiceBatalha) {
 Professor* ProfessoresFabrica::criarProfessorGaal(int indiceBatalha) {
     switch (indiceBatalha) {
         case 1: {
-            Professor* p = montar("Viktor Bekert", "GAAL", 50, 5, TipoProfessor::COMUM);
-            golpe(p, "Produto Vetorial Cortante", 13, -1);
+            Professor* p = montar("Viktor Bekert", "GAAL", 75, 5, TipoProfessor::COMUM);
+            golpe(p, "Produto Vetorial Cortante", 12, -1);
             golpe(p, "Matriz Transposta Traicoeira", 11, 3);
             sprites(p,
                 "res://assets/imagens/BekkertSorrindo-removebg-preview.png",
@@ -117,15 +117,11 @@ Professor* ProfessoresFabrica::criarProfessorGaal(int indiceBatalha) {
             return p;
         }
         case 2: {
-<<<<<<< Updated upstream
-            Professor* p = montar("Alexandre", "Analise Numerica", 120, 10, TipoProfessor::BOSS);
-=======
             Professor* p = montar("XandeNumerus", "Analise Numerica", 125, 10, TipoProfessor::BOSS);
->>>>>>> Stashed changes
             p->removerInvulnerabilidade();
-            golpe(p, "Metodo de Newton-Raphson", 22, 3);
-            golpe(p, "Instabilidade Numerica", 18, -1);
-            golpe(p, "Erro de Truncamento Fatal", 26, 2);
+            golpe(p, "Metodo de Newton-Raphson", 19, 3);
+            golpe(p, "Instabilidade Numerica", 15, -1);
+            golpe(p, "Erro de Truncamento Fatal", 20, 2);
             sprites(p,
                 "res://assets/imagens/AlexandreSorrindo-removebg-preview.png",
                 "res://assets/imagens/AlexandreIrritado-removebg-preview.png",
@@ -146,9 +142,9 @@ Professor* ProfessoresFabrica::criarProfessorGaal(int indiceBatalha) {
 Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
     switch (indiceBatalha) {
         case 1: {
-            Professor* p = montar("Flavio", "Introducao a Fisica Mecanica", 50, 5, TipoProfessor::COMUM);
-            golpe(p, "Segunda Lei de Newton", 12, -1);
-            golpe(p, "Forca de Atrito Inesperada", 10, 3);
+            Professor* p = montar("Flavio", "Introducao a Fisica Mecanica", 85, 5, TipoProfessor::COMUM);
+            golpe(p, "Segunda Lei de Newton", 13, -1);
+            golpe(p, "Forca de Atrito Inesperada", 11, 3);
             sprites(p,
                 "res://assets/imagens/DuczmalNeutro-removebg-preview.png",
                 "res://assets/imagens/DuczmalBravo-removebg-preview.png",
@@ -171,15 +167,9 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
             return p;
         }
         case 3: {
-<<<<<<< Updated upstream
-            Professor* p = montar("Ivonete", "Fundamentos de Mecanica", 80, 7, TipoProfessor::MINIBOSS);
-            golpe(p, "Torque Desequilibrado", 16, 3);
-            golpe(p, "Momento Angular Conservado", 14, -1);
-=======
-            Professor* p = montar("Ivone", "Fundamentos de Mecanica", 115, 7, TipoProfessor::MINIBOSS);
+            Professor* p = montar("Ivonete", "Fundamentos de Mecanica", 115, 7, TipoProfessor::MINIBOSS);
             golpe(p, "Torque Desequilibrado", 17, 3);
             golpe(p, "Momento Angular Conservado", 19, -1);
->>>>>>> Stashed changes
             sprites(p,
                 "res://assets/imagens/IvoneteSorrindo-removebg-preview.png",
                 "res://assets/imagens/IvoneteSorrindo-removebg-preview.png",
@@ -189,10 +179,10 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
             return p;
         }
         case 4: {
-            Professor* p = montar("Slide Man", "Mecanica dos Fluidos", 125, 10, TipoProfessor::BOSS);
+            Professor* p = montar("Slide Man", "Mecanica dos Fluidos", 165, 10, TipoProfessor::BOSS);
             p->removerInvulnerabilidade();
             golpe(p, "Equacao de Bernoulli", 20, 3);
-            golpe(p, "Avalanche de Slides", 24, 2);
+            golpe(p, "Avalanche de Slides", 22, 2);
             golpe(p, "Escoamento Turbulento", 16, -1);
             sprites(p,
                 "res://assets/imagens/SlideFeliz-removebg-preview.png",
@@ -214,15 +204,9 @@ Professor* ProfessoresFabrica::criarProfessorFisica(int indiceBatalha) {
 Professor* ProfessoresFabrica::criarProfessorPds(int indiceBatalha) {
     switch (indiceBatalha) {
         case 1: {
-<<<<<<< Updated upstream
-            Professor* p = montar("Rezeck", "PDS II", 55, 6, TipoProfessor::COMUM);
-            golpe(p, "Code Review Implacavel", 14, -1);
-            golpe(p, "Refatoracao Forcada", 12, 3);
-=======
             Professor* p = montar("Rezende", "PDS II", 125, 7, TipoProfessor::COMUM);
             golpe(p, "Code Review Implacavel", 16, -1);
             golpe(p, "Refatoracao Forcada", 14, 3);
->>>>>>> Stashed changes
             sprites(p,
                 "res://assets/imagens/RezeckNeutro-removebg-preview.png",
                 "res://assets/imagens/RezeckNeutro-removebg-preview.png",
@@ -233,10 +217,10 @@ Professor* ProfessoresFabrica::criarProfessorPds(int indiceBatalha) {
         }
         case 2: {
             // O boss final fica vulneravel ate chegar a metade da vida.
-            Professor* p = montar("Fernando", "PDS II", 150, 12, TipoProfessor::BOSS);
+            Professor* p = montar("Fernando", "PDS II", 250, 12, TipoProfessor::BOSS);
             p->ativarInvulnerabilidadeNaMetadeDaVida();
-            golpe(p, "NullPointerException", 24, 3);
-            golpe(p, "Merge Conflict Caotico", 28, 2);
+            golpe(p, "NullPointerException", 19, 3);
+            golpe(p, "Merge Conflict Caotico", 21, 2);
             golpe(p, "Divida Tecnica Acumulada", 18, -1);
             sprites(p,
                 "res://assets/imagens/FernandoSorrisinho-removebg-preview.png",
@@ -254,15 +238,11 @@ Professor* ProfessoresFabrica::criarProfessorPds(int indiceBatalha) {
 // Area 4: Batalha secreta, desbloqueada apos concluir a campanha principal.
 Professor* ProfessoresFabrica::criarProfessorSecreto(int indiceBatalha) {
     if (indiceBatalha == 1) {
-<<<<<<< Updated upstream
-        Professor* p = montar("Luciana", "Desafio Secreto", 190, 14, TipoProfessor::BOSS);
-=======
         Professor* p = montar("Luci", "Desafio Secreto", 500, 14, TipoProfessor::SUPERBOSS);
->>>>>>> Stashed changes
         p->removerInvulnerabilidade();
-        golpe(p, "textinho", 20, -1);
-        golpe(p, "hassou tobi", 27, 3);
-        golpe(p, "Amp op subtrator", 23, 2);
+        golpe(p, "textinho", 25, -1);
+        golpe(p, "hassou tobi", 10, 2);
+        golpe(p, "Amp op subtrator", 27, 3);
         sprites(p,
             "res://assets/imagens/LucianaNormal-removebg-preview.png", // parado
             "res://assets/imagens/LucianaNormal-removebg-preview.png", // atacando

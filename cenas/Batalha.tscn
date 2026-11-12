@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://de7eoto2cxd2c"]
 
-[ext_resource type="Script" uid="uid://bj2h8r0t0y7od" path="res://scripts/Telabatalha.gd" id="1_7tfhx"]
-[ext_resource type="Texture2D" uid="uid://cssfxlvas7q4" path="res://assets/imagens/Sala_icex.jpeg" id="2_6nkgd"]
-[ext_resource type="Texture2D" uid="uid://wd4g7nd0vifu" path="res://assets/imagens/SubstitutoNormal-removebg-preview.png" id="3_ubxm8"]
+[ext_resource type="Script" uid="uid://bj2h8r0t0y7od" path="res://Scripts/Telabatalha.gd" id="1_7tfhx"]
+[ext_resource type="Texture2D" uid="uid://pk5clseq1mug" path="res://assets/imagens/Sala_icex.jpeg" id="2_6nkgd"]
+[ext_resource type="Texture2D" uid="uid://cnpvk2wu2hn24" path="res://assets/imagens/SubstitutoNormal-removebg-preview.png" id="3_ubxm8"]
 
 [node name="Control" type="Control" unique_id=2016982446]
 layout_mode = 3

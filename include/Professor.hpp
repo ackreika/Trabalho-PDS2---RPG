@@ -23,6 +23,7 @@ enum class TipoProfessor {
     COMUM,
     MINIBOSS,
     BOSS,
+    SUPERBOSS ///< usado apenas na batalha secreta (US06), não aparece no menu de áreas
 };
 
 /**

@@ -70,10 +70,30 @@ func encerrar_run() -> void:
 ## Avança pra próxima batalha (chamar depois de uma VITORIA). Troca de área
 ## automaticamente quando a área atual acaba. Retorna false se o jogo já acabou.
 func avancar_para_proxima_batalha() -> bool:
-	if not is_instance_valid(_semestre) or not is_instance_valid(heroi) or not _semestre.avancar_batalha():
+	print("--- DEBUG GLOBAL: AVANÇANDO BATALHA ---")
+	
+	if not is_instance_valid(_semestre):
+		push_error("ERRO: _semestre é inválido ou não foi criado.")
 		return false
-	return _iniciar_batalha_atual()
-
+		
+	if not is_instance_valid(heroi):
+		push_error("ERRO: heroi é inválido.")
+		return false
+		
+	var avancou = _semestre.avancar_batalha()
+	if not avancou:
+		print(">> FALHOU: _semestre.avancar_batalha() retornou FALSE. (O semestre achou que não tem mais luta ou não conseguiu trocar de área)")
+		return false
+		
+	print(">> Semestre avançou com sucesso. Tentando instanciar a batalha...")
+	var iniciou = _iniciar_batalha_atual()
+	
+	if not iniciou:
+		print(">> FALHOU: _iniciar_batalha_atual() retornou FALSE. (Provavelmente o id_area_atual ou indice_batalha_atual desincronizaram do C++)")
+		return false
+		
+	print(">> SUCESSO: Próxima batalha carregada e pronta!")
+	return true
 func semestre_concluido() -> bool:
 	return is_instance_valid(_semestre) and _semestre.venceu_o_jogo()
 

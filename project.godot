@@ -27,7 +27,8 @@ MusicaFundo="*uid://8btqe7dmk4kl"
 
 [display]
 
-window/stretch/mode="canvas_items"
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/stretch/aspect="expand"
 
 [physics]
